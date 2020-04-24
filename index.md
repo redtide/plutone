@@ -1,13 +1,18 @@
 ---
 title: "planet.linuxaudio.org"
 ---
-{%-for post in site.posts limit:5-%}
+{% assign current_year = site.time | date: "%Y" %}
+{% for post in site.posts %}
+    {% assign post_year = post.date | date: "%Y" %}
+    {% if current_year != post_year %}{% continue %}{% endif %}
+
 <h2><a href="{{ post.url }}">{{ post.title }}</a></h2>
-<h6>On <time datetime="{{ post.date | datetime | date_to_xmlschema }}"{%-if updated-%}
-	data-updated="true"{%-endif-%}>{{ post.date | date: page.date_fmt }}</time>
-	{% if post.author %}by <i>{{ post.author }}</i>{% endif %}
+<h6>by <i>{{ post.author }}</i>,&nbsp;at
+<time datetime="{{ post.date | datetime | date_to_xmlschema }}"
+{% if updated %}data-updated="true"{% endif %}>
+{{ post.created_at | date: post.date_fmt }}</time>
 </h6>
-{{ post.content }}
-{%-endfor-%}
+{{ post.content | replace: "    ", '' }}
+{% endfor %}
 
 [ <a href="/news/archive/">News Archive</a> ]
