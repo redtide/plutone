@@ -1,7 +1,11 @@
 os: linux
+dist: bionic
 language: ruby
 rvm:
 - 2.5.3
+
+install:
+- gem install pluto
 
 before_script:
 - chmod +x ./.travis/build.sh
