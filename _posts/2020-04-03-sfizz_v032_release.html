@@ -1,0 +1,42 @@
+---
+title: sfizz v0.3.2 release
+created_at: 2020-04-03 00:00:00.000000000 Z
+author: SFZ Tools
+layout: post
+original_link: https://sfztools.github.io/news/2020/04/03/sfizz-v032-release.html
+---
+
+<ul>
+  <li>sfizz now builds down to gcc-4.9 with stricter C++11 compliance.
+The main release builds use C++17 mode on newer compilers (<a href="https://github.com/sfztools/sfizz/pull/111">#111</a>, <a href="https://github.com/sfztools/sfizz/issues/110">#110</a>)</li>
+  <li>Upstream libraries updates (abseil, filesystem and atomic_queue) (<a href="https://github.com/sfztools/sfizz/pull/121">#121</a>)</li>
+  <li>Added an experimental support for <code class="language-plaintext highlighter-rouge">make uninstall</code> (<a href="https://github.com/sfztools/sfizz/issues/118">#118</a>, <a href="https://github.com/sfztools/sfizz/pull/120">#120</a>)</li>
+  <li>Add the autopan (<a href="https://github.com/sfztools/sfizz/pull/105">#105</a>), width, rectifier, gain, limiter (<a href="https://github.com/sfztools/sfizz/pull/131">#131</a>),
+and string resonator (<a href="https://github.com/sfztools/sfizz/pull/143">#143</a>) effects</li>
+  <li>Curves are now registered within the synth but cannot be referenced yet (<a href="https://github.com/sfztools/sfizz/pull/96">#96</a>)</li>
+  <li>Corrected a bug where the VST plugin got recreated needlessly in some hosts (<a href="https://github.com/sfztools/sfizz/pull/122">#122</a>)</li>
+  <li>Added a “panic button” API that kills voices (<a href="https://github.com/sfztools/sfizz/pull/122">#122</a>)</li>
+  <li>Corrected a potential overflow for CC names (<a href="https://github.com/sfztools/sfizz/commit/930bfd">930bfd</a>)</li>
+  <li>Added support for more generators using wavetables (<a href="https://github.com/sfztools/sfizz/pull/61">#61</a>)</li>
+  <li>Added support for the <code class="language-plaintext highlighter-rouge">oscillator</code> opcode, to create generators from files (<a href="https://github.com/sfztools/sfizz/pull/128">#128</a>)</li>
+  <li>Generators using wavetables are now correctly tuned (<a href="https://github.com/sfztools/sfizz/pull/126">#126</a>)</li>
+  <li>The stereo panning stage of the process was corrected;
+width is now set to 100% by default as it should,
+and panning is properly applied (<a href="https://github.com/sfztools/sfizz/commit/1faa7f">1faa7f</a>, <a href="https://github.com/sfztools/sfizz/commit/b55171">b55171</a>, <a href="https://github.com/sfztools/sfizz/issues/133">#133</a>)</li>
+  <li>The logging API can be used to set a log filename (<a href="https://github.com/sfztools/sfizz/commit/a6cbb4">a6cbb4</a>)</li>
+  <li>Corrected errors in the performance report script related to display values
+(file names and histogram range)</li>
+  <li>Reworked the parser; the new one is more efficient,
+and can indicate error/warning ranges (<a href="https://github.com/sfztools/sfizz/pull/130">#130</a>)</li>
+  <li>The VST plugin now reloads the file automatically, like the LV2 plugin (<a href="https://github.com/sfztools/sfizz/pull/139">#139</a>)</li>
+  <li>The max number of CCs was increased to 512, to accomodate some libraries that use cc300 modifiers.</li>
+  <li>The engine uses floating point values internally for midi events (<a href="https://github.com/sfztools/sfizz/pull/137">#137</a>); this prepares it for high-resolution midi down the line.</li>
+  <li>Fixes some realtime synchronization issues in the VST (<a href="https://github.com/sfztools/sfizz/pull/140">#140</a>)</li>
+  <li>Added support for <code class="language-plaintext highlighter-rouge">note_polyphony</code>, <code class="language-plaintext highlighter-rouge">polyphony</code>, and <code class="language-plaintext highlighter-rouge">note_selfmask</code> (<a href="https://github.com/sfztools/sfizz/pull/142">#142</a>)</li>
+  <li>Added support for <code class="language-plaintext highlighter-rouge">pitch_cc</code> and <code class="language-plaintext highlighter-rouge">tune_cc</code> modifiers (<a href="https://github.com/sfztools/sfizz/pull/142">#142</a>)</li>
+  <li>The modifier support was overhauled; all regions can now have multiple CCs modifying the same target (<a href="https://github.com/sfztools/sfizz/pull/142">#142</a>).</li>
+  <li>Corrected bugs and differences with Cakewalk/ARIA in the ADSR envelope (<a href="https://github.com/sfztools/sfizz/pull/136">#136</a>, <a href="https://github.com/sfztools/sfizz/issues/129">#129</a>)</li>
+  <li>Improved performance of the amplitude stage gain of the rendering process (<a href="https://github.com/sfztools/sfizz/pull/145">#145</a>)</li>
+  <li>The VST3 are now a submodule; more architecture targets have been added
+(<a href="https://github.com/sfztools/sfizz/pull/158">#158</a>, <a href="https://github.com/sfztools/sfizz/issues/147">#147</a>, patch proposed by hexdump0815)</li>
+</ul>

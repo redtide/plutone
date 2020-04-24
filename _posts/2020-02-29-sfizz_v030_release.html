@@ -1,0 +1,30 @@
+---
+title: sfizz v0.3.0 release
+created_at: 2020-02-29 00:00:00.000000000 Z
+author: SFZ Tools
+layout: post
+original_link: https://sfztools.github.io/news/2020/02/29/sfizz-v030-release.html
+---
+
+<ul>
+  <li>Added filter and EQ handling (the <code class="language-plaintext highlighter-rouge">filN_...</code> and <code class="language-plaintext highlighter-rouge">eqN_...</code> opcodes).
+There are also no limits to the amount of filters and EQs you can slap on each
+region beyond your CPU.
+Most if not all of the relevant filter types from the SFZ v2 spec are supported.</li>
+  <li>Added a new command-line option for the JACK client to set the client’s name (<a href="https://github.com/sfztools/sfizz/issues/75">#75</a>, <a href="https://github.com/sfztools/sfizz/pull/76">#76</a>).</li>
+  <li>Added initial MIDNAM support (<a href="https://github.com/sfztools/sfizz/issues/79">#79</a>).
+The MIDNAM shows the named CCs in the SFZ file for now.</li>
+  <li>Reworked the parsing code for faster dispatching and better handling of complex
+opcodes with multiple parameters in their opcode name (<a href="https://github.com/sfztools/sfizz/pull/40">#40</a>).</li>
+  <li>Reworked the panning and stereo image process. The new process uses tabulated
+functions and avoid expensive calls to compute sine and cosine functions (<a href="https://github.com/sfztools/sfizz/pull/47">#47</a>, <a href="https://github.com/sfztools/sfizz/pull/56">#56</a>).</li>
+  <li>Added a crude <code class="language-plaintext highlighter-rouge">*noise</code> generator. This generator is a bit expensive for what
+it does but it’s mostly useful to test the filters.</li>
+  <li>Added fine timings within the callbacks for performance improvements
+and regression testing (<a href="https://github.com/sfztools/sfizz/pull/65">#65</a>).</li>
+  <li>Corrected a bug with Ardour where saving a session with no file loaded would
+crash on reopening.</li>
+  <li>Corrected a bug where voices triggered on key off would never end and fill up
+the polyphony (<a href="https://github.com/sfztools/sfizz/issues/63">#63</a>).</li>
+  <li>Improved and completed CI on all platforms.</li>
+</ul>

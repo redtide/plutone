@@ -1,0 +1,15 @@
+planet.db
+
+# Jekyll and gem bundle stuff
+_site
+.bundle
+.jekyll-cache
+.jekyll-metadata
+.sass-cache
+Gemfile.lock
+
+# VSCode project
+*.code-workspace
+
+# Jetbrains projets
+.idea
