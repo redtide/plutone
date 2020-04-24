@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 set -e
 
+pluto update planet.ini
+ruby planet.rb
 bundle exec jekyll build
-bundle exec htmlproofer --disable_external --allow-hash-href ./_site
