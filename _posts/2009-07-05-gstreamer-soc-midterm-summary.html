@@ -1,0 +1,82 @@
+---
+title:         "GStreamer SoC Midterm Summary"
+created_at:    2009-07-05 23:30:00 UTC
+updated_at:    2009-07-05 23:30:00 UTC
+guid:          "tag:drobilla.net,2009-07-05:/2009/07/05/gstreamer-soc-midterm-summary.html"
+author:        "drobilla.net - LAD"
+link:          "http://drobilla.net/"
+rss:           "http://drobilla.net/category/lad/feed/rss2"
+tags:
+  - "en"
+original_link: "http://drobilla.net/2009/07/05/gstreamer-soc-midterm-summary.html"
+---
+<p>Apologies for not blogging along the way for those who are interested in
+this project. I'm more into actually doing things rather than blogging
+about doing things ;)</p>
+<p>So, LV2 in Gst, where are we? Well, I've had LV2 plugins working with
+the same functionality as LADSPA plugins for a while. The main downside
+was shared by LADSPA: no support for multi-channel streams.</p>
+<p>Some background for those unfamiliar with LADSPA or LV2: LADSPA and LV2
+plugins are very simple in terms of I/O. A plugin has a collection of
+"ports" which contain either a single floating point value (control) or
+an array of floating point values (audio). LV2 extends this to any types
+but that's not important here. This is simple but causes problems in the
+face of stereo and other multi-channel streams: if a plugin has 3 audio
+inputs and 2 audio outputs, for example, what is what? Some kind of
+3-channel audio input with stereo output? 5 completely unrelated ports?
+A stereo input and stereo output with a "sidechain" (common with e.g.
+compressors)? This information is not available in LADSPA, the best you
+can do is guess (which is practice means it just doesn't work).</p>
+<p>GStreamer works with multi-channel streams as a single interleaved
+stream, so this is a problem. Thankfully, LV2 makes it trivial to add
+whatever information you like about plugins without having to touch a
+line of code since plugins are described in RDF (see <a href="http://lv2plug.in">the LV2
+site</a> for more information). All that needs to be
+decided is how to actually model that information. A specification for
+this is called an "ontology" in general/theory, and an "extension" in
+the LV2 community.</p>
+<p>So, the problem is we need(ed) a good multi-channel ontology for LV2
+plugins to work well inside Gst, since most things in Gst are at least
+stereo. The difficult thing with creating ontologies is making sure
+anything anyone might want to describe in the future is accounted for.
+Here's my best shot at this so far: <a href="http://lv2plug.in/ns/dev/port-groups.lv2/port-groups.html">LV2 Port
+Groups</a>,
+based largely on earlier work by Lars Luthman and some input from the
+LV2 community. This extension isn't final, but expresses all the
+information needed by Gst for multi-channel (and more). (I also wrote
+the documentation generator that created the aforementioned
+specification page in the hopes that more user friendly documentation
+will encourage adoption by plugin and host authors).</p>
+<p>I've created patches for the popular <a href="http://plugin.org.uk/">SWH</a> and
+<a href="http://calf.sourceforge.net/">Calf</a> plugin packages to add this
+information. When the extension goes final they will be included in
+these projects, but in the mean time are included in my git branch of
+gst-plugins-bad (see
+<a href="http://git.drobilla.net/">http://git.drobilla.net</a>).</p>
+<p>This is, as far as I know, the first time coherent multi-channel
+information has been available about plugins from the "LAD" community
+(e.g. LADSPA, DSSI, LV2). Coincidentally, this information is required
+for recent work on <a href="http://ardour.org">Ardour</a>, among other things. In
+hindsight, this was a pretty glaring hole in the general state of LAD
+plugins, but back to GStreamer...</p>
+<p>I've rewritten quite a bit of the GstSignalProcessor class (used by the
+LADSPA and now LV2 wrapper elements) to support multi-channel plugins.
+In code terms this means creating a set of buffers for non-interleaved
+data used by the plugin, and interleaving/deinterleaving buffers to/from
+Gst, respectively.</p>
+<p>In summary: many LV2 plugins now exist with useful multi-channel
+information, and stereo LV2 plugins now work correctly in GStreamer. It
+should now be simple to add support for other audio plugin interfaces
+(VST? AudioUnits?) that also works with multi-channel streams.</p>
+<p>Next up:</p>
+<ul>
+<li>Get the "role" information from the plugin data and use it to
+   support surround streams correctly</li>
+<li>Finalize and publish the LV2 Port Groups extension, and contribute
+   patches for all major plugin collections</li>
+</ul>
+<p>Where to go from there is pretty open-ended. Unlike LADSPA, LV2 can
+theoretically support any kind of data, or any feature (non-realtime and
+non-audio things included). Extensions just need to be made to bridge
+the gap. What sort of functionality would <em>you</em> like to see bridge the
+GStreamer/LV2 gap?</p>

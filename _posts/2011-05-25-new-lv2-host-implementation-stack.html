@@ -1,0 +1,40 @@
+---
+title:         "New LV2 host implementation stack"
+created_at:    2011-05-25 04:40:00 UTC
+updated_at:    2011-05-25 04:40:00 UTC
+guid:          "tag:drobilla.net,2011-05-25:/2011/05/25/new-lv2-host-implementation-stack.html"
+author:        "drobilla.net - LAD"
+link:          "http://drobilla.net/"
+rss:           "http://drobilla.net/category/lad/feed/rss2"
+tags:
+  - "en"
+original_link: "http://drobilla.net/2011/05/25/new-lv2-host-implementation-stack.html"
+---
+<p>I have released my new stack of libraries for implementing LV2 in hosts:</p>
+<ul>
+<li>
+<a href="http://drobilla.net/software/serd">Serd</a>, a fast, lightweight,
+   dependency-free Turtle syntax library</li>
+<li>
+<a href="http://drobilla.net/software/sord">Sord</a>, an in-memory RDF quad
+   store</li>
+<li>
+<a href="http://drobilla.net/software/lilv">Lilv</a>, an LV2 host library
+   (replaces SLV2)</li>
+<li>
+<a href="http://drobilla.net/software/suil">Suil</a>, an LV2 UI
+   loading/embedding library</li>
+</ul>
+<p>These libraries collectively replace SLV2, and have no dependencies
+except amongst themselves, and Glib (by Lilv and Sord, but this
+dependency will likely be removed in the near future). Serd and Sord
+replace Redland, making for a dramatically smaller implementation more
+appropriate for audio software and embedded applications.</p>
+<p>Overall, Lilv is dramatically faster and leaner than SLV2, enough that
+the improvement should be quite noticeable from a user point of view
+(typically in a lag when the host first loads all LV2 data). Anyone
+using SLV2 is highly encouraged to migrate to Lilv.</p>
+<p>These libraries are well tested, each (except Suil) with a test suite
+covering over 90% of the code, which runs without memory errors or
+leaks. They are new, however, so (as always) there may be problems;
+<a href="http://dev.drobilla.net/newticket">feedback</a> is most welcome.</p>

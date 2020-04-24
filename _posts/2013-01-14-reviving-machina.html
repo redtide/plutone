@@ -1,0 +1,37 @@
+---
+title:         "Reviving Machina"
+created_at:    2013-01-14 08:26:00 UTC
+updated_at:    2013-01-14 08:26:00 UTC
+guid:          "tag:drobilla.net,2013-01-14:/2013/01/14/reviving-machina.html"
+author:        "drobilla.net - LAD"
+link:          "http://drobilla.net/"
+rss:           "http://drobilla.net/category/lad/feed/rss2"
+tags:
+  - "en"
+original_link: "http://drobilla.net/2013/01/14/reviving-machina.html"
+---
+<p>In the past few years of hammering on my repository while moulding
+<a href="http://drobilla.net/software/ingen">Ingen</a> into the modular of my
+dreams, my poor little generative sequencer
+<a href="http://drobilla.net/software/machina">Machina</a> was often left to rot.
+That's a shame, because it's a fun tool to play with if you're into
+generative gadgets and pretty graphs.</p>
+<p>So, I spent the weekend working on turning Machina back into a usable
+app. It's come a very long way in two days, from a mess that doesn't
+even compile to most functionality working pretty well:</p>
+<p><a href="/images/machina.png"><img alt="A small Machina machine created by step recording" src="//drobilla.net/images/machina.png"></a></p>
+<p>Aside from rewriting a lot of the code, testing, and fixing things that
+were broken, I've changed the conceptual model a bit. There is now
+always just one start node for a machine. This tends to create more
+manageable structures, especially when recording several takes into the
+same machine.</p>
+<p>Step recording has also been significantly improved. You can build
+machines entirely in the UI, but this is pretty tedious. It's much more
+effective to record, or step record if you want regular timing and no
+delays in-between notes. The above pictured machine was created by step
+recording MIDI, though I have tweaked the edge probabilities with the
+mouse. You can also import a MIDI file, which is an easy way to get a
+big machine to work with.</p>
+<p>Hopefully I can find the time to turn this into an LV2 plugin and
+release it, but for now it is an unreleased Jack application. Give it a
+try if you're feeling adventurous, I would appreciate any feedback.</p>

@@ -1,0 +1,17 @@
+---
+title:         "liquidsfz 0.1.0"
+created_at:    2019-11-12 11:05:02 UTC
+updated_at:    2019-11-12 11:05:02 UTC
+guid:          "https://blogs.gnome.org/stw/?p=6055"
+author:        "Stefan Westerfeld's blog"
+link:          "https://blogs.gnome.org/stw/"
+rss:           "https://blogs.gnome.org/stw/category/audio/?feed=rss"
+tags:
+  - "en"
+original_link: "https://blogs.gnome.org/stw/2019/11/12/liquidsfz-0-1-0/"
+---
+<p>Years ago, I’ve implemented SF2 (“SoundFont”) support for Beast. This was fairly easy. FluidSynth provides everything to play back SF2 files in an easy to use library, which is available under LGPL2.1+. Since integrating FluidSynth is really easy, many other projects like LMMS, Ardour, MusE, MuseScore, QSynth,… support SF2 via FluidSynth.</p>
+<p>For SFZ, I didn’t find anything that would be as easy to use as FluidSynth. Some projects ship their own implementation (MuseScore has Zerberus, Carla has its own version of SFZero). Both are effectively GPL licensed. Neither SFZ code would be easily integrated into Beast. Zerberus depends on the Qt toolkit. SFZero originally used JUCE and now uses a stripped down version of JUCE called water, which is Carla only (and should not be used in other projects).</p>
+<p>LinuxSampler is also GPL with one additional restriction that disallows usage in proprietary context without permission. I am not a lawyer but I think this is no longer GPL, meaning that you cannot combine this code with other GPL software. A small list of reasons why Carla no longer uses LinuxSampler can be found here: <a href="https://kx.studio/News/?action=view&amp;url=carla-20-rc1-is-here">https://kx.studio/News/?action=view&amp;url=carla-20-rc1-is-here</a></p>
+<p>In any case for Beast we want to keep our core libraries LGPL, which none of the projects I mentioned can do. So liquidsfz is my attempt to provide an easy-to-integrate SFZ player, which can be used in Beast and other projects. So I am releasing  the very first version “0.1.0” today: <a href="https://github.com/swesterfeld/liquidsfz#releases">https://github.com/swesterfeld/liquidsfz#releases</a></p>
+<p>This first release should be usable, there are only the most important SFZ opcodes covered.</p>

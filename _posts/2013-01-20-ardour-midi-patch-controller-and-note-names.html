@@ -1,0 +1,41 @@
+---
+title:         "Ardour MIDI Patch, Controller, and Note Names"
+created_at:    2013-01-20 05:50:00 UTC
+updated_at:    2013-01-20 05:50:00 UTC
+guid:          "tag:drobilla.net,2013-01-20:/2013/01/20/ardour-midi-patch-controller-and-note-names.html"
+author:        "drobilla.net - LAD"
+link:          "http://drobilla.net/"
+rss:           "http://drobilla.net/category/lad/feed/rss2"
+tags:
+  - "en"
+original_link: "http://drobilla.net/2013/01/20/ardour-midi-patch-controller-and-note-names.html"
+---
+<p>Ardour has supported displaying MIDI patch names loaded from a
+<a href="http://www.midi.org/dtds/midi_xml.php">MIDINameDocument</a> (or "midnam"
+file) for a while, though only patches, and even that was pretty flaky.
+Since this has become an itch for me and it's time for Ardour MIDI to
+reach release quality, I took some time to give it a serious overhaul.
+In this case, a picture or two is indeed worth a thousand words:</p>
+<p><a href="/images/ardour_midi_note_names.png"><img alt="Human readable MIDI note names in Ardour 3" src="//drobilla.net/images/ardour_midi_note_names-150x119.png"></a></p>
+<p><a href="/images/ardour_midi_control_names.png"><img alt="Human readable MIDI controller menu in Ardour" src="//drobilla.net/images/ardour_midi_control_names-150x104.png"></a></p>
+<p>The note names are mainly useful for doing percussion. Several of the
+bundled midnam files have note names defined, and I have added one for
+General MIDI drums, which more or less corresponds to a lot of
+instruments, including <a href="http://www.hydrogen-music.org/">Hydrogen</a>.</p>
+<p>Controller names, to my surprise, were not present in any of the
+existing midnam files at all. I wanted to sequence a hardware synth (the
+Moog Minitaur) without constantly referring to the manual and trying to
+remember which CC is which, so I wrote a new midnam file for the device
+and implemented support in Ardour. I am very disappointed to learn that
+there is no ability to group controllers, which really is the best way
+to do things, so I may embrace and extend (in a completely backwards
+compatible way) the format in the future to provide a better interface.</p>
+<p>The quality of midnam files scattered around the 'net is atrocious. The
+MMA actually hosts a DTD for it, but most files use the wrong DOCTYPE
+(usually with a broken link), among other problems. I fixed and cleaned
+up all the bundled ones in Ardour, validated them against the DTD, and
+left a README in that directory about how to do so. Hopefully this,
+along with incentive added by these features, encourages the community
+to grow a nice set of quality midnam files.</p>
+<p>So, MIDI name support in Ardour is now in pretty good shape. Now we just
+need to add the corresponding LV2 support...</p>

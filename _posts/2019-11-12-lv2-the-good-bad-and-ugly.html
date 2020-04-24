@@ -1,0 +1,353 @@
+---
+title:         "LV2: The good, bad, and ugly"
+created_at:    2019-11-12 02:35:00 UTC
+updated_at:    2019-11-12 02:35:00 UTC
+guid:          "tag:drobilla.net,2019-11-11:/2019/11/11/lv2-the-good-bad-and-ugly.html"
+author:        "drobilla.net - LAD"
+link:          "http://drobilla.net/"
+rss:           "http://drobilla.net/category/lad/feed/rss2"
+tags:
+  - "en"
+original_link: "http://drobilla.net/2019/11/11/lv2-the-good-bad-and-ugly.html"
+---
+<p>It occurred to me that I haven't really been documenting what I've been up to,
+a lot of which is behind the scenes in non-release branches, so I thought I
+would write a post about the general action around LV2 lately.  I've also been
+asked several times about what the long-term strategy for LV2 is, if there
+should be an "LV3", whether LV* can start to really gain traction as a
+competitor to the big proprietary formats, and so on.</p>
+<p>So, here it is, a huge brain dump on what's good, what's bad, what's ugly, and
+what I think should be done about it.</p>
+<h3>The Good</h3>
+<p>LV2 is different from other plugin standards in several ways.  This is not
+always a good thing (which we'll get to shortly), but there are some things
+that have proven to be very good ideas, even if the execution was not always
+ideal:</p>
+<ul>
+<li>
+<p>Openness: Obvious, but worth mentioning anyway.</p>
+</li>
+<li>
+<p>Extensibility: The general idea of building an extensible core, so that
+   plugin and host authors can add functionality in a controlled way is a great
+   one.  This allows developers to prototype new functionality to eventually be
+   standardised, make use of additional functionality if it is available, and
+   so on.  Some problems, like ensuring things are documented, that
+   implementations agree, and so on, get more difficult when anybody can add
+   anything, but this is worth the benefit of not having a standardisation
+   process block getting things done.</p>
+</li>
+<li>
+<p>DSP and UI split: Also obvious in my opinion, but certainly not a universal
+   thing.  There are a lot of bad things to be said about the actual state of
+   GUI support, but keeping them separate, with the <em>option</em> to have a pointer
+   to the guts of a plugin instance is the right approach.  Having a
+   well-defined way to communicate between GUI and DSP makes it easy to do the
+   right thing.  Multi-threaded realtime programming is hard, and plugins
+   dropping out because of GUI activity and so on should not be a thing.</p>
+</li>
+<li>
+<p>Standard implementation between host and plugins (for some things): This is
+   a huge win in reducing the burden on both host and plugin authors, and
+   allows both to rely on certain things being done right.  This also makes a
+   location where stronger validation and so on can happen, which we should
+   exploit more.  The war between host and plugin authors, trying to make
+   things compatible with the arbitrary behaviour of countless implementations
+   is largely why everyone hates plugins.  This doesn't have to be a thing.  We
+   haven't actually done well in that area with LV2 (quite the opposite), but
+   having a place to put that code is the right move.</p>
+</li>
+<li>
+<p>Transparent communication: Though you technically can do just about anything
+   with LV2, a "proper" plugin has a transparent control interface that works
+   in a standard way.  This gets you all kinds of things for free, like
+   human-readable debug tracing, network transparency, and so on, and also
+   encourages design that's better from a user point of view, like having good
+   host controls for parameters, automation, accessibility, and so on.  This is
+   somewhat related to having a DSP and UI split.  The benefits of having
+   plugins be controlled in a standard way are endless, as are the awful things
+   that happen when GUIs and audio code aren't forcefully kept at arm's reach.</p>
+</li>
+</ul>
+<h3>The Bad</h3>
+<p>Now to the more interesting part.  There are some nice ideas in LV2, and I
+think an idealised and cleaned up version of it that adheres to the main
+underlying design principles would be beautiful.  In reality, however, LV2 is
+an atrocious mess in all kinds of ways:</p>
+<ul>
+<li>
+<p>Control ports: LV2 uses LADSPA-style control ports, which contain a single
+   float.  This is a tricky one to put in the "bad" category, since
+   pragmatically grafting extensibility onto LADSPA is why LV2 has been
+   moderately successful.  It had to be that way: we needed working plugins,
+   not a tedious standardisation process that goes nowhere (there's already
+   GMPI for that).  That said, control ports are incredibly limiting and that
+   they still exist is an endless source of trouble: they are static, they
+   require buffer splitting for sample accuracy, they can only convey a float,
+   there is no hook to detect changes and do smoothing, and so on. A control
+   protocol (something like MIDI except... good) is the right way to control
+   plugins.  Notes and controls and all the rest should be in the same stream,
+   synchronous with audio.  It's hard to migrate to such a reality, but there
+   should be one consistent way to control a plugin, and it should be a stream
+   of sample-accurate events.  No methods, no threading and ABI nightmares, no
+   ambiguity, just a nice synchronous stream of inputs, and a single run
+   function that reads those and produces outputs.</p>
+</li>
+<li>
+<p>The <code>connect_port</code> method: Another LADSPA-ism.  This means that using some
+   signal means the host must call a method on the plugin to connect it first.
+   This is an awful design: it forces both the host and the plugin to maintain
+   more state than is necessary, and it's slow.  I have written several plugins
+   that would be completely stateless (essentially pure functions) except the
+   spec requires the plugin to maintain all these pointers and implement
+   methods to mutate them.  Inputs and outputs just should be passed to the run
+   method, so all of that goes away and everything is nicely scoped.  As far as
+   the basics of the C API are concerned, this is, in my opinion, the most
+   egregious mistake.</p>
+</li>
+<li>
+<p>Turtle: Everyone loves to hate Turtle.  It's mostly a nice syntax (if the
+   namespace prefix limitations are very annoying), but it's weird.  Worse,
+   people might search for "RDF" and find the confusing W3C trash-fire there.
+   The underlying ideas are good, but that three-letter-acronym should be
+   absolutely eliminated from the spec and documentation.  The good thing in
+   LV2 is really just "property-centric design", which can be explained in a
+   simple way anyone can understand.  It's more or less just "JSON with URIs"
+   anyway, and nobody ever got fired for using JSON.  Speaking of which,
+   syntax-wise, JSON-LD is probably the way to go today.  JSON is annoying in
+   different ways, but this would allow LV2 data files to look completely
+   typical to almost any developer, but still have the same meaning and have
+   the same advantages under the hood of a real data model.  This could
+   actually be done without breaking anything in practice, but JSON-LD is much
+   harder to implement so I'm not quite there yet.  It would also be some work
+   to write the vocabulary (vocabularies?), but it's doable.</p>
+</li>
+<li>
+<p>Lack of quality control: Again a consequence of pragmatic evolution, but the
+   lack of standard quality control has become a real problem.  There has been
+   progress made there, with things like <code>lv2lint</code> and <code>lv2_validate</code>, but it's
+   not good enough.  The biggest problem with plugins (and plugin hosts) in
+   general is that most of them are just broken.  There should be a standard
+   test suite for both, that is as strict as possible, and its use should be
+   strongly "encouraged" at the very least.  The above-mentioned existence of
+   standard code in-between hosts and plugins could be useful here, for
+   example, hosts could just refuse to load non-conforming plugins outright.</p>
+</li>
+<li>
+<p>Extension spam: The "standard" extensions are not all very good, or widely
+   supported.  They also aren't broken down and organized especially well in
+   some cases.  We are at least somewhat stuck with this for compatibility, but
+   it makes things confusing.  There are many reasons for this, but in general
+   I think a better thought-out standardisation process, and a "sort of
+   standard" staging ground to put contributions that some implementations
+   agree on but aren't ideal or quite at "recommended standard" yet would help.
+   I'm still not sure exactly how to do this, there's no best practice for such
+   things out there that's easy to steal, but with the benefit of hindsight I
+   think we could do much better.</p>
+</li>
+<li>
+<p>Library spam: The standard host implementation is quite a few libraries.
+   This is a mostly good thing, in that they have distinct purposes, different
+   dependencies, and so on, but in practice it's annoying for packagers, or
+   anyone who wants to vendor it.  I think the best approach here is to combine
+   them into a meta-package or "SDK", so libraries can still be properly split
+   but without the maintenance burden.  I am working towards this with
+   "lv2kit".  It's currently hard for outsiders to even figure out what they
+   need, a one-stop "all the LV2 things" in a single package would help
+   immensely, especially for people outside of the Linux world (where
+   distributions package everything anyway, so nobody really cares).</p>
+</li>
+<li>
+<p>C++ and other language bindings: Plugin interfaces more or less have to be
+   in C.  However, outside of POSIXland, nobody wants to actually write C.
+   Virtually the entire audio industry uses C++.  Good bindings are important.
+   Python is also nice for some things.  Rust would be great, and so on.</p>
+</li>
+</ul>
+<h3>The Ugly</h3>
+<p>These are things that are just... well, ugly.  Not really "bad" in concrete ways
+that matter much, but make life unpleasant all the same.</p>
+<ul>
+<li>
+<p>Extensibility only through the URI-based mechanism: In general,
+   extensibility is good.  The host can pass whatever features, and plugins can
+   publish whatever interfaces, and everything is discoverable and degrades
+   gracefully and so on.  It works.  The downside is that there's some
+   syntactic overhead to that which can be annoying.  We should have put sizes
+   or versions in structs so they were also extensible in the classical way.
+   For example, the <code>connect_port</code> problem mentioned above could be fixed by
+   adding a new run method, but we can't literally add a new run method to
+   <code>LV2_Descriptor</code>.  We would have to make a separate interface, and have the
+   host access it with <code>extension_data</code>, and so on, which makes things ugly.
+   Maybe this is for the best, but ugliness matters.  In general there are a
+   few places where we could have used more typical C patterns.  Weirdness
+   matters too.</p>
+</li>
+<li>
+<p>Extension organization: The list of specifications is a complete mess.  It
+   annoys me so much.  I am not really sure about this: in some cases, an
+   extension is a clearly separate thing, and having it be essentially a
+   separate spec is great.  In other cases, we've ended up with vaguely related
+   grab-bags of things for lack of anywhere else to put them.  I sometimes
+   wonder if the KISS approach of just having one big namespace would have been
+   the right way to go.  It would mean less prefixes everywhere at the very
+   least.  Maybe we could use some other way of grouping things where it makes
+   sense?</p>
+</li>
+<li>
+<p>Static data: This is a tough one.  One of the design principles of LV2 is
+   that hosts don't need to load and run any code to just discover plugins, and
+   information about them.  This is <em>great</em>.  However, whenever the need for
+   something more dynamic comes along (dynamic ports, say), we don't have any
+   great way to deal with it, because the way everything is described is
+   inherently static.  Going fully dynamic doesn't feel great either.  I think
+   the solution here is to take advantage of the fact that the data files are
+   really just a syntax and the same data can be expressed in other ways. We
+   already have all the fundamental bits here, Atoms are essentially
+   "realtime-ready RDF" and can be round-tripped to Turtle without loss.  My
+   grand, if vague, vision here is that everything could just be the same
+   conceptually, and the source of it be made irrelevant and hidden behind a
+   single API. For example, a data file can say things like (pseudocode alert)
+   <code>&lt;volume&gt; hasType Float; &lt;volume&gt; minimumValue 0.0; &lt;volume&gt; maximumValue
+   1.0</code> but a message from a plugin can say exactly the same thing at run time.
+   If the host library (lilv) handled all this nicely, hosts could just do
+   <code>lv2_get_minimum(gain)</code> and not really care where the information came from.
+   I think this is a much better approach than grafting on ever-more API for
+   every little thing, but it would have to be done nicely with good support.
+   I think the key here is to retain the advantages we have, but put some work
+   into making really obvious and straightforward APIs for everything.</p>
+</li>
+<li>
+<p>Overly dynamic URIDs: URIDs are a mechanism in LV2 where things are
+   conceptually URIs (which makes everything extensible), but integers in
+   practice for speed.  Generally a URID is made at instantiation time by
+   calling a host-provided mapping function.  This is, for the most part,
+   wonderful, but being always dynamic causes some problems.  You need dynamic
+   state to talk about URIs at all, which makes for a lot of boilerplate, and
+   gets in the way of things like language bindings (you couldn't make a simple
+   standalone template that gives you an <code>Int</code> atom for an <code>int32_t</code>, for
+   example).  I think it would be a good idea to have a static set of URIDs for
+   things in the standard, so that <code>lv2_minimum</code> or whatever is just statically
+   there, but preserve the ability to extend things with dynamic mapping.  This
+   is easy enough by adding the concept of a "minimum dynamic URID value",
+   where everything less than that is reserved by the standard.  Alternatively,
+   or perhaps in addition, maybe having a standard loader to ease the pain of
+   loading every little thing (like with OpenGL) would help make code cleaner
+   and boilerplate free.</p>
+</li>
+<li>
+<p>The Documentation Sucks: Of course, the documentation of everything always
+   sucks, so you have to take this feedback with a grain of salt, but it's true
+   of LV2.  A lot of improvements here are blocked by the specification
+   breakdown being set in stone, but it could be improved.  I think the
+   reference documentation is not the problem though, we really need
+   example-driven documentation written as prose.  This is a completely
+   different thing to reference documentation and I think it's important to not
+   confuse the two.  There has been a bit of work adapting the "book" to be
+   better in this sense, but it's not very far along.  Once it's there, it
+   needs to be brought to the forefront, and the reference documentation put in
+   a place where it's clear it's about details.  Optics matter.</p>
+</li>
+</ul>
+<h3>The Work</h3>
+<p>I'm sure there are countless things floating around in my mind I've forgotten
+about at the moment, but that's all that comes to mind at a high level.  There
+are, of course, countless little specific problems that need work (like
+inventing a control protocol for everything, and having it be powerful but
+pleasant to use), but I'm only focusing on the greater things about LV2 itself,
+as a specification family and a project.  The big question, of course, is
+whether LV3 should be a thing.  I am not sure, it's a hard question.  My
+thinking is: maybe, but we should work towards it first.  It's always tempting
+to throw out everything and Do It Right, but that never works out.  The
+extensible nature of LV2 means that we can graft better things on over time,
+until all the various pieces feel right.  I see no point in breaking the entire
+world with a grandiose LV3 project until, for example, we've figured out how we
+want to control plugins.  I am a big believer in iterative design, and working
+code in general.  We can build that in LV2.  Maybe we can even do it and end up
+at more or less LV3 anyway, without causing any hard breakage.  To that end, I
+have been improving things in general, to try and address some of the above,
+and generally bring the software up to a level of quality I am happy with:</p>
+<ul>
+<li>
+<p>Portability: The LV2 host stack has (almost) always been at least
+   theoretically portable, and relatively portable in practice, but it's
+   obvious that it comes from the Linux world and <em>might</em> work elsewhere.  I
+   have been doing a lot of work on the DevOps front to ensure that everything
+   works everywhere, always, and no platform is second-class.  The libraries
+   live on Gitlab, and have a CI setup that builds and tests on Linux (both x86
+   and ARM), Windows, and MacOS, and cross-compiles with MinGW.</p>
+</li>
+<li>
+<p>Frequent releases: Another consequence of the many-libraries problem is that
+   releasing is <em>really</em> tedious, and I'm generally pretty bad at making
+   releases.  This makes things just feel stale.  I've recently almost entirely
+   automated this process, so that <em>everything</em> involved in making a release
+   can be done by just calling a script.  Also on the DevOps and stale fronts,
+   I've been moving to automatically generating documentation on CI, so it's
+   always published and up to date.  Automating everything is important to keep
+   a project vibrant, especially when maintenance resources are scarce.</p>
+</li>
+<li>
+<p>Generally complex APIs: The library APIs aren't great, and the general
+   situation is confusing.  Most authors only need Lilv, but there are these
+   "Serd" and "Sord" things in there that show up sometimes, all work with
+   roughly the same sort of "nodes", but all have different types and APIs for
+   them, and so on.  I have been working on a new major version of serd that
+   takes advantage of the API break to make things much simpler, and improve
+   all kinds of things in general.  This will be exposed directly in lilv where
+   it makes sense, eliminating a lot of glue, and eliminating the sord library
+   entirely.  The lilv API itself is also dramatically bigger and more
+   complicated than it needs to be.  At the time, it felt like adding obvious
+   helper methods for every little thing was a good idea, so people can just
+   find <code>lv2_port_get_specific_thing_I_want()</code> which is nice when it's
+   there... except it's not always there.  The property-based design of LV2
+   means that <code>lv2_get(port, specific_thing_I_want)</code> could work for everything
+   (and this ability is already there).  This results in situations like people
+   thinking they are blocked by a missing function, and spending a lot of time
+   writing and submitting patches to add them, when the functionality was there
+   all along.  It would be easier on everyone if everything just always worked
+   the same general way, and it would make the API surface <em>much</em> smaller which
+   is always nice.</p>
+</li>
+<li>
+<p>Validation: There has been a data validator for a while, but it wasn't
+   great.  It didn't, for example, point at the exact position in the file
+   where the error was, you just had to figure that part out.  The new version
+   of serd fixes this, so validation errors and warnings use standard GCC
+   format to report the exact position along with a helpful error message,
+   which automatically integrates with almost every editor or IDE on the planet
+   for free.</p>
+</li>
+<li>
+<p>SDK: As mentioned above, I'm working on putting all the "standard" host
+   libraries into a unified "lv2kit" which is the one package you will need to
+   build LV2 things.  There are still some details about this I haven't sorted
+   out (e.g. should the spec be in there or not?  What about non-LV2-specific
+   libraries like serd?  Optional vendoring?), but it's coming along and I
+   think will make it far more realistic to expect people to implement LV2.</p>
+</li>
+<li>
+<p>The spec mess: I am idly thinking about whether or not it would be possible
+   to add a compatibility mechanism to allow us to move URIs without breaking
+   anything.  It's largely superficial, but cleaning up the specification list
+   would really help the optics of the project if nothing else.  90% here is
+   trivial (just aggressively map everything forwards), but all the corner
+   cases still need to be thought out.</p>
+</li>
+</ul>
+<p>That's all the work in the trenches going on at the moment to improve the state
+of LV2.  Though I wish I, or anyone else, had the time and energy to invest
+effort into addressing the more ambitious questions around the plugin API
+itself, at the moment I am more than tapped out.  Regardless, I think it makes
+sense to get the current state of things in a form that is moving forward and
+easier to work with, and raise the quality bar as high as possible first.  With
+a very high-quality implementation and extensive testing and validation, I'll
+feel a lot more confident in addressing some of the more interesting questions
+around plugin interfaces, and perhaps someday moving towards an LV3.</p>
+<p>On that note, feedback is always welcome.  Most of the obvious criticism are
+well-known, but more perspectives are always useful, and silent wheels get no
+grease.  Better yet, issues and/or merge requests are even more welcome.  The
+bus factor of LV2 isn't <em>quite</em> as bad as it seems from the web, but it would
+help to get more activity on the project itself from anyone other than myself.
+The standards for API additions and such are pretty high, but there's plenty of
+low-hanging fruit to be picked.</p>

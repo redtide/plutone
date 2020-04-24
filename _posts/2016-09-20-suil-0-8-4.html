@@ -1,0 +1,28 @@
+---
+title:         "Suil 0.8.4"
+created_at:    2016-09-20 06:47:00 UTC
+updated_at:    2016-09-20 06:47:00 UTC
+guid:          "tag:drobilla.net,2016-09-20:/2016/09/20/suil-0-8-4.html"
+author:        "drobilla.net - LAD"
+link:          "http://drobilla.net/"
+rss:           "http://drobilla.net/category/lad/feed/rss2"
+tags:
+  - "en"
+original_link: "http://drobilla.net/2016/09/20/suil-0-8-4.html"
+---
+<p><a href="http://download.drobilla.net/suil-0.8.4.tar.bz2">Suil 0.8.4</a> has been released.  Suil is a library for loading and wrapping LV2 plugin UIs. For more information, see <a href="http://drobilla.net/software/suil">http://drobilla.net/software/suil</a>.</p>
+<p>Changes:</p>
+<ul>
+<li>Add Cocoa in Gtk wrapper (patch from Robin Gareus)</li>
+<li>Add Gtk2 and X11 in Qt5 wrappers (patch from Rui Nuno Capela)</li>
+<li>Bubble X11 key events up to Gtk parent (patch from Filipe Coelho)</li>
+<li>Center X11 UIs in Gtk (patch from Robin Gareus)</li>
+<li>Configure based on compiler target OS for cross-compilation</li>
+<li>Fix a few minor/unlikely memory errors</li>
+<li>Fix compilation with -Wl,--no-undefined</li>
+<li>Fix initial size of resizable X11 UIs in Gtk (patch from Robin Gareus)</li>
+<li>Gracefully handle failure to open wrapper</li>
+<li>Only report suil_ui_supported() if necessary wrapper is compiled in</li>
+<li>Upgrade to waf 1.8.14</li>
+<li>Various Windows fixes (patches from Robin Gareus)</li>
+</ul>

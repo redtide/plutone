@@ -1,0 +1,149 @@
+---
+title:         "Ardour 5.10 released"
+created_at:    2017-06-15 13:40:15 UTC
+updated_at:    2017-06-15 13:40:15 UTC
+guid:          "discourse.ardour.org-topic-78578"
+author:        "Ardour Blog"
+link:          "https://discourse.ardour.org/c/blog/"
+rss:           "https://discourse.ardour.org/c/blog.rss"
+tags:
+  - "en"
+original_link: "https://discourse.ardour.org/t/ardour-5-10-released/78578"
+---
+<p><a href="https://discourse.ardour.org/u/paul">@paul</a> wrote:</p>
+            <blockquote>
+              <p>
+	We are pleased to announce the availability of
+	Ardour 5.10. This is primarily a bug-fix release, with several
+	important fixes for recent selection/cut/copy/paste
+	regressions along with fixes for many long standing issues
+	large and small. 
+      </p>
+      <p>
+	This release also sees the arrival
+	of VCA slave automation, along with improvements in
+	overall VCA master/slave behaviour. There are also significant
+	extensions to Ardour's OSC support.
+      </p>
+<p>
+  <a href="https://community.ardour.org/download">Download  <i></i>
+</a></p>
+      <h2>General Fixes and Improvements</h2>
+      <ul>
+	<li>(Time) Range selection and copy/cut/paste now works again.</li>
+	<li>Selection and copy/cut/paste for automation tracks now works again.</li>
+	<li>Extend list of reserved track/port names (including translated versions of "Click").</li>
+	<li>Fix another case where potentially illegal track/port names were not checked correctly.</li>
+	<li>Context click on <code>[Marker] &gt; loop range</code> should set loop range.</li>
+	<li>Tweak/fix splash screen management.</li>
+	<li>Update writable status of a Save-as copy of a Session.</li>
+	<li>Add note name parser to convert to midi note number.</li>
+	<li>VST parameter names can now be up to 128 characters long.</li>
+	<li>Remember the state (shown/hidden, attached/detached) of the Monitor section.</li>
+	<li>Ardour's own custom buttons now correctly reflect the initial state of the action they control.</li>
+	<li>Stop crash after deleting a group.</li>
+	<li>Fix double "Tape" in Record Mode drop down when adding new track.</li>
+	<li>Support note name editing in midi list editor.</li>
+	<li>Fix out-of-bounds waveform image rendering.</li>
+	<li>Set Display Name for OSX/macOS.</li>
+	<li>Fix libhid compile with /recent/ libc (GNU_SOURCE).</li>
+	<li>Fix failure to laod old tempo maps.</li>
+	<li>Use correct variable in BasicUI::jump_by_seconds.</li>
+	<li>Tempo sections with a BBT start XML node are never ramped.</li>
+	<li>Sort tempo map after legacy sections have been assigned a pulse.</li>
+	<li>Include ParameterDescriptor in read-only control output.</li>
+	<li>Implement basic AU parameter-printing.</li>
+	<li>Pretty print control-outputs in generic-UI.</li>
+	<li>Always create a deep copy of MIDI regions when copying playlists.</li>
+	<li>Use correct names when setting MidiTrack properties.</li>
+	<li>Use correct property name in generic MIDI surface.</li>
+	<li>Allow export presets for 176.4KHz.</li>
+	<li>When creating a new session after working on one, the "Cancel" button should be a quit button.</li>
+	<li>Duplicate routes start off unsoloed to avoid issues related to upstream / downstream buses.</li>
+	<li>If actively recording, prevent interaction between mouse and audio clock widget(s).</li>
+	<li>Remove "Close" button from import-dialog (prefer WM close button).</li>
+	<li>Import Dialog now behaves now other dialogs/windows when using Escape.</li>
+	<li>Add route dialog now has "Add" and "Add and Close" buttons.  "Add" keeps dialog open so user can add multiple templates.</li>
+	<li>Fix recording-region graphics when using count-in.</li>
+	<li>Fix reversed logic in legacy tempo secton detection.</li>
+	<li>Tempo lines display subdivisions correctly over a tempo change.</li>
+	<li>Fix crash when showing plugin-UI in safe-mode.</li>
+	<li>Fix DSP in a-EQ, when parameters change very slowly.</li>
+	<li>Fix playhead behaviour when synced to JACK tranport.</li>
+	<li>When dragging notes, keep the note length correct even if tempo changes across the drag.</li>
+	<li>a-EQ: Tweak knob layout to be less confusing.</li>
+	<li>Make Import the default action in the Import Dialog.</li>
+	<li>Restore the state of the autoplay button in the import dialog.</li>
+	<li>Consistent "cancel/close" button position on the left.</li>
+      </ul>
+<pre><code>  &lt;h2&gt;Lua&lt;/h2&gt;
+  &lt;ul&gt;
+&lt;li&gt;Add a file-chooser LuaDialog Widget.&lt;/li&gt;
+&lt;li&gt;Update LuaDialog example script to include File/Folder selection.&lt;/li&gt;
+&lt;li&gt;Add Lua bindings for VCAs and VCAManager.&lt;/li&gt;
+  &lt;/ul&gt;
+
+  &lt;h2&gt;VCA &amp; Automation&lt;/h2&gt;
+  &lt;ul&gt;
+&lt;li&gt;Do not crash when removing a VCA master.&lt;/li&gt;
+&lt;li&gt;Fix relative grouped + VCA slaved gain.&lt;/li&gt;
+&lt;li&gt;Fix Monitor Group override.&lt;/li&gt;
+&lt;li&gt;Allow group gain sharing + VCA again.&lt;/li&gt;
+&lt;li&gt;Remember subgroup-bus.&lt;/li&gt;
+  &lt;/ul&gt;
+
+  &lt;h2&gt;OSC Support and Control&lt;/h2&gt;
+  &lt;ul&gt;
+&lt;li&gt;Add Automation control to OSC.&lt;/li&gt;
+&lt;li&gt;Faders can select automation mode.&lt;/li&gt;
+&lt;li&gt;Frame work to add automation for more controls&lt;/li&gt;
+&lt;li&gt;Add Touch message for faders.&lt;/li&gt;
+&lt;li&gt;Add fake timeout based touch.&lt;/li&gt;
+&lt;li&gt;GUI settings take effect on first incoming message.&lt;/li&gt;
+&lt;li&gt;Catch case of surface sending fader move before touch.&lt;/li&gt;
+&lt;li&gt;Add optional paging to sends in select.&lt;/li&gt;
+&lt;li&gt;Add option to send /reply instead of #reply (OSC1.0 compat).&lt;/li&gt;
+&lt;li&gt;Select channel plugin support with paging.&lt;/li&gt;
+&lt;li&gt;Allow set_surface and settings GUI to set send and plugin page sizes.&lt;/li&gt;
+  &lt;/ul&gt;
+
+  &lt;h2&gt;Control Surfaces&lt;/h2&gt;
+  &lt;ul&gt;
+&lt;li&gt;Improve all control surfaces' handling of track/bus selection changes.&lt;/li&gt;
+&lt;li&gt;Midi map for Alesis QX25.&lt;/li&gt;
+&lt;li&gt;Update FaderPort8: new possible controllable parameters.&lt;/li&gt;
+&lt;li&gt;Mackie Control: Momentarily light buttons when they are
+  used to trigger a defined action. (This is mainly for F-keys)&lt;/li&gt;
+&lt;li&gt;Mackie Control: If a button is not assigned an action, it
+will not light, hopefully indicating to the user that it is unmapped).&lt;/li&gt;
+&lt;li&gt;Mackie Control: F-keys are reserved only for user-defined actions; no need for explicit handling.&lt;/li&gt;
+&lt;li&gt;Mackie Control: configuration panel should display the profile name when any button action is changed.&lt;/li&gt;
+&lt;li&gt;Mackie Control: Assign some F-keys for default user profile.&lt;/li&gt;
+&lt;li&gt;Mackie Control map the well-known EQ knobs more explicitly, not heuristically.&lt;/li&gt;
+&lt;li&gt;Mackie Control: Fix issue with strip "select" buttons that stayed stuck on.&lt;/li&gt;
+  &lt;/ul&gt;
+
+  &lt;h2&gt;Translation Updates&lt;/h2&gt;
+  &lt;ul&gt;
+&lt;li&gt;German (Edgar Aichinger).&lt;/li&gt;
+&lt;li&gt;Russian (Alexander Prokoudine).&lt;/li&gt;
+  &lt;/ul&gt;
+
+  &lt;h2&gt;Contributors&lt;/h2&gt;
+  &lt;p&gt;
+Ben Loftis,
+Damien Zammit,
+Daniel Sheeler,
+Johannes Mueller,
+John Emmas,
+Len Ovens,
+Nick Mainsbridge,
+Nils Geisweiller,
+Paul Davis,
+Robin Gareus,
+Tim Mayberry
+  &lt;/p&gt;</code></pre>
+            </blockquote>
+            <p>Posts: 10</p>
+            <p>Participants: 6</p>
+            <p><a href="https://discourse.ardour.org/t/ardour-5-10-released/78578">Read full topic</a></p>

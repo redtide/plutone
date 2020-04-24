@@ -1,0 +1,32 @@
+---
+title:         "Lilv 0.16.0"
+created_at:    2013-02-19 02:43:00 UTC
+updated_at:    2013-02-19 02:43:00 UTC
+guid:          "tag:drobilla.net,2013-02-18:/2013/02/18/lilv-0-16-0.html"
+author:        "drobilla.net - LAD"
+link:          "http://drobilla.net/"
+rss:           "http://drobilla.net/category/lad/feed/rss2"
+tags:
+  - "en"
+original_link: "http://drobilla.net/2013/02/18/lilv-0-16-0.html"
+---
+<p><a href="http://download.drobilla.net/lilv-0.16.0.tar.bz2">Lilv 0.16.0</a> has been released.  Lilv is a C library to make the use of LV2 plugins as simple as possible for applications. For more information, see <a href="http://drobilla.net/software/lilv">http://drobilla.net/software/lilv</a>.</p>
+<p>Changes:</p>
+<ul>
+<li>Add lilv_nodes_merge()</li>
+<li>Add lilv_world_ask() for easily checking if a statement exists</li>
+<li>Add lilv_world_get() and lilv_port_get() for easily getting one value</li>
+<li>Add va_list variant of lilv_plugin_get_num_ports_of_class()</li>
+<li>Correctly depend on serd at build time (fix compilation in odd cases)</li>
+<li>Disable timestamps in HTML documentation for reproducible build</li>
+<li>Fail gracefully when lilv_state_new_from_string() is called on NULL</li>
+<li>Fix several plugin functions that failed to load data if called first</li>
+<li>Ignore state ports with no value instead of printing an error</li>
+<li>Make lilv_plugin_get_port_by_designation() return a const pointer</li>
+<li>Make state loading functions fall back to lv2:default for port values, so a plugin description can be loaded as default state</li>
+<li>Require a URI for lilv_state_to_string() and fail gracefully otherwise</li>
+<li>Support atom:supports in lilv_port_supports_event()</li>
+<li>Update to waf 1.7.8 and autowaf r90 (install docs to versioned directory)</li>
+<li>lilvmm.hpp: Add several missing methods</li>
+<li>lilvmm.hpp: Support varargs for Plugin::get_num_ports_of_class()</li>
+</ul>

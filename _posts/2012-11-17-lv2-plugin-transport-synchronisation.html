@@ -1,0 +1,47 @@
+---
+title:         "LV2 plugin transport synchronisation"
+created_at:    2012-11-17 06:20:00 UTC
+updated_at:    2012-11-17 06:20:00 UTC
+guid:          "tag:drobilla.net,2012-11-17:/2012/11/17/lv2-plugin-transport-synchronisation.html"
+author:        "drobilla.net - LAD"
+link:          "http://drobilla.net/"
+rss:           "http://drobilla.net/category/lad/feed/rss2"
+tags:
+  - "en"
+original_link: "http://drobilla.net/2012/11/17/lv2-plugin-transport-synchronisation.html"
+---
+<p>I have been working on getting accurate transport information provided
+to <a href="http://lv2plug.in/">LV2</a> plugins. Until now, there was the ability
+to specially designate e.g. BPM control ports, but this has limitations,
+the most obvious being that it is is limited to conveying simple numeric
+values at the start of a cycle.</p>
+<p>In general, things are headed in an event-based direction, and this is
+no exception. The <a href="http://lv2plug.in/ns/ext/time">LV2 Time</a> extension
+defines all the properties needed to describe a transport
+position/speed/tempo/meter and the <a href="http://lv2plug.in/ns/ext/atom">LV2
+Atom</a> extension defines a dictionary type
+that can be used to send several properties at once in a single event.
+The host sends updates whenever the transport has changed in a way the
+plugin can not anticipate (anything but rolling along at the same
+speed/tempo/meter). Since events are time stamped, this makes it
+possible to give plugins a sample accurate tempo map, even when there
+are changes in the middle of a cycle.</p>
+<p>There is a new example plugin in the LV2 repository, eg-metro, which is
+a simple metronome that follows this scheme. If the host implements the
+above, the metronome will click in sync with the host transport.</p>
+<p>I have implemented this in <a href="http://drobilla.net/software/jalv">Jalv</a>
+(which uses Jack transport), <a href="http://ardour.org">Ardour</a> 3, and
+<a href="http://drobilla.net/software/ingen">Ingen</a> (via a new internal "Time"
+block). Ardour will send an update at the start of the cycle if a
+relocate has happened, and one on the exact sample of any meter or tempo
+change within the cycle. Due to the limitations of Jack transport, Jalv
+and Ingen will only send updates at the start of a cycle. The metronome
+should tick correctly when loaded in Jalv or Ingen when there is a Jack
+transport master active (I have tested with Ardour), and when loaded
+directly in Ardour.</p>
+<p>This functionality is pretty important for many musical plugins, so
+hopefully other host authors implement it as well. Depending on feedback
+(and available time) I may document the above rules as a feature and add
+it to the time extension, and release LV2 1.2.2. I think a well-defined
+way to achieve this is worthy of a point release, and it will get the
+news out there to implementers.</p>

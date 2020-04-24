@@ -1,0 +1,47 @@
+---
+title:         "LV2 Plugin Control Units in Ardour"
+created_at:    2014-11-04 01:09:00 UTC
+updated_at:    2014-11-04 01:09:00 UTC
+guid:          "tag:drobilla.net,2014-11-03:/2014/11/03/lv2-plugin-control-units-in-ardour.html"
+author:        "drobilla.net - LAD"
+link:          "http://drobilla.net/"
+rss:           "http://drobilla.net/category/lad/feed/rss2"
+tags:
+  - "en"
+original_link: "http://drobilla.net/2014/11/03/lv2-plugin-control-units-in-ardour.html"
+---
+<p>LV2 has had a "units" extension since the beginning, which allows
+plugins to specify units like Hz or dB for their controls. To date this
+information has not been used very widely by hosts, so I've done some
+work in Ardour to use this information for better UI generation and
+intelligent plugin control.</p>
+<p>Units can specify a format string which describes how to print a value
+in that unit. This is now used to draw the text on control sliders:</p>
+<p><img alt="An Ardour control dialog for an LV2 plugin." src="//drobilla.net/images/control_dialog-300x152.png"></p>
+<p>The same controls are used in automation lane headers. If the control is
+a note number, then right-clicking will present a menu with an option to
+pop up a note selector dialog where the value can be chosen on a piano
+keyboard:</p>
+<p><img alt="The select note menu on a note number port." src="//drobilla.net/images/select_note_menu-300x286.png"></p>
+<p><img alt="The Ardour note selector dialog." src="//drobilla.net/images/note_choose_dialog-300x51.png"></p>
+<p>Similarly, numeric frequency controls have a context menu which can set
+the value to a specific number of beats in the current tempo, if the
+frequency range is low:</p>
+<p><img alt="Setting a low frequency port in beats." src="//drobilla.net/images/set_beats_menu-272x300.png"></p>
+<p>If the frequency range is high, then numeric frequency ports can be set
+with the note selector dialog just like note numbers:</p>
+<p><img alt="Setting an audible frequency port by note." src="//drobilla.net/images/set_freq_menu-300x83.png"></p>
+<p>In the future, it would be nice to have this idea applied more
+extensively so automation lanes can "pretend" a port is in the desired
+unit, for example allowing the user to automate an LFO frequency in
+beats, or a cutoff frequency in notes. Until then, being able to at
+least easily set controls to musically sensible values makes many
+production tasks easier, particularly in electronic music where it's
+often desirable to set plugin controls based on key or tempo.</p>
+<p>Up next is setting time ports based on tempo, for cases like setting
+delay lines to a certain number of beats, but many plugins are missing
+the unit information required to make this possible. Hopefully better
+and more widespread host support will provide some incentive for plugin
+authors to specify the units of their ports. It is very simple to do so,
+see the <a href="http://lv2plug.in/ns/extensions/units">LV2 units</a> documentation
+for examples.</p>

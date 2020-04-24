@@ -1,0 +1,124 @@
+---
+title:         "LV2 atom and state serialisation"
+created_at:    2012-02-23 06:42:00 UTC
+updated_at:    2012-02-23 06:42:00 UTC
+guid:          "tag:drobilla.net,2012-02-23:/2012/02/23/lv2-atom-and-state-serialisatio.html"
+author:        "drobilla.net - LAD"
+link:          "http://drobilla.net/"
+rss:           "http://drobilla.net/category/lad/feed/rss2"
+tags:
+  - "en"
+original_link: "http://drobilla.net/2012/02/23/lv2-atom-and-state-serialisatio.html"
+---
+<p>I have been working on full round-trip serialisation for everything in
+the <a href="http://lv2plug.in/ns/ext/atom">LV2 Atom</a> extension (which also
+applies for implementing state). I am doing this as a small library with
+a simple API, with the goal that it be simple to include in any project.</p>
+<p><code>svn co http://svn.drobilla.net/lad/trunk/sratom</code></p>
+<p>Currently this only writes (using
+<a href="http://drobilla.net/software/serd">Serd</a>), I still need to move the
+reading stuff into it (which will probably use a model and thus require
+using <a href="http://drobilla.net/software/sord">Sord</a>).</p>
+<p>The Atom extension defines a simple data model for use in LV2 plugins
+and hosts (or elsewhere). The general Big Idea here is to have a
+smallish set of primitive types, a few collections, and out of that one
+can build arbitrarily complex structures. Everything (including
+containers) is a simple and compact chunk of POD data, but serialises
+to/from (a subset of) RDF, so it can nicely be described in a plugin's
+Turtle file, among other advantages.</p>
+<p>An easy to adopt serialisation API is important to making these
+advantages a reality for many implementations, so I have decided to
+provide one before marking these extensions stable. It also serves as a
+nice test case with complete coverage. Here is an example of an Atom
+that contains every currently defined Atom type, as well as MIDI,
+serialised to Turtle by sratom:</p>
+<div class="highlight"><pre><span></span><span class="p">[]</span>
+    <span class="nl">rdf</span><span class="p">:</span><span class="n">value</span> <span class="p">[</span>
+        <span class="n">a</span> <span class="nl">eg</span><span class="p">:</span><span class="n">Object</span> <span class="p">;</span>
+        <span class="nl">eg</span><span class="p">:</span><span class="n">one</span> <span class="s">"1"</span><span class="o">^^</span><span class="nl">xsd</span><span class="p">:</span><span class="kt">int</span> <span class="p">;</span>
+        <span class="nl">eg</span><span class="p">:</span><span class="n">two</span> <span class="s">"2"</span><span class="o">^^</span><span class="nl">xsd</span><span class="p">:</span><span class="kt">long</span> <span class="p">;</span>
+        <span class="nl">eg</span><span class="p">:</span><span class="n">three</span> <span class="s">"3.0"</span><span class="o">^^</span><span class="nl">xsd</span><span class="p">:</span><span class="kt">float</span> <span class="p">;</span>
+        <span class="nl">eg</span><span class="p">:</span><span class="n">four</span> <span class="s">"4.0"</span><span class="o">^^</span><span class="nl">xsd</span><span class="p">:</span><span class="kt">double</span> <span class="p">;</span>
+        <span class="nl">eg</span><span class="p">:</span><span class="nb">true</span> <span class="nb">true</span> <span class="p">;</span>
+        <span class="nl">eg</span><span class="p">:</span><span class="nb">false</span> <span class="nb">false</span> <span class="p">;</span>
+        <span class="nl">eg</span><span class="p">:</span><span class="n">path</span> <span class="o">&lt;/</span><span class="n">foo</span><span class="o">/</span><span class="n">bar</span><span class="o">&gt;</span> <span class="p">;</span>
+        <span class="nl">eg</span><span class="p">:</span><span class="n">uri</span> <span class="nl">eg</span><span class="p">:</span><span class="n">value</span> <span class="p">;</span>
+        <span class="nl">eg</span><span class="p">:</span><span class="n">urid</span> <span class="nl">eg</span><span class="p">:</span><span class="n">value</span> <span class="p">;</span>
+        <span class="nl">eg</span><span class="p">:</span><span class="n">string</span> <span class="s">"hello"</span> <span class="p">;</span>
+        <span class="nl">eg</span><span class="p">:</span><span class="n">langlit</span> <span class="s">"bonjour"</span><span class="p">@</span><span class="n">fra</span> <span class="p">;</span>
+        <span class="nl">eg</span><span class="p">:</span><span class="n">typelit</span> <span class="s">"value"</span><span class="o">^^</span><span class="nl">eg</span><span class="p">:</span><span class="n">Type</span> <span class="p">;</span>
+        <span class="nl">eg</span><span class="p">:</span><span class="n">blank</span> <span class="p">[</span>
+            <span class="n">a</span> <span class="nl">eg</span><span class="p">:</span><span class="n">Object</span> <span class="p">;</span>
+        <span class="p">]</span> <span class="p">;</span>
+        <span class="nl">eg</span><span class="p">:</span><span class="n">tuple</span> <span class="p">[</span>
+            <span class="n">a</span> <span class="nl">atom</span><span class="p">:</span><span class="n">Tuple</span> <span class="p">;</span>
+            <span class="nl">rdf</span><span class="p">:</span><span class="n">value</span> <span class="p">(</span>
+                <span class="s">"foo"</span>
+                <span class="nb">true</span>
+            <span class="p">)</span> <span class="p">;</span>
+        <span class="p">]</span> <span class="p">;</span>
+        <span class="nl">eg</span><span class="p">:</span><span class="n">vector</span> <span class="p">[</span>
+            <span class="n">a</span> <span class="nl">atom</span><span class="p">:</span><span class="n">Vector</span> <span class="p">;</span>
+            <span class="nl">rdf</span><span class="p">:</span><span class="n">value</span> <span class="p">(</span>
+                <span class="s">"1"</span><span class="o">^^</span><span class="nl">xsd</span><span class="p">:</span><span class="kt">int</span>
+                <span class="s">"2"</span><span class="o">^^</span><span class="nl">xsd</span><span class="p">:</span><span class="kt">int</span>
+                <span class="s">"3"</span><span class="o">^^</span><span class="nl">xsd</span><span class="p">:</span><span class="kt">int</span>
+                <span class="s">"4"</span><span class="o">^^</span><span class="nl">xsd</span><span class="p">:</span><span class="kt">int</span>
+            <span class="p">)</span> <span class="p">;</span>
+        <span class="p">]</span> <span class="p">;</span>
+        <span class="nl">eg</span><span class="p">:</span><span class="n">seq</span> <span class="p">[</span>
+            <span class="n">a</span> <span class="nl">atom</span><span class="p">:</span><span class="n">Sequence</span> <span class="p">;</span>
+            <span class="nl">rdf</span><span class="p">:</span><span class="n">value</span> <span class="p">(</span>
+                <span class="p">[</span>
+                    <span class="nl">atom</span><span class="p">:</span><span class="n">frameTime</span> <span class="mi">1</span> <span class="p">;</span>
+                    <span class="nl">rdf</span><span class="p">:</span><span class="n">value</span> <span class="s">"901A01"</span><span class="o">^^</span><span class="nl">midi</span><span class="p">:</span><span class="n">MidiEvent</span> <span class="p">;</span>
+                <span class="p">]</span> <span class="p">[</span>
+                    <span class="nl">atom</span><span class="p">:</span><span class="n">frameTime</span> <span class="mi">3</span> <span class="p">;</span>
+                    <span class="nl">rdf</span><span class="p">:</span><span class="n">value</span> <span class="s">"902B02"</span><span class="o">^^</span><span class="nl">midi</span><span class="p">:</span><span class="n">MidiEvent</span> <span class="p">;</span>
+                <span class="p">]</span>
+            <span class="p">)</span> <span class="p">;</span>
+        <span class="p">]</span> <span class="p">;</span>
+    <span class="p">]</span> <span class="p">.</span>
+</pre></div>
+
+
+<p>I anticipate/intend for all plugin control to happen via such messages,
+since this approach has a few important qualities:</p>
+<ol>
+<li>Typically no need to define new binary formats for things (and be
+    held back waiting for others to implement them).</li>
+<li>Everything has a portable serialization for free (meaning network
+    transparency, saving/loading, and for developers or power users the
+    ability to dump any message to see what is going on).</li>
+<li>The convention is to use "objects" (resources, i.e. things with
+    properties) as messages, which are inherently extensible. No "oops I
+    needed to add a parameter so now compatibility is broken".</li>
+<li>Easy to bind to other languages or syntaxes, so e.g. Python or
+    browser-based UI frameworks should be possible.</li>
+<li>Any RDF vocabulary can be used, meaning millions of well-defined and
+    documented predicates ("keys") are available right now (though it is
+    perfectly okay to create one-off objects - compatibility with RDF is
+    a benefit, not a burden).</li>
+</ol>
+<p>The atom extension includes an API that makes it relatively simple to
+build such objects in C, so plugins can write them directly to an output
+port or a ring buffer. See the "forge" API in the Atom extension for
+details. There are also iterators for all the collections and a "get"
+function for objects to make reading data simple.</p>
+<p>Just in case it's not crystal clear, the above is only the <em>external
+representation</em> of the corresponding atom. At run-time, an atom (i.e.
+what plugins work with) is just a blob of data with an integer type and
+size header. 100% of the API provided for reading and writing atoms is
+real-time safe and suitable for use in an audio processing thread.</p>
+<p>For an example, see the <a href="http://lv2plug.in/repo/trunk/plugins/eg-sampler.lv2/">LV2 sampler
+example</a>, which
+has a UI that loads samples via such messages. It currently works in
+<a href="http://svn.drobilla.net/lad/trunk/jalv/">Jalv</a>,
+<a href="http://ardour.org">Ardour</a> support is coming soon. This is the way
+forward for more powerful LV2 plugin control, and hopefully will end the
+worrying practice of abusing direct instance access to provide such
+functionality.</p>
+<p>This work isn't finished yet, but the important parts are done and not
+likely to change significantly. I am interested in hearing any developer
+feedback, feel free to comment on this post or at the <a href="http://lists.lv2plug.in/listinfo.cgi/devel-lv2plug.in">LV2 mailing
+list</a>.</p>

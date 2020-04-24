@@ -1,0 +1,255 @@
+---
+title:         "Ardour 5.6 released"
+created_at:    2017-02-11 21:40:40 UTC
+updated_at:    2017-02-11 21:40:40 UTC
+guid:          "discourse.ardour.org-topic-78575"
+author:        "Ardour Blog"
+link:          "https://discourse.ardour.org/c/blog/"
+rss:           "https://discourse.ardour.org/c/blog.rss"
+tags:
+  - "en"
+original_link: "https://discourse.ardour.org/t/ardour-5-6-released/78575"
+---
+<p><a href="https://discourse.ardour.org/u/paul">@paul</a> wrote:</p>
+            <blockquote>
+              <pre><code>  &lt;p&gt;
+Another two months of development has rolled by, involving more than 600 commits by developers, and it's time for us to release Ardour 5.6.  Although there are no major new features in this release, there is the usual list of dozens of bug fixes major and minor, plus some workflow and GUI enhancements. There has been a significant rearrangement of the transport bar to try to use space more efficiently and effectively. The new design also permits session navigation while using the Mixer tab, and there are numerous optionally visible elements. Similarly, the Preferences dialog was rearranged to try to make it easier to find and browse the many, many available options. Other interesting new features: session archiving, a new General MIDI default synth for MIDI tracks, and direct and immediate control of routing for heavily multichannel (typically multitimbral) synth plugins.
+  &lt;/p&gt;  
+</code></pre>
+<p>
+	<a href="https://ardour.org/download">Download  <i></i></a>
+      </p>
+<pre><code>  &lt;h2&gt;General Changes and Improvements&lt;/h2&gt;
+
+  &lt;ul&gt;
+&lt;li&gt;Speed up unloading large Sessions&lt;/li&gt;
+&lt;li&gt;Speed up recent Session display, with many large Sessions and or snapshots.&lt;/li&gt;
+&lt;li&gt;Transport control area layout changes.&lt;/li&gt;
+&lt;li&gt;Add a mini-timeline to the Toolbar.&lt;/li&gt;
+&lt;li&gt;Follow Edits has been renamed Follow Range and has changed behaviour.&lt;/li&gt;
+&lt;li&gt;Allow customization of Toolbar via Preferences -&gt; Appearance -&gt; Toolbar&lt;/li&gt;
+&lt;li&gt;Add ability to archive Session.&lt;/li&gt;
+&lt;li&gt;Normalize audio when archiving to a fixed point format.&lt;/li&gt;
+&lt;li&gt;Add more precise localization options to Preferences -&gt; General -&gt; Translation.&lt;/li&gt;
+&lt;li&gt;Enable all types of Range locations (loop, start, end) to be glued to BBT.&lt;/li&gt;
+&lt;li&gt;Allow preference for tempo to be expressed in divisions per minute or quarter notes per minute (General -&gt; Tempo). &lt;/li&gt;
+&lt;li&gt;Preference layout, grouping, wording/naming and tooltip changes.&lt;/li&gt;
+&lt;li&gt;Add button to reset keyboard modifiers to recommended defaults in preferences (Editor -&gt; Modifiers).&lt;/li&gt;
+&lt;li&gt;Minor updates to Blueberry Milk, Caineville, Clear Gray and Cubasish Themes.&lt;/li&gt;
+&lt;li&gt;Support added to compile on macOS 10.12 (Sierra).&lt;/li&gt;
+&lt;li&gt;Modify playlist option labels in Duplicate Track/Bus dialog. [#7149]&lt;/li&gt;
+&lt;li&gt;Support import of Tempo maps during MIDI import at selected position.&lt;/li&gt;
+&lt;li&gt;Show context menu on right click on VCA track header.&lt;/li&gt;
+&lt;li&gt;Support all drive letters on windows (with harvid version &gt;= 0.8.2).&lt;/li&gt;
+&lt;li&gt;Rename Bindings Window to Keyboard Shortcuts.&lt;/li&gt;
+&lt;li&gt;Display name of conflicting keyboard shortcut.&lt;/li&gt;
+&lt;li&gt;Allow automation line fill opacity themable.&lt;/li&gt;
+&lt;li&gt;Add global monitoring controls to toolbar, enable visibility via Preferences -&gt; Appearance -&gt; Toolbar.&lt;/li&gt;
+&lt;li&gt;Implement count-in before recording with fixed BPM, enable via Session -&gt; Properties -&gt; Misc.&lt;/li&gt;
+&lt;li&gt;Implement record with pre-roll, accessible via Transport menu.&lt;/li&gt;
+&lt;li&gt;Allow Editor toolbar and background to be themable.&lt;/li&gt;
+&lt;li&gt;Allow changing Metronome level via Mouse Wheel on Metronome button in Toolbar.&lt;/li&gt;
+&lt;li&gt;Display application version Session was last modified/saved with tooltip in recent session list. &lt;/li&gt;
+&lt;li&gt;Scale Gain automation by masters current value if slaved.&lt;/li&gt;
+&lt;li&gt;Add scripts to run Ardour under rr debugging tool.&lt;/li&gt;
+&lt;li&gt;Disable VST scan in safe mode.&lt;/li&gt;
+&lt;li&gt;Mark Session dirty when moving range/tempo markers. [#7217]&lt;/li&gt;
+&lt;li&gt;Add undo/redo for changing marker lock style.&lt;/li&gt;
+&lt;li&gt;Mark Loop button insensitive when no loop range is defined. [#7195]&lt;/li&gt;
+&lt;li&gt;Name VCA's by number and user defined name if set. &lt;/li&gt;
+&lt;li&gt;Add two export format specifications for stems.&lt;/li&gt;
+&lt;li&gt;Include gmsynth.lv2 in application bundles/installers.&lt;/li&gt;
+&lt;li&gt;Add option to use snapshot name instead of Session name when exporting.&lt;/li&gt;
+&lt;li&gt;Save-As now working again as intended (no  longer incorrectly asks about saving  and does not incorrectly switch to new version unless asked)&lt;/li&gt;
+  &lt;/ul&gt;
+
+  &lt;h2&gt;Actions/Binding Changes&lt;/h2&gt;
+
+  &lt;div class="alert alert-warning"&gt;
+&lt;p&gt;
+  This release changes the name of several Ardour actions that may be used by OSC &amp;amp; MIDI bindings and by customized key bindings. The affected action names are listed below. The old full action names began with "Editor/" - this has been changed to they all begin with "Common/".
+&lt;/p&gt;
+&lt;p&gt;
+  &lt;strong&gt;You can ignore this change unless you use OSC, or MIDI binding maps or customized key bindings.&lt;/strong&gt;
+&lt;/p&gt;
+&lt;p&gt;
+  If you do use any of these features, you will need to either/or modify your OSC or MIDI bindings and redefine your key bindings after removing or renaming the customized ones. Failure to do this will mean that existing bindings to these actions will not function as intended.
+&lt;/p&gt;
+&lt;p&gt;
+  These changes were made in order to make these actions available from within the Mixer tab, rather than just the Editor.
+&lt;/p&gt;
+  &lt;/div&gt;
+
+  &lt;h3&gt;Affected Actions&lt;/h3&gt;
+  &lt;ul&gt;
+&lt;li&gt;alternate-jump-forward-to-mark&lt;/li&gt;
+&lt;li&gt;alternate-jump-backward-to-mark&lt;/li&gt;
+&lt;li&gt;set-session-start-from-playhead&lt;/li&gt;
+&lt;li&gt;set-session-end-from-playhead&lt;/li&gt;
+&lt;li&gt;toggle-location-at-playhead&lt;/li&gt;
+&lt;li&gt;add-location-from-playhead&lt;/li&gt;
+&lt;li&gt;alternate-add-location-from-playhead&lt;/li&gt;
+&lt;li&gt;remove-location-from-playhead&lt;/li&gt;
+&lt;li&gt;alternate-remove-location-from-playhead&lt;/li&gt;
+&lt;li&gt;nudge-next-forward&lt;/li&gt;
+&lt;li&gt;nudge-next-backward&lt;/li&gt;
+&lt;li&gt;nudge-playhead-forward&lt;/li&gt;
+&lt;li&gt;nudge-playhead-backward&lt;/li&gt;
+&lt;li&gt;playhead-forward-to-grid&lt;/li&gt;
+&lt;li&gt;playhead-backward-to-grid&lt;/li&gt;
+&lt;li&gt;start-range-from-playhead&lt;/li&gt;
+&lt;li&gt;finish-range-from-playhead&lt;/li&gt;
+&lt;li&gt;start-range&lt;/li&gt;
+&lt;li&gt;finish-range&lt;/li&gt;
+&lt;li&gt;start-punch-range&lt;/li&gt;
+&lt;li&gt;finish-punch-range&lt;/li&gt;
+&lt;li&gt;start-loop-range&lt;/li&gt;
+&lt;li&gt;finish-loop-range&lt;/li&gt;
+&lt;li&gt;alt-start-range&lt;/li&gt;
+&lt;li&gt;alt-finish-range&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/div&gt;
+</code></pre>
+  
+
+
+  <div>
+    <div>
+      <h2>Editor Improvements</h2>
+<pre><code>  &lt;ul&gt;
+&lt;li&gt;Duplicate action now works in Range Selection mode.&lt;/li&gt;
+&lt;li&gt;Multi-Duplicate now works for Range Selections.&lt;/li&gt;
+&lt;li&gt;Zoom to selection (z key) now zooms on both axes.&lt;/li&gt;
+&lt;li&gt;Add zoom to selection (horizontal) action.&lt;/li&gt;
+&lt;li&gt;Add preference (editor -&gt; general) to zoom to selection in object mode.&lt;/li&gt;
+&lt;li&gt;Left and right arrow keys move playhead to next/previous grid point instead of region boundary (old behaviour can be accessed with modifiers)&lt;/li&gt;
+&lt;li&gt;Speed up patch change redisplay.&lt;/li&gt;
+&lt;li&gt;Don't locate when clicking on region fade handles in smart mode with follow edits enabled.&lt;/li&gt;
+&lt;li&gt;Add actions to set current meter/tempo.&lt;/li&gt;
+&lt;li&gt;Display boost/cut gain after audio region name.&lt;/li&gt;
+  &lt;/ul&gt;
+
+  &lt;h2&gt;Mixer Improvements&lt;/h2&gt;
+
+  &lt;ul&gt;
+&lt;li&gt;Display vca's at the end of track/bus list.&lt;/li&gt;
+&lt;li&gt;Show isolate solo and lock solo status buttons in master mixer strip but keep de-sensitized to preserve mixer strip layout between track/bus types.&lt;/li&gt;
+&lt;li&gt;Fix update of group color in mixer strip header.&lt;/li&gt;
+&lt;li&gt;Show vca color on number label and top of the mixer strip.&lt;/li&gt;
+&lt;li&gt;Fixes to visual alignment of gui elements in the mixer.&lt;/li&gt;
+&lt;li&gt;Use a popup menu to select meter point instead of cycling through modes.&lt;/li&gt;
+&lt;li&gt;Fix assign record enabled/soloed to control master. [#7204]&lt;/li&gt;
+&lt;li&gt;Assign/unassign selected mixer strips to vca using right click/context menu.&lt;/li&gt;
+  &lt;/ul&gt;
+
+  &lt;h2&gt;MIDI Improvements&lt;/h2&gt;
+
+  &lt;ul&gt;
+&lt;li&gt;Increase midi related test coverage and refactoring.&lt;/li&gt;
+&lt;li&gt;Add midnam support for a-fluid synth.&lt;/li&gt;
+&lt;li&gt;Allow sending immediate patch changes via midi track context menu. [#6830]&lt;/li&gt;
+&lt;li&gt;Speed up midi ghost note redisplay.&lt;/li&gt;
+&lt;li&gt;Save and restore midi automation controls.&lt;/li&gt;
+&lt;li&gt;Add option to use track numbers, track names or instrument names from smf files when importing.&lt;/li&gt;
+&lt;li&gt;Add track and instrument names to smf files.&lt;/li&gt;
+&lt;li&gt;Add option to use tempo map from smf file on import.&lt;/li&gt;
+&lt;li&gt;Access to midi track channel settings now only via context menu.&lt;/li&gt;
+&lt;li&gt;Improved canvas redraw performance with many midi notes.&lt;/li&gt;
+&lt;li&gt;Add the midi channel number to controller names.&lt;/li&gt;
+&lt;li&gt;Implement copy drag for midi notes. [#5570]&lt;/li&gt;
+&lt;li&gt;Prefer general midi synth (gmsynth) as the default instrument.&lt;/li&gt;
+&lt;li&gt;Performance improvements related to display of sysex data.&lt;/li&gt;
+  &lt;/ul&gt;
+
+  &lt;h2&gt;Plugins Improvements&lt;/h2&gt;
+
+  &lt;ul&gt;
+&lt;li&gt;Add support for mac vst hidden/favorites.&lt;/li&gt;
+&lt;li&gt;Show plugin format (lv2/ladspa/vst/etc) in menus to differentiate between the same plugin with several formats installed (e.g au/vst).&lt;/li&gt;
+&lt;li&gt;Allow to directly fan-out when adding multichannel instruments.&lt;/li&gt;
+  &lt;/ul&gt;
+
+  &lt;h2&gt;Scripting Improvements&lt;/h2&gt;
+
+  &lt;ul&gt;
+&lt;li&gt;Add bindings for track/bus groups, miditrack::midicontrol, timecode conversion and audioregion rms/peak.&lt;/li&gt;
+&lt;li&gt;Extend bindings for plugininsert. &lt;/li&gt;
+&lt;li&gt;Add fader to trims script.&lt;/li&gt;
+&lt;li&gt;Add script to add a-high/low pass filter to all tracks.&lt;/li&gt;
+&lt;li&gt;Add create drum tracks script.&lt;/li&gt;
+&lt;li&gt;Add example script to start recording on a midi event.&lt;/li&gt;
+&lt;li&gt;Add script to delete x-run markers.&lt;/li&gt;
+&lt;li&gt;Allow lua bindings up to 10 arguments.&lt;/li&gt;
+&lt;li&gt;Add example script/snippet for importing file/s.&lt;/li&gt;
+&lt;li&gt;Add script to save snapshot after exporting.&lt;/li&gt;
+  &lt;/ul&gt;
+
+  &lt;h2&gt;Control Surfaces&lt;/h2&gt;
+
+  &lt;ul&gt;
+&lt;li&gt;Remove unused feedback option from osc surface controls.&lt;/li&gt;
+&lt;li&gt;Add talent individual monitor controls to osc surface.&lt;/li&gt;
+&lt;li&gt;Make surface numbering the same as port numbering in mackie gui. [#7219]&lt;/li&gt;
+  &lt;/ul&gt;
+</code></pre>
+  <h2>Fixes</h2>
+      <ul>
+	<li>Fix update of Track/Bus color in the Summary and Connection Manager.</li>
+	<li>Fix loading of Blueberry Milk and Clear Grey themes. [#7155]</li>
+	<li>Fix issues in Export with trim enabled. [#6412]</li>
+	<li>Fix crash when creating track via region drag when exceeding JACK connection limit. [#6496]</li>
+	<li>Fix crash at stop when recording in non-layered mode.</li>
+	<li>Fix parsing export trim threshold config variable.</li>
+	<li>Fixes for MSVC compiler</li>
+	<li>Fix video-monitor "sync-source" changes</li>
+	<li>Fix a source of hangs when closing Session with ALSA backend.</li>
+	<li>Fix possible crash when naming tracks with reserved I/O names. [#7171]</li>
+	<li>Fix flickering in tempo curve when Markers are reordered.</li>
+	<li>Fixes for sample locked Meter and Tempo sections?</li>
+	<li>Fix crash when dragging sample locked tempo over a music locked Tempo while snapped to grid. </li>
+	<li>Fix potential crash in peak file building.</li>
+	<li>Fix possible crash when removing ports with JACK1.</li>
+	<li>Fix layered record undo to include changes to existing regions.</li>
+	<li>Fixes to ensure Command key generates MOD2 on OS X.</li>
+	<li>Fix region position when dragging multiple regions to respect time base/lock style.</li>
+	<li>Fix thread safety issues with invalidation requests in event loops.</li>
+	<li>Fix inaccessible controls in Pin Connections window. [#7177]</li>
+	<li>Fix crash when resetting with VCA peak-meters.</li>
+	<li>Fix patch changes appearing outside of Region bounds.</li>
+	<li>Fix toggling between Editor and Mixer using Korg nanoKontrol2.</li>
+	<li>Fix Solo button on Faderport.</li>
+	<li>Fix management/ownership of shared playlists. [#7150]</li>
+	<li>Fixes to inactive Tempo sections.</li>
+	<li>Fix possibly incorrect start position of MIDI regions after split.</li>
+	<li>Fix crash when changing Pane widgets. [#7198]</li>
+	<li>Fix MTC slave implicit return on transport stop.</li>
+	<li>Fix some memory leaks in libpbd, libardour and GUI code.</li>
+	<li>Fix undo/redo for Regions -&gt; Edit -&gt; Close Gaps.</li>
+	<li>Fix continuous multi-selection in the Mixer.</li>
+	<li>Fix a-fluidsynth bank select.</li>
+	<li>Fix Generic MIDI controls so changes are propagated to the group (if in one).</li>
+	<li>Fix a number of issues related snap with music locked regions.</li>
+	<li>Fix a few issues with dragging MIDI notes including across tempo changes.</li>
+	<li>Fix state restoration of VCA slaves.</li>
+	<li>Fix saving state of Solo and Mute controls when slaved. </li>
+      </ul>
+<pre><code>  &lt;h2&gt;updated translations&lt;/h2&gt;
+  &lt;ul&gt;
+&lt;li&gt;Italian translation. [#7180]&lt;/li&gt;
+&lt;li&gt;German translation by Edgar Aichinger.&lt;/li&gt;
+&lt;li&gt;French translation by Olivier Humbert.&lt;/li&gt;
+&lt;li&gt;Japanese translation by Hiroki Inagaki.&lt;/li&gt;
+&lt;li&gt;Russian translation by Alexandre Prokoudine&lt;/li&gt;
+  &lt;/ul&gt;
+
+  &lt;h2&gt;Contributors&lt;/h2&gt;
+
+  &lt;p&gt;
+Ben Loftis, cooltehno, Daniel Sheeler, David Robillard, Dobroslav Slavenskoj, Ed Ward, Hanspeter Portner, John Emmas, Julien Roger, Len Ovens, Nick Mainsbridge, Nil Geisweiller, Paul Davis, Paul Tirk, powerpaul17, Robin Gareus, Tim Mayberry, Tobi Stadelmaier
+  &lt;/p&gt;</code></pre>
+</div>
+</div>
+            </blockquote>
+            <p>Posts: 22</p>
+            <p>Participants: 11</p>
+            <p><a href="https://discourse.ardour.org/t/ardour-5-6-released/78575">Read full topic</a></p>

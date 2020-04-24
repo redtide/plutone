@@ -1,0 +1,202 @@
+---
+title:         "Ardour 5.9 released"
+created_at:    2017-05-15 15:54:14 UTC
+updated_at:    2017-05-15 15:54:14 UTC
+guid:          "discourse.ardour.org-topic-78577"
+author:        "Ardour Blog"
+link:          "https://discourse.ardour.org/c/blog/"
+rss:           "https://discourse.ardour.org/c/blog.rss"
+tags:
+  - "en"
+original_link: "https://discourse.ardour.org/t/ardour-5-9-released/78577"
+---
+<p><a href="https://discourse.ardour.org/u/paul">@paul</a> wrote:</p>
+            <blockquote>
+              <p>
+  Ardour 5.9 is now available, representing several months of
+  development that spans some new features and many improvements
+  and fixes.
+</p>
+<p>
+  Among other things, some significant optimizations were made
+  to redraw performance on OS X/macOS that may be apparent if
+  you are using Ardour on that platform. There were further
+  improvements to tempo and MIDI related features and lots of
+  small improvements to state serialization. Support for the
+  Presonus Faderport 8 control surface was added (see the manual
+  for some quite
+  thorough <a href="http://manual.ardour.org/using-control-surfaces/PreSonus_FaderPort8/">documentation).
+</a></p>
+<p>
+  As usual, there are also dozens or hundreds of other fixes
+  based on continuing feedback from wonderful Ardour users
+  worldwide.
+</p>
+<p>
+  <a href="https://community.ardour.org/download">Download  <i></i>
+</a></p>
+<h2>General Changes and Improvements</h2>
+<ul>
+  <li>Prevent adding Master Bus to a Track/Bus group and make group button insensitive.</li>
+  <li>Re/Add send options in the Processor box context menu and an option to allow feedback loop via Aux sends.</li>
+  <li>Improvements to behaviour of Track/Bus/VCA Color Selection dialog.</li>
+  <li>Consistent Color Selection dialogs with customizable color palette.</li>
+  <li>Update Track/Bus/VCA colors while choosing color in Color Selection dialog.</li>
+  <li>Use Shift key to toggle gain-grouping on a Fader, ctrl to override solo/mute grouping.</li>
+  <li>Update Selection Clock when selected Region properties change.</li>
+  <li>Hide SoundCloud upload in Export Dialog until fixed.</li>
+  <li>Use OpenGL backed rendering/drawing for several Widgets on OS X/macOS including main Track Canvas to improve performance.</li>
+  <li>Add ability to drop Group from VCA via right click on Group tab.</li>
+  <li>Add preference to disable blinking of alert buttons.</li>
+  <li>Various improvements to Audio Setup dialog.</li>
+  <li>Add preference to only enable Click when recording is enabled.</li>
+  <li>Updates to Blueberry Milk colors/theme.</li>
+  <li>Merge most of the string-convert branch (see ardour-dev list for overview).</li>
+  <li>Remove no longer necessary LocaleMode preference.</li>
+  <li>Make -b/--bindings command line option output key bindings to HTML and launch in browser.</li>
+  <li>Add -A/--actions command line option to output actions' names in HTML and open in browser.</li>
+  <li>Deselect WASAPI support by default in Windows installer.</li>
+  <li>Make Track/Bus XML node order in Session file independent of display order [#7327]</li>
+  <li>Add action to select the topmost track and use in Faderport8 surface.</li>
+  <li>Make Group color property accessible to surfaces and scripts.</li>
+  <li>Improve Tap Tempo and allow tapping with keyboard (Space or Enter).</li>
+  <li>Add configurable limit to clock display range.</li>
+  <li>Restore visibility of Monitor Section and whether attached/detached.</li>
+</ul>
+<h2>Tempo</h2>
+<ul>
+  <li>Allow tempo discontinuities at the beginning of ramped tempo section.</li>
+  <li>Changes to Tempo marker operations and modifiers.</li>
+  <li>Add 'Ramp to Next' to Tempo Marker menu, when next tempo is different.</li>
+  <li>Add 'Continue' to Tempo Marker menu to continue end tempo value of previous Tempo Marker.</li>
+  <li>Display red Tempo Mark pointer if tempo jumps more than 1 NTPM.</li>
+  <li>Display note type in marker text if note type is non-quarter.</li>
+  <li>Add entry for end bpm when creating a ramped Tempo in the Tempo Dialog.</li>
+</ul>
+<h2>MIDI</h2>
+<ul>
+  <li>Use a Patch Change dialog to send immediate patch changes via the MIDI Track Controls context/right-click menu.</li>
+  <li>Support note name editing in the MIDI List Editor.</li>
+</ul>
+<h2>Plugins</h2>
+<ul>
+  <li>Add support for VST effSetBypass. [#7266]</li>
+  <li>Cut reverb tail in a-reverb when deactivating plugin.</li>
+  <li>Improve a-delay to follow tempo-ramps and BPM changes.</li>
+  <li>Increase VST scan timeout and set default of Verbose Plugin Scan to false.</li>
+  <li>Changes to plugin categories to improve consistency across plugin API's/standards.</li>
+</ul>
+<h2>Scripting</h2>
+<ul>
+  <li>Add action script to bypass all plugins.</li>
+  <li>Add action script to mute all Tracks.</li>
+  <li>Add script to installers/bundles to save a Session snapshot on export.</li>
+  <li>Add '==' instance equality operator and update scripts to use it.</li>
+  <li>Add bindings for transient analysis and add a script to print transients of selected regions.</li>
+  <li>Add Lua bindings to access MIDI Region note events and example script.</li>
+  <li>Optimize garbage collection (affecting performance of serialization).</li>
+  <li>Improve bindings for RouteGroupList and Plugin classes.</li>
+  <li>Add bindings for FileSource.</li>
+  <li>Add example script to convert MIDI-CC to Plugin Automation.</li>
+  <li>Add LuaDialog and derived Widgets as well as an example script.</li>
+  <li>Add bindings for setting group color.</li>
+</ul>
+<h2>Control Surfaces</h2>
+<ul>
+  <li>Use "Mix" and "Proj" buttons on the Faderport to present the Mixer and Editor rather than a toggle.</li>
+  <li>Various improvements to the OSC surface.</li>
+  <li>Add support for Faderport8 control surface.</li>
+  <li>Update preferences when control surfaces change with session.</li>
+  <li>Retain the state of disabled control surfaces.</li>
+  <li>Add scrub and multi-mode jog commands to OSC surface.</li>
+  <li>Add automation mode feeback to OSC surface.</li>
+  <li>Support gain automation feeback in OSC surface [#7160]</li>
+  <li>Assign some default actions for the function select (F-keys) in the Mackie MCP user profile.</li>
+  <li>Updates to Korg Nano Kontrol2 MIDI map by Philippe Demartin.</li>
+  <li>Add MIDI map for Korg Studio and Arturia KeyLab 49.</li>
+  <li>Add MIDI map for Alesis QX25 from Nathan Stewart [#7345]</li>
+</ul>
+<h2>Fixes</h2>
+<ul>
+  <li>Allow changing track colours with older 4.X Sessions.</li>
+  <li>Fix for touch mute automation.</li>
+  <li>Allow loading of SMF meta data with size greater than 127 bytes.</li>
+  <li>Fix implicit selection when operating Track header control buttons.</li>
+  <li>Fix audition with monitor section.</li>
+  <li>Don't display channel selector for instrument plugins with zero audio outputs.</li>
+  <li>Don't automatically open generic UIs for plugins without controls.</li>
+  <li>Fix crash when adding a plugin immediately after re-order (via script).</li>
+  <li>Fix issue with mouse button event ordering in EngineDialog.</li>
+  <li>Prevent an empty system config and ship the system_config in bundles again.</li>
+  <li>Fix crash when inserting time with split intersected regions.</li>
+  <li>Offset linked regions to compensate for negative start after trim drag [#7105]</li>
+  <li>Restore screen position when undoing creation of a MIDI note.</li>
+  <li>Prevent the General MIDI Control Protocol surface from overriding Session version.</li>
+  <li>Ensure no horizontal movement occurs when dragging regions with the x-constrain modifier enabled [#7260]</li>
+  <li>Fix AFL/PFL from MIDI tracks without audio</li>
+  <li>Work around a crash at exit with some Linux VST UIs.</li>
+  <li>Prevent creation of MIDI regions with length less than a pixel [#7271]</li>
+  <li>Fixes to VST Window re/sizing.</li>
+  <li>Prevent crash when removing time from track with automation. [#7287]</li>
+  <li>Fix issue when undoing of Fade range operation [#7283]</li>
+  <li>Use Tempo Curve color for measure line beats [#4930]</li>
+  <li>Correctly restore clock modes in Location Window and other AudioClocks.</li>
+  <li>Restore Solo/Mute when loading old 4.X Sessions.</li>
+  <li>Avoid possible crash with multi-bus AudioUnit plugins.</li>
+  <li>Prevent issue with automation playback setting Session as modified.</li>
+  <li>Fix issue with Pan stuck at center in OSC surface.</li>
+  <li>Fix toggling Monitor Mute/Dim/Mono actions with OSC.</li>
+  <li>Prevent MIDI tracks from drawing into the Ruler area.</li>
+  <li>Make Peak display in MixerStrip insensitive to mouse clicks/drags.</li>
+  <li>Update Patch Change Naming when plugins change.</li>
+  <li>Fix count-in for non 4/4 time signatures.</li>
+  <li>Hide eye-dropper color picker on OS X/macOS builds due to it not working.</li>
+  <li>Correctly load Track templates with inserts [#5778]</li>
+  <li>Fix crash when dragging playhead or mouse in ruler area [#7304]</li>
+  <li>Fix `set-*-from-edit-range` actions, when accessed from control surfaces</li>
+  <li>Fixes to reset keybindings.</li>
+  <li>Prevent crash during extreme timestretch. [#7305]</li>
+  <li>Fixes for performance issues with region selection. [#7274]</li>
+  <li>Retain order of concurrent MIDI events.</li>
+  <li>Prevent truncation of concurrent events with ALSA raw MIDI buffers.</li>
+  <li>Restore Track/Bus polarity invert state from older Sessions.</li>
+  <li>Use correct action path names in several midi-maps.</li>
+  <li>Prevent crash when loading MIDI port info where ports no longer exist.</li>
+  <li>Fix crash when clicking on the canvas while unloading a Session.</li>
+  <li>Avoid a possible deadlock in the control surface manager.</li>
+  <li>Prevent possible freeze when clicking on canvas without a AudioBackend running.</li>
+  <li>Fixes to performance issues when restoring Region selection state [#7274]</li>
+  <li>Fix nested VCA assigns and mixer-layout.</li>
+  <li>Fixes to copy/paste of MIDI automation from/to Parameter automation.</li>
+  <li>Corrections to latency measurement and Audio Setup dialog behaviour.</li>
+  <li>In smart-mode, don't switch to range-mode after "set range selection" and similar operations. [#7332]</li>
+  <li>Fix vari-speed and non-locked slave modes.</li>
+  <li>Use correct descriptions and typos in --help output.</li>
+  <li>Prevent MIDI learn handling events intended for other operations like temporary un/solo/mute.</li>
+  <li>Make exclusive solo work again via ctrl+alt+click on solo button.</li>
+  <li>Correctly restore track monitoring state from older Sessions. [#7336]</li>
+  <li>Correctly scale ruler for HiDPI. [#7226]</li>
+  <li>Scale text correctly in group tabs for HiDPI. [#7331]</li>
+  <li>Allow Session end marker to move correctly when a Session is created from a template. [#7348]</li>
+  <li>Prevent crash when replacing some LV2 plugins on a MIDI Track. [#7341]</li>
+  <li>Update the profile name in the Mackie control panel to reflect the profile being edited when assigning actions.</li>
+  <li>Make Save As and switch work correctly with a read-only Session. [#7352]</li>
+  <li>Remove duplicate "Tape" menu item in Record Mode drop down in the Add Track/Bus/VCA dialog.</li>
+  <li>Prevent creation of out-of-bounds image sizes during waveform rendering with high samplerates and high zoom levels.</li>
+</ul>
+<h2>Translation Updates</h2>
+<ul>
+  <li>Updated Japanese translation by Hiroki Inagaki.</li>
+  <li>Updated German translation by Edgar Aichinger.</li>
+</ul>
+<h2>Contributors</h2>
+<p>
+  André Nusser, Ben Loftis, cooltehno, Edgar Aichinger, Hiroki
+  Inagaki, John Emmas, Len Ovens, licorne-sama, Nathan Stewart,
+  Nick Mainsbridge, Nils Geisweiller, Paul Davis, Robert
+  Schneider, Robin Gareus, Tim Mayberry
+</p>
+            </blockquote>
+            <p>Posts: 11</p>
+            <p>Participants: 8</p>
+            <p><a href="https://discourse.ardour.org/t/ardour-5-9-released/78577">Read full topic</a></p>

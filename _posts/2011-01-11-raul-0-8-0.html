@@ -1,0 +1,34 @@
+---
+title:         "Raul 0.8.0"
+created_at:    2011-01-11 22:42:00 UTC
+updated_at:    2011-01-11 22:42:00 UTC
+guid:          "tag:drobilla.net,2011-01-11:/2011/01/11/raul-0-8-0.html"
+author:        "drobilla.net - LAD"
+link:          "http://drobilla.net/"
+rss:           "http://drobilla.net/category/lad/feed/rss2"
+tags:
+  - "en"
+original_link: "http://drobilla.net/2011/01/11/raul-0-8-0.html"
+---
+<p><a href="http://download.drobilla.net/raul-0.8.0.tar.bz2">raul 0.8.0</a> has been released.  Raul (Realtime Audio Utility Library) is a lightweight C++ convenience library for realtime programming, with a bias towards audio applications. For more information, see <a href="http://drobilla.net/software/raul">http://drobilla.net/software/raul</a>.</p>
+<p>Changes:</p>
+<ul>
+<li>Implement Semaphore for Darwin</li>
+<li>Remove unused/trivial/inappropriate Command and Stateful</li>
+<li>Remove pointless templateification of RingBuffer</li>
+<li>Use uint32_t consistently for sizes in RingBuffer</li>
+<li>Fix off-by-one allocation of Atom strings</li>
+<li>Add all classes to 'raul' doxygen group</li>
+<li>Make single-argument constructors explicit</li>
+<li>Fix incorrect TimeSlice::beats_to_ticks</li>
+<li>Fix crash bug in List::chop_front</li>
+<li>Fix TimeStamp comparison operators</li>
+<li>Rename LOG_<em> defines RAUL_LOG_</em>
+</li>
+<li>Remove "using namespace" declarations</li>
+<li>Add missing #includes</li>
+<li>Add missing COPYING file to distribution</li>
+<li>Upgrade to waf 1.6.2</li>
+<li>Fix accidental build system dependency on glibmm (now glib only)</li>
+<li>Better documentation generation via waf tool</li>
+</ul>

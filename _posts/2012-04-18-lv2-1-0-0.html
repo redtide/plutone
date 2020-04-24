@@ -1,0 +1,25 @@
+---
+title:         "LV2 1.0.0"
+created_at:    2012-04-18 05:13:00 UTC
+updated_at:    2012-04-18 05:13:00 UTC
+guid:          "tag:drobilla.net,2012-04-18:/2012/04/18/lv2-1-0-0.html"
+author:        "drobilla.net - LAD"
+link:          "http://drobilla.net/"
+rss:           "http://drobilla.net/category/lad/feed/rss2"
+tags:
+  - "en"
+original_link: "http://drobilla.net/2012/04/18/lv2-1-0-0.html"
+---
+<p>The first unified <a href="http://lv2plug.in/">LV2</a> release, LV2 1.0.0, is out.</p>
+<p>This release merges the previous lv2core package with all the official
+extension packages, as well as example plugins, lv2specgen, and
+additional data. From a developer point of view, the biggest change is
+that all LV2 API headers can be used by simply checking for the single
+pkg-config package "lv2" (for compatibility the previous "lv2core"
+package is still installed). Implementations are encouraged to abandon
+the "copy paste headers" practice and depend on this package instead.</p>
+<p>With this release, several new extensions have become stable that
+together greatly increase the power of LV2: atom, log, parameters,
+patch, port-groups, port-props, resize-port, state, time, worker.</p>
+<p><a href="http://lv2plug.in/ns/">Documentation and more detailed change logs</a></p>
+<p><a href="http://lv2plug.in/spec/lv2-1.0.0.tar.bz2">Download LV2 1.0.0</a></p>

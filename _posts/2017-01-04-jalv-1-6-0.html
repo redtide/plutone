@@ -1,0 +1,36 @@
+---
+title:         "Jalv 1.6.0"
+created_at:    2017-01-04 22:24:00 UTC
+updated_at:    2017-01-04 22:24:00 UTC
+guid:          "tag:drobilla.net,2017-01-04:/2017/01/04/jalv-1-6-0.html"
+author:        "drobilla.net - LAD"
+link:          "http://drobilla.net/"
+rss:           "http://drobilla.net/category/lad/feed/rss2"
+tags:
+  - "en"
+original_link: "http://drobilla.net/2017/01/04/jalv-1-6-0.html"
+---
+<p><a href="http://download.drobilla.net/jalv-1.6.0.tar.bz2">Jalv 1.6.0</a> has been released.  Jalv is a simple but fully featured LV2 host for Jack which exposes plugin ports to Jack, essentially making any LV2 plugin function as a Jack application. For more information, see <a href="http://drobilla.net/software/jalv">http://drobilla.net/software/jalv</a>.</p>
+<p>Changes:</p>
+<ul>
+<li>Add PortAudio backend (compile time option, audio only)</li>
+<li>Add Qt5 version</li>
+<li>Add command prompt to console version for changing controls</li>
+<li>Add generic Qt control UI from Amadeus Folego</li>
+<li>Add option to print plugin trace messages</li>
+<li>Allow Jack client name to be set from command line (thanks Adam Avramov)</li>
+<li>Exit GUI versions on interrupt</li>
+<li>Exit on Jack shutdown (patch from Robin Gareus)</li>
+<li>Fix memory error on preset save resulting in odd bundle names</li>
+<li>Fix semaphore correctness issues</li>
+<li>Fix unreliable UI state initialization (patch from Hanspeter Portner)</li>
+<li>Improve preset support</li>
+<li>Print colorful log if output is a terminal</li>
+<li>Report Jack latency (patch from Robin Gareus)</li>
+<li>Set Jack port order metadata</li>
+<li>Support CV ports if Jack metadata is enabled (patch from Hanspeter Portner)</li>
+<li>Support numeric and string plugin properties (event-based control)</li>
+<li>Support thread-safe state restoration</li>
+<li>Update UI when internal plugin state is changed during preset load</li>
+<li>Use moc-qt4 if present for systems with multiple Qt versions</li>
+</ul>

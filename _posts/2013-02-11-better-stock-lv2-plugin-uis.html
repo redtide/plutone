@@ -1,0 +1,56 @@
+---
+title:         "Better stock LV2 plugin UIs"
+created_at:    2013-02-11 03:11:00 UTC
+updated_at:    2013-02-11 03:11:00 UTC
+guid:          "tag:drobilla.net,2013-02-10:/2013/02/10/better-stock-lv2-plugin-uis.html"
+author:        "drobilla.net - LAD"
+link:          "http://drobilla.net/"
+rss:           "http://drobilla.net/category/lad/feed/rss2"
+tags:
+  - "en"
+original_link: "http://drobilla.net/2013/02/10/better-stock-lv2-plugin-uis.html"
+---
+<p>Today I implemented better UI generation for LV2 plugin controls in
+<a href="http://drobilla.net/software/jalv">Jalv</a>, particularly grouping
+controls under headings which makes a big difference. Unfortunately few
+plugins group their controls currently, but hopefully more host support
+will provide the incentive to do so.</p>
+<p>Other improvements:</p>
+<ul>
+<li>Added a spinbutton to slider controls for precisely setting values
+   numerically</li>
+<li>Much more efficient layout to pack more controls on the screen at
+   once</li>
+<li>Support for named scale points ("ticks") on non-enumeration ports</li>
+</ul>
+<p>Here is the UI generated for
+<a href="http://code.google.com/p/amsynth/">Amsynth</a> (after I added the
+necessary metadata):</p>
+<p><a href="/images/jalv_amsynth.png"><img alt="Generic Jalv UI for Amsynth LV2" src="//drobilla.net/images/jalv_amsynth-112x150.png"></a></p>
+<p>Still pretty utilitarian, but much more usable, which is the important
+thing. Of course, this plugin is quite large, and has a pretty good
+custom UI, but I happened to be polishing up its metadata anyway and the
+controls group nicely so I used it as my test case.</p>
+<p>Maybe some day this code will get smarter and evolve into a library that
+can be used by other Gtk hosts. Better group layout is the obvious "next
+level" advancement, a flat linear list of controls is pretty limited.
+Unfortunately there's no stock Gtk container which can do text-like
+reflow, which would be ideal. Perhaps a simpler scheme based on a
+maximum reasonable width for a controller would do, where the table will
+expand to have more columns if the window is wide enough for several.</p>
+<p>Most of the metadata required to generate a good UI is also useful for
+other purposes, for example groups make building a decent menu of many
+controls feasible (e.g. to add automation lanes in
+<a href="http://ardour.org">Ardour</a>), and some types of host UIs like a <a href="http://drobilla.net/software/ingen">modular
+patcher</a> inherently need to generate
+their own "UI" of sorts.</p>
+<p>Good metadata is not at odds with custom UIs, they each have their uses,
+but it is important to remove the burden of custom UIs for simple
+plugins with just a few controls that really don't need them. It's a
+waste of that most precious of all resources - developer time - to have
+to code UIs for a few sliders and toggles. Hopefully better host
+generated UIs and support for more advanced controls like <a href="http://drobilla.net/2013/01/10/host-generated-lv2-file-choosers/">file
+selectors</a>
+free up developers to spend more time making useful plugins and less
+time wrestling with GUI toolkits.</p>
+<p>It is, after all, all about the sound.</p>

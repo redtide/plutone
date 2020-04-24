@@ -1,0 +1,27 @@
+---
+title:         "Lilv 0.20.0"
+created_at:    2014-08-09 02:21:00 UTC
+updated_at:    2014-08-09 02:21:00 UTC
+guid:          "tag:drobilla.net,2014-08-08:/2014/08/08/lilv-0-20-0.html"
+author:        "drobilla.net - LAD"
+link:          "http://drobilla.net/"
+rss:           "http://drobilla.net/category/lad/feed/rss2"
+tags:
+  - "en"
+original_link: "http://drobilla.net/2014/08/08/lilv-0-20-0.html"
+---
+<p><a href="http://download.drobilla.net/lilv-0.20.0.tar.bz2">Lilv 0.20.0</a> has been released.  Lilv is a C library to make the use of LV2 plugins as simple as possible for applications. For more information, see <a href="http://drobilla.net/software/lilv">http://drobilla.net/software/lilv</a>.</p>
+<p>Changes:</p>
+<ul>
+<li>Add convenient lilv_new_file_uri for creating file URIs</li>
+<li>Add lilv_world_unload_bundle() and lilv_world_unload_resource()</li>
+<li>Call lv2_lib_descriptor separately for different bundle paths (fix loading several dynamic plugins like Ingen at once)</li>
+<li>Don't load files multiple times if they are listed as rdfs:seeAlso for several plugins</li>
+<li>Fix issues with lilv_plugin_get_author_name and friends (thanks Filipe Coelho)</li>
+<li>Fix several minor memory leaks</li>
+<li>Fix use of lv2info -m and -p options to write plugin data (useful for porting plugins bridges with NASPRO)</li>
+<li>Improve test coverage</li>
+<li>Improved/working lv2_apply.py to apply plugin to a .wav (thanks Joe Button)</li>
+<li>Tolerate calling lilv_node_as_uri or lilv_node_as_blank on NULL</li>
+<li>Upgrade to waf 1.7.16</li>
+</ul>

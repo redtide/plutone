@@ -1,0 +1,40 @@
+---
+title:         "Interactive force-directed graph layout in Ingen"
+created_at:    2013-12-20 05:51:00 UTC
+updated_at:    2013-12-20 05:51:00 UTC
+guid:          "tag:drobilla.net,2013-12-20:/2013/12/20/interactive-force-directed-graph-layout-in-ingen.html"
+author:        "drobilla.net - LAD"
+link:          "http://drobilla.net/"
+rss:           "http://drobilla.net/category/lad/feed/rss2"
+tags:
+  - "en"
+original_link: "http://drobilla.net/2013/12/20/interactive-force-directed-graph-layout-in-ingen.html"
+---
+<p>GraphViz has, unfortunately, broken reverse compatibility of their
+library API, which has been nagging as a maintenance headache for
+<a href="http://drobilla.net/software/flowcanvas">FlowCanvas</a> and its successor
+<a href="http://drobilla.net/software/ganv">Ganv</a> for a while now. It would be
+nice to just get rid of that dependency altogether...</p>
+<p>Meanwhile, I had to write some force-directed graph layout (FDGL) code
+for another project...</p>
+<p>... You can probably see where this is going. In the spirit of it
+theoretically being a holiday (there are no holidays in practice in grad
+school), I spent some time implementing live FDGL in Ganv, and recorded
+a <a href="/videos/ganv_fdgl.ogv">video of interactive layout in Ingen</a>
+to show progress.</p>
+<p>One nice thing about using live FDGL in a program like
+<a href="http://drobilla.net/software/ingen">Ingen</a> is that the user can
+customize the layout in an intuitive tactile way, since objects behave
+physical laws. This video demonstrates some manual rearranging of a
+patch, and a total reconfiguration by switching the signal flow
+direction. Manual tweaking of the layout like this was not possible with
+the previous GraphViz-based layout code.</p>
+<p>It took quite a bit of tweaking to get the physics working well, so
+layouts looked good but the patch didn't explode if there are
+disconnected components. It's still not quite ideal, but usable.</p>
+<p>This is implemented at the Ganv level and thus works in Ingen (as
+shown), Patchage, and Machina. I'm still not confident enough in this
+implementation to enable it by default and/or drop Graphviz quite yet,
+but the adventurous who follow svn, <code>./waf configure --debug --fdgl</code>. If
+you're hit by the graphviz breakage (and I still haven't fixed the
+check...), add <code>--no-graphviz</code> to work around the problem.</p>

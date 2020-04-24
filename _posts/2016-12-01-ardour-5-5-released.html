@@ -1,0 +1,178 @@
+---
+title:         "Ardour 5.5 released"
+created_at:    2016-12-01 11:43:31 UTC
+updated_at:    2016-12-01 11:43:31 UTC
+guid:          "discourse.ardour.org-topic-78572"
+author:        "Ardour Blog"
+link:          "https://discourse.ardour.org/c/blog/"
+rss:           "https://discourse.ardour.org/c/blog.rss"
+tags:
+  - "en"
+original_link: "https://discourse.ardour.org/t/ardour-5-5-released/78572"
+---
+<p><a href="https://discourse.ardour.org/u/paul">@paul</a> wrote:</p>
+            <blockquote>
+              <pre><code>  &lt;p&gt;
+Ardour 5.5 is now available, with a variety of new features
+and many notable and not-so-notable fixes. Among the notable
+new features are support for VST 2.4 plugins on OS X, the
+ability to have MIDI input follow MIDI track selection,
+support for Steinberg CC121, Avid Artist &amp;amp; Artist Mix
+Control surfaces, "fanning out" of instrument outputs to new
+tracks/busses and the often requested ability to do horizontal
+zoom via vertical dragging on the rulers. There are also the
+usual always-ongoing improvements to scripting and OSC
+support.
+  &lt;/p&gt;
+  &lt;p&gt;
+As in the past, some features including OSX VST support,
+Instrument Fanout, and Avid Artist support were made possible
+by sponsorship from Harrison Consoles.
+  &lt;/p&gt;
+
+
+  &lt;p style="margin:22px 0 22px 0;"&gt;
+&lt;a class="btn btn-primary btn-large" href="https://community.ardour.org/download"&gt;Download&amp;nbsp;&amp;nbsp;&lt;i class="icon-download-alt icon-white"&gt;&lt;/i&gt;&lt;/a&gt;
+  &lt;/p&gt;
+
+  &lt;h3 class="section-header"&gt;Fixes&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;Work around MIDI devices sending invalid timestamps on OSX.&lt;/li&gt;
+  &lt;li&gt;Open Sessions with files referenced from removable drives on Windows.&lt;/li&gt;
+  &lt;li&gt;Various fixes for NetBSD and FreeBSD.&lt;/li&gt;
+  &lt;li&gt;Add MIDI Control Change at correct location when importing.&lt;/li&gt;
+  &lt;li&gt;Update Region colors on theme change.&lt;/li&gt;
+  &lt;li&gt;Fix/Support note name translations (e.g "Ré ♯").&lt;/li&gt;
+  &lt;li&gt;Allow loading sessions with missing external files. [#7067, #7114]&lt;/li&gt;
+  &lt;li&gt;Use distinct color identifier for meter clip indicator. [#7010] &lt;/li&gt;
+  &lt;li&gt;Prevent panners being reset when switching to Aux sends and back. [#6893]&lt;/li&gt;
+  &lt;li&gt;Use correct BBT offset when using Insert Time. [#7072]&lt;/li&gt;
+  &lt;li&gt;Fix restoration of key bindings assigned to Windows+key. [#7037]&lt;/li&gt;
+  &lt;li&gt;Prevent duplicate moves when selecting regions on shared playlists. &lt;/li&gt;
+  &lt;li&gt;Fix crash when instrument instantiation fails on track creation. &lt;/li&gt;
+  &lt;li&gt;Prevent infinite loop when calculating tick marks on low zoom levels.&lt;/li&gt;
+  &lt;li&gt;Fix LTC-generator 24h wraparound&lt;/li&gt;
+  &lt;li&gt;Correctly handle failed activation of Control Surface Modules&lt;/li&gt;
+  &lt;li&gt;Fix Master Track moving down one position in Editor after Session reload. [#7080]&lt;/li&gt;
+  &lt;li&gt;Mark Session state as changed when tracks are reordered. [#7093]&lt;/li&gt;
+  &lt;li&gt;Improved fix for playback of linked MIDI Regions [#6541]&lt;/li&gt;
+  &lt;li&gt;Fix to keep Meterbridge Window on top.&lt;/li&gt;
+  &lt;li&gt;Fix for non-working buttons in Monitor Section after second Session load [#7098]&lt;/li&gt;
+  &lt;li&gt;Fix LV2 state versioning with Session templates.&lt;/li&gt;
+  &lt;li&gt;Include Aux Busses in default strip types in OSC Surface [#7090]&lt;/li&gt;
+  &lt;li&gt;Fixes to Insert/Remove time dialog [#7072]&lt;/li&gt;
+  &lt;li&gt;Fix intermittent hang when stopping PortaudioBackend [#7095] &lt;/li&gt;
+  &lt;li&gt;Fix playlist XML nodes changing order on Session save [#7053]&lt;/li&gt;
+  &lt;li&gt;Fix crash loading u-he Diva VST plugin on Windows&lt;/li&gt;
+  &lt;li&gt;Fix Duplicating Tracks with Sidechains [#7117]&lt;/li&gt;
+  &lt;li&gt;Fix incorrect Midi Region length when splitting&lt;/li&gt;
+  &lt;li&gt;Fix for widget visibility with detached preferences window [#7002]&lt;/li&gt;
+  &lt;li&gt;Fixes when creating MIDI notes in Sustained note mode [#7126]&lt;/li&gt;
+  &lt;li&gt;Fixes when creating MIDI notes in Percussive note mode [#7130]&lt;/li&gt;
+  &lt;li&gt;Fixes to Cut Mode to make the cut line visible and respect snap modifier&lt;/li&gt;
+  &lt;li&gt;Fix inaudible Percussive notes being displayed at the end of the Region&lt;/li&gt;
+  &lt;li&gt;Fix crash when editing pitch of notes to outside visible area [#7135]&lt;/li&gt;
+  &lt;li&gt;Fix crash when deleting a MIDI Region while mouse over CC event&lt;/li&gt;
+  &lt;li&gt;Fix concurrency/locking issue with Event Loop request invalidation [#7049]&lt;/li&gt;
+  &lt;li&gt;Fix creation of playlists with duplicate names [#6523, #5681, #6497]&lt;/li&gt;
+  &lt;li&gt;Fix output display for non-plugin processors in the Processor Box&lt;/li&gt;
+  &lt;li&gt;Fix forwarding of output buffers by using correct channel count&lt;/li&gt;
+  &lt;li&gt;Fix loading, recording &amp; saving MIDI with PolyKeyPressure events [#6948]&lt;/li&gt;
+  &lt;li&gt;Fixes to Duplicate Track [#7141, #7146]&lt;/li&gt;
+  &lt;li&gt;Fixes to OSC Control Surface&lt;/li&gt;
+  &lt;li&gt;Fix handling of pitch bend events by a-fluidsynth [#7140]&lt;/li&gt;
+  &lt;li&gt;Fix for reading CAF audio files over a certain size&lt;/li&gt;
+&lt;/ul&gt;
+
+  &lt;h3 class="section-header"&gt;General Improvements&lt;/h3&gt;
+  &lt;ul&gt;
+&lt;li&gt;Many MIDI and Tempo related refactorings, fixes and improvements to performance, source code documentation and tests. (Thanks Nick)&lt;/li&gt;
+&lt;li&gt;Include Session utilities in the application installers/bundles.&lt;/li&gt;
+&lt;li&gt;Allow feedback loops from internal Sends to enable custom "Echo" chains.&lt;/li&gt;
+&lt;li&gt;Improved performance when reading and writing XML files.&lt;/li&gt;
+&lt;li&gt;Improved performance of Region export.&lt;/li&gt;
+&lt;li&gt;Snap to Track Strip boundaries when scrolling with arrow keys in the Editor.&lt;/li&gt;
+&lt;li&gt;Clicking on a Strip in the Mixer Strip List will move the Strip into view.&lt;/li&gt;
+&lt;li&gt;Snap to Mixer Strip boundaries when scrolling with arrow keys in the Mixer&lt;/li&gt;
+&lt;li&gt;Minor updates to Cubasish Theme.&lt;/li&gt;
+&lt;li&gt;Compensate for latency/correct alignment when exporting the Master Bus.&lt;/li&gt;
+&lt;li&gt;Improve automatic Track naming [#7092]&lt;/li&gt;
+&lt;li&gt;Add option to zoom in the time rulers using button press and dragging vertically. [#6768]&lt;/li&gt;
+&lt;li&gt;Speed up changes to AFL/PFL on large Sessions&lt;/li&gt;
+&lt;li&gt;Large improvements in time to process Solo changes [#7119] &lt;/li&gt;
+&lt;li&gt;Speed up Track/Bus creation time&lt;/li&gt;
+&lt;li&gt;Restrict ALSA input/output device selection to valid combinations&lt;/li&gt;
+&lt;li&gt;Speed up Track deletion when Editor Mixer Strip is visible&lt;/li&gt;
+&lt;/ul&gt;
+
+  &lt;h3 class="section-header"&gt;MIDI&lt;/h3&gt;
+  &lt;ul&gt;
+&lt;li&gt;Many minor fixes and improvements&lt;/li&gt;
+&lt;li&gt;Support MIDI input follows Track selection. [#6744]&lt;/li&gt;
+&lt;li&gt;New MIDI -&gt; Ports page in Preferences for managing MIDI port functionality and enabling MIDI input follows Track Selection.&lt;/li&gt;
+&lt;li&gt;Added support for Type 0 MIDI files and add option to split channels into tracks on import.&lt;/li&gt;
+&lt;li&gt;Added MIDI mapping for AKAI Midimix.&lt;/li&gt;
+&lt;li&gt;New MIDI Note selection XML format, existing note selections will be lost.&lt;/li&gt;
+&lt;li&gt;Improved editing in Percussive note mode&lt;/li&gt;
+&lt;/ul&gt;
+
+  &lt;h3 class="section-header"&gt;Plugins&lt;/h3&gt;
+  &lt;ul&gt;
+&lt;li&gt;VST 2.4 plugin support on OSX&lt;/li&gt;
+&lt;li&gt;Add functionality to Fan out an Instruments outputs to new Tracks/Busses (video demo explanation at &lt;a href="https://vimeo.com/191024580"&gt;https://vimeo.com/191024580&lt;/a&gt;)&lt;/li&gt;
+&lt;li&gt;Allow LV2 plugins to provide Midnam XML.&lt;/li&gt;
+&lt;li&gt;Increase maximum release time in a-comp.&lt;/li&gt;
+&lt;li&gt;Sort Instrument list alphabetically.&lt;/li&gt;
+&lt;li&gt;Updated internal versions of qm-dsp library and qm-vamp plugins.&lt;/li&gt;
+&lt;li&gt;Allow LV2 Plugins to signal state changes and mark Session state as changed.&lt;/li&gt;
+&lt;li&gt;Support LV2 PortGroup extension&lt;/li&gt;
+&lt;li&gt;Add support for output-channel/bus grouping in AU plugins&lt;/li&gt;
+&lt;/ul&gt;
+
+  &lt;h3 class="section-header"&gt;OS X&lt;/h3&gt;
+  &lt;ul&gt;
+&lt;li&gt;Mouse drags on plugin GUIs (editors) are now handled
+  correctly when they end outside the window.&lt;/li&gt;
+&lt;li&gt;Video monitor "full screen" mode no long spans all screens&lt;/li&gt;
+  &lt;/ul&gt;
+
+  &lt;h3 class="section-header"&gt;Scripting&lt;/h3&gt;
+  &lt;ul&gt;
+  &lt;li&gt;Added or improved Lua bindings for VAMP plugins, TempoMap, Basic MIDI model editing, Inter-Processor communication, Source, AudioSource, Route, Panner, Instrument&lt;/li&gt;
+  &lt;li&gt;Add example script for Audio to Midi Transcription.&lt;/li&gt;
+  &lt;li&gt;"Sound Smasher" example script added.&lt;/li&gt;
+  &lt;li&gt;Add prototype script for converting polyphonic audio region to a MIDI region.&lt;/li&gt;
+  &lt;li&gt;Add example script for instrument fan-out&lt;/li&gt;
+  &lt;li&gt;Add example script to modulate parameters globally&lt;/li&gt;
+  &lt;li&gt;Add support for calling ARDOUR.DSP Lua functions from UI scripts&lt;/li&gt;
+  &lt;li&gt;Add example script to process Regions selected in the Editor&lt;/li&gt;
+  &lt;li&gt;Add MIDI LFO example script&lt;/li&gt;
+  &lt;/ul&gt;
+
+  &lt;h3 class="section-header"&gt;Control Surfaces&lt;/h3&gt;
+  &lt;ul&gt;
+&lt;li&gt;Added Support for Steinbergs CC121 Control Surface&lt;/li&gt;
+&lt;li&gt;Activate/Deactivate plugins via OSC&lt;/li&gt;
+&lt;li&gt;Added configuration files for the Avid Artist Control and Artist Mix Control surfaces.&lt;/li&gt;
+&lt;li&gt;Allow Aux Buses visibility to be controlled separately via OSC&lt;/li&gt;
+&lt;li&gt;Add OSC support to query strips internal sends [#7136]&lt;/li&gt;
+&lt;li&gt;Add OSC support to query plugins and their parameters [#7137]&lt;/li&gt;
+  &lt;/ul&gt;
+
+  &lt;h3 class="section-header"&gt;Translations&lt;/h3&gt;
+  &lt;ul&gt;
+&lt;li&gt;Updated German translation (Edgar Aichinger)&lt;/li&gt;
+&lt;li&gt;Updated French translation (Olivier Humbert)&lt;/li&gt;
+&lt;/ul&gt;
+
+  &lt;h3 class="section-header"&gt;Contributors&lt;/h3&gt;
+  &lt;p&gt;
+Ben Loftis, cooltehno, David Robillard, eighthkeepa, John Emmas, Kamil
+Rytarowski, Len Ovens, Michael Beer, Michiel de Roo, Nathan Stewart,
+Nick Mainsbridge, Nil Geisweiller, Nils Philippsen, Olivier Humbert,
+Paul Davis, Robert Scott, Robin Gareus, Tim Mayberry, W.P. van Paassen
+  &lt;/p&gt;</code></pre>
+            </blockquote>
+            <p>Posts: 4</p>
+            <p>Participants: 4</p>
+            <p><a href="https://discourse.ardour.org/t/ardour-5-5-released/78572">Read full topic</a></p>

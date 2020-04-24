@@ -1,0 +1,171 @@
+---
+title:         "Ardour 5.11 released"
+created_at:    2017-08-16 18:32:54 UTC
+updated_at:    2017-08-16 18:32:54 UTC
+guid:          "discourse.ardour.org-topic-78579"
+author:        "Ardour Blog"
+link:          "https://discourse.ardour.org/c/blog/"
+rss:           "https://discourse.ardour.org/c/blog.rss"
+tags:
+  - "en"
+original_link: "https://discourse.ardour.org/t/ardour-5-11-released/78579"
+---
+<p><a href="https://discourse.ardour.org/u/paul">@paul</a> wrote:</p>
+            <blockquote>
+              <pre><code>  &lt;p&gt;
+We are pleased to announce the availability of Ardour 5.11. Like 5.10,
+this is primarily a bug-fix release, though it also includes VCA
+automation graphical editing, a new template management dialog and various
+other useful new features.
+  &lt;/p&gt;
+  &lt;p style="margin:22px 0 22px 0;"&gt;
+&lt;a class="btn btn-primary btn-large" href="https://community.ardour.org/download"&gt;Download&amp;nbsp;&amp;nbsp;&lt;i class="icon-download-alt icon-white"&gt;&lt;/i&gt;
+  &lt;/p&gt;
+  &lt;h2&gt;New Features&lt;/h2&gt;
+  &lt;ul&gt;
+&lt;li&gt;VCA automation can now be graphically edited.&lt;/li&gt;
+&lt;li&gt;VCAs can now be selected (e.g. from control surfaces).&lt;/li&gt;
+&lt;li&gt;Allow VCA renaming in the editor window.&lt;/li&gt;
+&lt;li&gt;Bindable buttons for VCA solo and mute.&lt;/li&gt;
+&lt;li&gt;Add select-all-tracks shortcut in the mixer window.&lt;/li&gt;
+&lt;li&gt;Template management dialog (both session and track templates).&lt;/li&gt;
+&lt;li&gt;Allow control surfaces to hide/show plugin GUIs.&lt;/li&gt;
+&lt;li&gt;Realtime export now allows listening to channels being exported.&lt;/li&gt;
+&lt;li&gt;Non-layered MIDI recording now works (MIDI regions will be trimmed at the end of recording to avoid overlaps).&lt;/li&gt;
+&lt;li&gt;Add an LTC generator to the Dummy backend.&lt;/li&gt;
+&lt;li&gt;Update colors for the "Caineville" theme.&lt;/li&gt;
+&lt;li&gt;Expose Off/Play states for MIDI CC "automation".&lt;/li&gt;
+&lt;li&gt;Allow touch automation to be done via Ardour's own knobs (e.g. trim control).&lt;/li&gt;
+  &lt;/ul&gt;
+
+  &lt;h2&gt;General Fixes and Improvements&lt;/h2&gt;
+  &lt;ul&gt;
+&lt;li&gt;Fixes for consistent selection and track/bus ordering.&lt;/li&gt;
+&lt;li&gt;Improve display of dB values.&lt;/li&gt;
+&lt;li&gt;Improvements when dragging control points for log-scale or relative parameters.&lt;/li&gt;
+&lt;li&gt;Lookup VST parameter default values once only, at the correct time.&lt;/li&gt;
+&lt;li&gt;Major code cleanup for locale (internationalization) handling.&lt;/li&gt;
+&lt;li&gt;Create a deep-copy of MIDI sources when saving snapshots.&lt;/li&gt;
+&lt;li&gt;Allow saving state even when audio/MIDI engine is not running.&lt;/li&gt;
+&lt;li&gt;Substantial reworking of waveview rendering code.&lt;/li&gt;
+&lt;li&gt;More differentiation of error messages during startup.&lt;/li&gt;
+&lt;li&gt;Fix for a-fluid handling of out-of-memory conditions.&lt;/li&gt;
+&lt;li&gt;Avoid display/use of "mnemonics" in menu items (shortcuts continue to work as usual).&lt;/li&gt;
+&lt;li&gt;Correct an issue when sending from a source with less channels than the destination.&lt;/li&gt;
+&lt;li&gt;Don't invert azimuth &amp; elevation display value for some panning configurations.&lt;/li&gt;
+&lt;li&gt;Fix undo being invoked from a non-GUI thread.&lt;/li&gt;
+&lt;li&gt;Fix crash when rapidly switching snapshots.&lt;/li&gt;
+&lt;li&gt;Show region name correctly in a context menu.&lt;/li&gt;
+&lt;li&gt;Reintroduce a command to toggle editor/mixer windows when they are tabbed.&lt;/li&gt;
+&lt;li&gt;Retain plugins order for copy/cut/paste + Drag-n-Drop.&lt;/li&gt;
+&lt;li&gt;Correctly adjust gain when selection spans multiple track/bus groups.&lt;/li&gt;
+&lt;li&gt;Honor groups when selecting in the mixer.&lt;/li&gt;
+&lt;li&gt;Convert summary display into a horizontal scrollbar (no more y-axis sensitivity for scrolling; now zooms).&lt;/li&gt;
+&lt;li&gt;Fix loading bundle definitions.&lt;/li&gt;
+&lt;li&gt;Changing type of track/bus in the add track/bus dialog no longer resets the name, if edited.&lt;/li&gt;
+&lt;li&gt;Take automation lanes into account when changing "visible track count".&lt;/li&gt;
+&lt;li&gt;Make it impossible to zoom to ridiculously zoomed-out scales.&lt;/li&gt;
+&lt;li&gt;Fix crash when renaming a track to an invalid name.&lt;/li&gt;
+&lt;li&gt;Increase the range of the a-comp stereo release time.&lt;/li&gt;
+&lt;li&gt;Forward-to-grid and Backward-to-grid now snaps even when in magnetic mode.&lt;/li&gt;
+&lt;li&gt;Correct note length setting and display in the note edit dialog.&lt;/li&gt;
+&lt;li&gt;Time info box updates its length display correctly across a tempo change.&lt;/li&gt;
+&lt;li&gt;Indicate region positional lock style with various UTF-8 glyphs (Beamed 1/8th notes =&gt; music position lock).&lt;/li&gt;
+&lt;li&gt;Only add a new tempo or meter on a click with the primary modifier pressed (avoid confusion with a tempo-change drag).&lt;/li&gt;
+&lt;li&gt;Disable tempo end drag for meter-locked tempi.&lt;/li&gt;
+&lt;li&gt;Cropping a single region to time selection works for multiple ranges.&lt;/li&gt;
+&lt;li&gt;Setting a tempo to 'Continue' via right click puts it in a permanent state
+  of continuing the previous section's end tempo (basically what
+  'Lock Continue' should have been). This can be disabled (unlocked) by
+  selecting 'Don't Continue'.&lt;/li&gt;
+&lt;li&gt;Reorganise menu to separate position lock style from more commonly used functions.&lt;/li&gt;
+&lt;li&gt;Main Menu: some re-organization of session- and global-centric windows.&lt;/li&gt;
+&lt;li&gt;Track/Bus mute automation now works as expected.&lt;/li&gt;
+&lt;li&gt;Many improvements to plugin in-line displays.&lt;/li&gt;
+&lt;li&gt;Fix various issues when changing automation state while rolling.&lt;/li&gt;
+&lt;li&gt;Make it possible to select regions at zero when the grid is set to Region Bounds.&lt;/li&gt;
+&lt;li&gt;Fix a bug with LTC chasing when using small buffer sizes and a large initial offset.&lt;/li&gt;
+&lt;li&gt;Ask user about saving when using Save As or Snapshot &amp; Switch.&lt;/li&gt;
+&lt;li&gt;Fix the cursor in some TextEntry popups.&lt;/li&gt;
+&lt;li&gt;Show a-comp's makeup gain and gain reduction in it's inline display.&lt;/li&gt;
+&lt;li&gt;Many crashes at exit or close-session fixed.&lt;/li&gt;
+&lt;li&gt;Prevent duplicate playlist names while renaming.&lt;/li&gt;
+&lt;li&gt;Session &gt; New ... &lt;em&gt;cancel&lt;/em&gt; : now retains current session, if any.&lt;/li&gt;
+&lt;li&gt;Use Mach real time priority in process threads.&lt;/li&gt;
+&lt;li&gt;Use real-time safe MIDI buffer allocation for ALSA, CoreAudio and PortAudio (Windows) MIDI backends.&lt;/li&gt;
+&lt;li&gt;Fix for "MIDI Input follows Selection" (breakage introduced during 5.10 development).&lt;/li&gt;
+&lt;li&gt;Improve clock font used on OS X.&lt;/li&gt;
+&lt;li&gt;Fix &lt;code&gt;--samplerate&lt;/code&gt; option for ardour-export standalone tool.&lt;/li&gt;
+&lt;li&gt;Add options for bit-depth and BWF format to ardour-export tool.&lt;/li&gt;
+&lt;li&gt;Ensure that broadcast data (BWF) is complaint with EBU specifications.&lt;/li&gt;
+&lt;li&gt;Save sample-rate for sessions created with templates.&lt;/li&gt;
+&lt;li&gt;Fix LV2 preset path on Windows.&lt;/li&gt;
+&lt;li&gt;Do not disable MIDI CC "automation" after clearing all data for a given CC.&lt;/li&gt;
+&lt;li&gt;Only button 1 (typically left) will now add new MIDI CC events on click.&lt;/li&gt;
+     &lt;/ul&gt;
+&lt;h2&gt;Lua&lt;/h2&gt;
+  &lt;ul&gt;
+&lt;li&gt;Expose editor vertical zoom.&lt;/li&gt;
+&lt;li&gt;Expose region list.&lt;/li&gt;
+&lt;li&gt;Expose clone/copy regions.&lt;/li&gt;
+&lt;li&gt;Expose systemexec.&lt;/li&gt;
+&lt;li&gt;Improve script sandboxing.&lt;/li&gt;
+&lt;li&gt;Provide access to toggle actions.&lt;/li&gt;
+&lt;li&gt;Expose a new Lua message dialog.&lt;/li&gt;
+&lt;li&gt;Support for template scripts.&lt;/li&gt;
+&lt;li&gt;Support for meta-templates for Session setup.&lt;/li&gt;
+  &lt;/ul&gt;
+  &lt;h2&gt;OSC Support and Control&lt;/h2&gt;
+  &lt;ul&gt;
+&lt;li&gt;Added /*/db_delta for strip, select, master and monitor.&lt;/li&gt;
+&lt;li&gt;bank_up will now accept -1 for bank down so an encoder can bank.&lt;/li&gt;
+&lt;li&gt;GUI improvements - usability.&lt;/li&gt;
+&lt;li&gt;Allow user selectable group use (/use_group 1 or 0).&lt;/li&gt;
+&lt;li&gt;Prevent crashes or hangs in some cases.&lt;/li&gt;
+&lt;li&gt;Send fewer duplicate messages.&lt;/li&gt;
+  &lt;/ul&gt;
+  &lt;h2&gt;FaderPort 8 Support&lt;/h2&gt;
+  &lt;ul&gt;
+&lt;li&gt;Use 2 lines for Plugin Parameter Names.&lt;/li&gt;
+&lt;li&gt;Expose Plugin Bypass/Enable per plugin.&lt;/li&gt;
+&lt;li&gt;Shift + Select in Plugin Select mode.&lt;/li&gt;
+&lt;li&gt;Bypass button in Plugin Parameter Edit mode.&lt;/li&gt;
+&lt;li&gt;Don't allow toggling strip bypass/enable.&lt;/li&gt;
+&lt;li&gt;Allow selection of plugin presets.&lt;/li&gt;
+&lt;li&gt;Scribble-strip display preferences.&lt;/li&gt;
+&lt;li&gt;Fixes crash when switching snapshots.&lt;/li&gt;
+&lt;li&gt;Display in mixer order.&lt;/li&gt;
+&lt;li&gt;Add plugin GUI display options.&lt;/li&gt;
+&lt;li&gt;Implement "control link" (control operates on currently focused widget in GUI).&lt;/li&gt;
+&lt;li&gt;Fix shutdown sequence.&lt;/li&gt;
+&lt;li&gt;Indicate implicit solo by blinking.&lt;/li&gt;
+  &lt;/ul&gt;
+  &lt;h2&gt;Translation Updates&lt;/h2&gt;
+  &lt;ul&gt;
+&lt;li&gt;Czech translation update (Pavel Frich).&lt;/li&gt;
+&lt;li&gt;Japanese translation (Hiroki Inagaki).&lt;/li&gt;
+&lt;li&gt;Swedish translation update (Kristoffer Grundström).&lt;/li&gt;
+&lt;li&gt;Russian translation updates (Petr Semiletov, Alexandre Prokoudine).&lt;/li&gt;
+&lt;li&gt;Chinese translation update (Yq Ysy).&lt;/li&gt;
+&lt;li&gt;French translation correction (Léo Andrès).&lt;/li&gt;
+  &lt;/ul&gt;
+  &lt;h2&gt;Contributors&lt;/h2&gt;
+  &lt;p&gt;
+Ben Loftis,
+Johannes Mueller,
+John Emmas,
+Len Ovens,
+Nick Mainsbridge,
+Paul Davis,
+Robin Gareus,
+Tim Mayberry,
+Jelle van der Waa,
+Julien Rivaud,
+Thomas Brand,
+nickolas360,
+cooltehno
+  &lt;/p&gt;</code></pre>
+            </blockquote>
+            <p>Posts: 1</p>
+            <p>Participants: 1</p>
+            <p><a href="https://discourse.ardour.org/t/ardour-5-11-released/78579">Read full topic</a></p>

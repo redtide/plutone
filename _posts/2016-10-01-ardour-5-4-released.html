@@ -1,0 +1,84 @@
+---
+title:         "Ardour 5.4 released"
+created_at:    2016-10-01 15:25:36 UTC
+updated_at:    2016-10-01 15:25:36 UTC
+guid:          "discourse.ardour.org-topic-78569"
+author:        "Ardour Blog"
+link:          "https://discourse.ardour.org/c/blog/"
+rss:           "https://discourse.ardour.org/c/blog.rss"
+tags:
+  - "en"
+original_link: "https://discourse.ardour.org/t/ardour-5-4-released/78569"
+---
+<p><a href="https://discourse.ardour.org/u/paul">@paul</a> wrote:</p>
+            <blockquote>
+              <p>
+  Ardour 5.4 is now available, with important bug fixes for MIDI (including
+  looping), dozens of less significant but still noteworthy fixes and
+  new features, plus the first version of our support for Ableton's Push 2
+  surface.
+</p>
+<h2>2 Major MIDI fixes</h2>
+<ul>
+  <li>Looping with MIDI tracks now works correctly. Previous versions of Ardour could be easily provoked into either dropping notes or holding notes if the loop boundaries occured in particular places. </li>
+  <li>If you use a musical meter with a denominator other than 4 (e.g. 5/8, 7/8 or 3/3), versions 5.0 - 5.3 of Ardour incorrectly stored the tempo when writing SMF (.mid) files. The SMF
+    standard requires that tempo is given in terms of pulses per quarter note. Ardour 5.0 - 5.3 incorrectly used pulses per meter denominator (e.g. eighth notes). We have written a utility to correct
+    files written in this way - please let us know if you need to use it. This issue only manifests when using the SMF files with any tool (including Ardour 5.4 or before 5.0) that obeys the SMF standard.
+    We will gladly assist anyone negatively impacted by this error. Just get in touch. </li>
+</ul>
+<h2>Abelton Push 2 Support</h2>
+<p>
+  This version of Ardour has the first version of our support for
+  Ableton's Push 2 surface.  This is an expensive but beautifully
+  engineered control surface primarily targetting the workflow found in
+  Ableton's Live software and other similar tools such as Bitwig. As of
+  5.4, Ardour does not offer the same kind of workflow, so we have
+  focused for now on using the Push 2 for mixing and editing and musical
+  performance, without the clip/scene oriented approach in Live. This
+  may change in future versions of Ardour.
+</p>
+<p>
+  Full documentation on Ardour's Push 2
+  support <a href="http://www.manual.ardour.org/using-control-surfaces/Ableton_Push2/">is available</a>
+</p>
+<h2>Fixes</h2>
+<ul>
+  <li>Real fix for preferences window/tab (claimed to be fixed in 5.3 but actually not)</li>
+  <li>Update clear-gray theme colors</li>
+  <li>Add track/bus no longer allowed while recording</li>
+  <li>Fix issues with finding files with duplicate names that were imported without copying them to the session</li>
+  <li>Session lock dialog can no longer be closed using the window-manager "X" button</li>
+  <li>Do not run normalize if normalize dialog is closed from the window manager</li>
+  <li>Correctly and fully restore of bindings for mute and solo controls.</li>
+  <li>(Windows only) Creation of Sessions with localized names containing characters that aren't in the system codepage now works.
+    This also fixes the issue where a Session would not open when it was moved into a path with characters that aren't in the system codepage.</li>
+  <li>(Windows only) Cleanup-Unused Sources and Flush Wastebasket now work even when paths contained characters that aren't in the system codepage(most non-ascii characters).</li>
+  <li>Save and Restore analysis and soundcloud checkboxes in the ExportDialog.</li>
+  <li>Do not crash when aborting Region trim using Esc key.</li>
+  <li>Moving Session start/end markers now marks Session as modified.</li>
+  <li>Correct disk usage/space reports on windows.</li>
+  <li>Do not delete selected MIDI Notes while dragging.</li>
+  <li>Remove crash at exit caused by key bindings etc.</li>
+  <li>Remove crash when exiting after using and being disconnected from JACK.</li>
+  <li>MIDI notes now follow changes in meter denominator.</li>
+  <li>Drawing long MIDI notes with the grid/snap enabled no longer snaps them to the wrong position.</li>
+</ul>
+<h2>Newly Exposed in Lua</h2>
+<ul>
+  <li>PeakMeter</li>
+  <li>Record enable/disable</li>
+  <li>Session.request_play_loop() and Session.get_play_loop()</li>
+  <li>Locations.remove()</li>
+  <li>Location.name</li>
+  <li>Plugin controls</li>
+  <li>Glib:build_filename() (for portably constructing paths across platforms)</li>
+  <li>example scripts to prepare a session for recording, and exporting markers as mp4 chapters</li>
+</ul>
+<h2>Contributors</h2>
+<p>
+  Robin Gareus, Tim Mayberry, Johannes Mueller, Guido Aulisi, Nathan Stewart, Ross Lagerwall, cooltehno, Thomas Brand, Todd Naugle, Nick Mainsbridge, and Paul Davis.
+</p>
+            </blockquote>
+            <p>Posts: 1</p>
+            <p>Participants: 1</p>
+            <p><a href="https://discourse.ardour.org/t/ardour-5-4-released/78569">Read full topic</a></p>

@@ -1,0 +1,77 @@
+---
+title:         "Benchmarking LV2 plugins"
+created_at:    2012-08-23 03:29:00 UTC
+updated_at:    2012-08-23 03:29:00 UTC
+guid:          "tag:drobilla.net,2012-08-22:/2012/08/22/benchmarking-lv2-plugins.html"
+author:        "drobilla.net - LAD"
+link:          "http://drobilla.net/"
+rss:           "http://drobilla.net/category/lad/feed/rss2"
+tags:
+  - "en"
+original_link: "http://drobilla.net/2012/08/22/benchmarking-lv2-plugins.html"
+---
+<p>A new utility has been added to
+<a href="http://drobilla.net/software/lilv">Lilv</a> for benchmarking LV2 plugins.
+As you might expect, it is called <code>lv2bench</code>.</p>
+<p>Simple, but useful, <code>lv2bench</code> runs all discovered plugins for a
+specified number of frames split into a specified block size, and
+records the time each plugin took to execute. It prints a simple table
+like this:</p>
+<table>
+<thead>
+<tr>
+<th>Block</th>
+<th>Samples</th>
+<th>Time</th>
+<th>Plugin</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>512</td>
+<td>524288</td>
+<td>0.005872</td>
+<td>http://calf.sourceforge.net/plugins/Filter</td>
+</tr>
+<tr>
+<td>512</td>
+<td>524288</td>
+<td>0.006461</td>
+<td>http://drobilla.net/plugins/blop/amp</td>
+</tr>
+<tr>
+<td>512</td>
+<td>524288</td>
+<td>0.008772</td>
+<td>http://calf.sourceforge.net/plugins/Equalizer8Band</td>
+</tr>
+<tr>
+<td>512</td>
+<td>524288</td>
+<td>0.008959</td>
+<td>http://drobilla.net/plugins/fomp/autowah</td>
+</tr>
+</tbody>
+</table>
+<p>This makes it easy to get a good overall feel for how expensive plugins
+on the system are relative to each other. Of course, a more expressive
+view of this information with several parameters would be useful...
+<a href="http://gareus.org/">Robin Gareus</a> to the rescue! Robin made a script
+currently called <a href="http://robin.linuxaudio.org/lilvplot.sh">lilvplot</a>
+which does several runs with various parameters and plots the data,
+which makes the relative performance more clear and shows the variance
+of a plugin's run time with error bars. This is important information
+because run-time variance is a good indicator of how real-time
+appropriate a plugin is.</p>
+<p>Here is an example of lilvplot output generated from lv2bench data (as a
+massive SVG, you may want to open this image in a separate window and
+zoom in to see the plugin labels):
+<img alt="LV2 Benchmark" src="//robin.linuxaudio.org/lv2stats1_stats.svg"></p>
+<p>Both of these tools are very fresh and there are certainly improvements
+to be made (normalizing the y-axis so it showed where real-time is would
+be more informative, and lv2bench currently supports very few features),
+but they already make a useful addition to the LV2 developer's toolkit.
+I found them useful for evaluating the improvements had by vectorizing
+the arithmetic plugins in my soon-to-be-released port of
+<a href="http://blop.sourceforge.net/">blop</a>. It will be interesting to see how
+things stack up in more thorough runs that include more plugins.</p>

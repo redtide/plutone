@@ -1,0 +1,60 @@
+---
+title:         "Portable OpenGL Plugin UIs"
+created_at:    2012-05-01 02:40:00 UTC
+updated_at:    2012-05-01 02:40:00 UTC
+guid:          "tag:drobilla.net,2012-04-30:/2012/04/30/portable-opengl-plugin-uis.html"
+author:        "drobilla.net - LAD"
+link:          "http://drobilla.net/"
+rss:           "http://drobilla.net/category/lad/feed/rss2"
+tags:
+  - "en"
+original_link: "http://drobilla.net/2012/04/30/portable-opengl-plugin-uis.html"
+---
+<p><a href="http://lv2plug.in/">LV2</a> allows plugins to implement UIs in any
+toolkit. This has led to UIs being implemented in several (which is a
+Good Thing, and works fine in all hosts via
+<a href="http://drobilla.net/software/suil">Suil</a>), but mostly Gtk.</p>
+<p>Unfortunately, Gtk is not really suitable for use in plugins on
+platforms where a "system Gtk" can't be relied on. Some toolkits are
+suitable for static linking, but personally, I am somewhat disillusioned
+with "toolkits" lately, and massive libraries in general. Sometimes all
+you want or need is a straightforward standard graphics API and some
+keyboard/mouse events.</p>
+<p>When it comes to standard cross-platform graphics APIs, the undisputed
+heavyweight king is OpenGL. While not perfect (what is?), no other API
+is <em>already there</em> on almost any platform you'd care about (heck, most
+modern <em>phones</em> have hardware accelerated OpenGL). Unfortunately, OpenGL
+deals only with rendering, and not user input or windowing issues. What
+is needed is a minimal framework to get an OpenGL view to draw to, and
+receive keyboard and mouse events. Enter
+<a href="http://drobilla.net/software/pugl">Pugl</a>.</p>
+<p>Pugl handles all the platform specific business behind an API very
+similar to GLUT, but much smaller and appropriate for plugins (which
+GLUT unfortunately is not). In terms of size, this is a few hundred
+lines of C per platform (on a personal note, this fits in well with my
+ever-increasing distaste in dealing with bloated junk with tons of
+dependencies... give me a Couple Hundred Lines of C™ any day). The
+breakdown on Pugl is on its homepage, but suffice to say after a few
+days' work it does the job it was designed to do on X11, Mac OS X, and
+Windows. Since embedding X11 works in LV2 land, that means an OpenGL
+plugin UI can be embedded in the host, and I have the pretty pictures to
+prove it:</p>
+<p><a href="/images/ardour_lv2_gl.png"><img alt="Pugl embedded in Ardour" src="//drobilla.net/images/ardour_lv2_gl-109x150.png"></a></p>
+<p><a href="/images/ingen_lv2_gl.png"><img alt="Pugl embedded in Ingen" src="//drobilla.net/images/ingen_lv2_gl-135x150.png"></a></p>
+<p>This is a simple test plugin (complete with gratuitous use of 3D)
+embedded in Ingen and Ardour. Both are Gtk based programs, but this
+works in Qt as well. Testing so far on other platforms has only been
+top-level since I have no programs to embed in, but the bulk of the work
+is done. This includes full keyboard and mouse support, with
+significantly more complete keyboard support than GLUT.</p>
+<p>Naturally I can't predict the future, so it remains to be seen how much
+OpenGL UI action we'll see for plugins. Being just a low level drawing
+API and not a set of boxed widgets, it's a bit open ended with a bit of
+a learning curve, but on the other hand there is <em>lots</em> of existing
+OpenGL code out there. Perhaps someone will throw together a library of
+audio appropriate widgets, if one doesn't already exist. Either way, I
+think an easy to use API for writing truly portable LV2 plugin UIs is a
+very good thing, which hopefully eliminates a barrier for some plugin
+developers and helps LV2 invade the territory of its proprietary
+adversaries... or, at the very least, makes for a really cool 3D panner
+GUI :)</p>

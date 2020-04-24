@@ -1,0 +1,49 @@
+---
+title:         "Pretty names in Patchage via Jack Metadata"
+created_at:    2014-04-10 01:26:00 UTC
+updated_at:    2014-04-10 01:26:00 UTC
+guid:          "tag:drobilla.net,2014-04-09:/2014/04/09/pretty-names-in-patchage-via-jack-metadata.html"
+author:        "drobilla.net - LAD"
+link:          "http://drobilla.net/"
+rss:           "http://drobilla.net/category/lad/feed/rss2"
+tags:
+  - "en"
+original_link: "http://drobilla.net/2014/04/09/pretty-names-in-patchage-via-jack-metadata.html"
+---
+<p>The much-awaited (by me, at least) Jack metadata API has arrived. This
+will allow us to easily achieve many new things with minimal/nonexistent
+API friction. One of the simplest and most obvious is pretty names for
+Jack clients and ports, so I've chosen this as the first thing to tackle
+(as part of a drive to get Patchage polished up for a much overdue
+release).</p>
+<p>Unfortunately, as far as I can tell, there is a chicken &amp; egg scenario
+here since nothing is setting this metadata yet. So, I've made Jalv and
+Ingen both set pretty names for their ports. In the case of Jalv, the
+"pretty name" is the label given in the plugin data (distinct from the
+LV2 "symbol" which is restricted and unique).</p>
+<p>Firing up Jalv with the Tal Dub III plugin (LV2 port courtesy KXStudio),
+we can see the port symbols, which are a bit awkward for end users with
+their prefixes and underscores. Conflating strong identifiers with
+human-readable labels is a serious design error I learned of the hard
+way, but that's a discussion for another time...</p>
+<p>Enable "Human Names" in the view menu, or press C-h, and voilà, we see
+the pretty names set in Jack metadata (if present) instead.</p>
+<p><a href="/images/patchage_symbols.png"><img alt="Tal Dub III in Jalv as shown by Patchage with human names off." src="//drobilla.net/images/patchage_symbols.png"></a></p>
+<p><a href="/images/patchage_human_names.png"><img alt="Tal Dub III in Jalv as shown by Patchage with human names enabled." src="//drobilla.net/images/patchage_human_names.png"></a></p>
+<p>The metadata API is very simple to use for ports, though there seems to
+be a hole in the API which makes it difficult to get the UUID for your
+client to set metadata (I want a simple jack_client_uuid, like
+jack_port_uuid, but it seems you have to get a string UUID and parse
+it to a jack_uuid_t, clunky enough that I just didn't bother). In any
+case, I am happy to see a low-friction mechanism in Jack which apps can
+use to share metadata towards making a better user experience.</p>
+<p>It will be interesting to see what sort of information proves useful and
+becomes established/standard. For those of us of a mad scientist bent
+who live in a nest of patch cables, a CV tag seems like another obvious
+simple step, but for everyone, a big step is finally having meaningful
+port grouping and channel roles. I have always liked to joke that Jack
+(like LADSPA) doesn't <em>really</em> even do stereo, but with metadata, we can
+mark up stereo, 5.1, Ambisonics, etc., and other clients will be able to
+make sense of the channel assignments without resorting to dirty kludges
+based on guessing from names. All without changing the ABI one bit. Good
+stuff.</p>

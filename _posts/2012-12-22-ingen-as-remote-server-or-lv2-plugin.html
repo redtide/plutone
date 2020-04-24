@@ -1,0 +1,53 @@
+---
+title:         "Ingen as remote server or LV2 plugin"
+created_at:    2012-12-22 18:52:00 UTC
+updated_at:    2012-12-22 18:52:00 UTC
+guid:          "tag:drobilla.net,2012-12-22:/2012/12/22/ingen-as-remote-server-or-lv2-plugin.html"
+author:        "drobilla.net - LAD"
+link:          "http://drobilla.net/"
+rss:           "http://drobilla.net/category/lad/feed/rss2"
+tags:
+  - "en"
+original_link: "http://drobilla.net/2012/12/22/ingen-as-remote-server-or-lv2-plugin.html"
+---
+<p>I have been working on the control protocol aspect of
+<a href="http://drobilla.net/software/ingen">Ingen</a>, towards a few goals:</p>
+<ul>
+<li>Working GUI communicating with the server via a socket</li>
+<li>Decent Python bindings for socket interface</li>
+<li>Ingen as an LV2 plugin</li>
+</ul>
+<p>The Python bindings got fleshed out to support a script for loading
+<a href="http://alsamodular.sourceforge.net/">AMS</a> patches into Ingen I have
+been working on (very preliminary, but in the repository and installed
+as 'ingenams'). The socket interface is now sensibly synchronous, e.g.
+you send a command, and recv on the socket to get the response, which
+will include a status as well as whatever patch updates happened as a
+result of the command. I am happy with this route to language bindings,
+it's much more pleasant than a mess of direct bindings (e.g. via swig)
+and being protocol controlled has many other advantages. The Python
+interface is implemented purely in Python, it should be simple to do the
+same in any language that can use sockets.</p>
+<p>The Ingen GUI can communicate with the engine via the same protocol, so
+you can build patches over the network (e.g. if Ingen is running on a
+headless machine as part of an audio rig). It can also run in the same
+process and use direct function calls for maximum performance.</p>
+<p>The Ingen protocol uses the <a href="http://lv2plug.in/ns/ext/patch/">LV2 Patch</a>
+vocabulary to describe changes. For the socket interface, this is
+represented entirely in Turtle. When running as an LV2 plugin, Ingen
+uses conceptually the same protocol, except in a binary format using LV2
+<a href="http://lv2plug.in/ns/ext/atom/">atoms</a>. This is a nice example of the
+benefits of having things defined in a good abstract model which can be
+encoded in many ways. For example, it would be relatively simple to
+implement control via JSON for a browser-based Ingen UI, which seems
+like the best way to go for separate control panels, but that's a topic
+for another day.</p>
+<p>Since Ingen control can be expressed as atoms, it can run as an LV2
+plugin with a full patcher UI and communicate only via LV2 ports. The UI
+is embeddable, and there is no memory sharing between engine and UI or
+hidden communication, everything is host managed. Here is a screenshot
+of Ingen running in <a href="http://ardour.org/">Ardour</a> 3. The MIDI in Ardour
+is played through an Ingen synth plugin, and the output has been
+recorded to the audio track. The patch can be manipulated live while
+running in Ardour, except for top level ports.</p>
+<p><a href="/images/ingen_in_ardour.png"><img alt="Ingen running in Ardour as an LV2 plugin" src="//drobilla.net/images/ingen_in_ardour-150x113.png"></a></p>

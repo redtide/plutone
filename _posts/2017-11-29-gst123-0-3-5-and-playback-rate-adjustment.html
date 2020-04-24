@@ -1,0 +1,17 @@
+---
+title:         "gst123-0.3.5 and playback rate adjustment"
+created_at:    2017-11-29 16:43:27 UTC
+updated_at:    2017-11-29 16:43:27 UTC
+guid:          "https://blogs.gnome.org/stw/?p=74"
+author:        "Stefan Westerfeld's blog"
+link:          "https://blogs.gnome.org/stw/"
+rss:           "https://blogs.gnome.org/stw/category/audio/?feed=rss"
+tags:
+  - "en"
+original_link: "https://blogs.gnome.org/stw/2017/11/29/gst123-0-3-5-and-playback-rate-adjustment/"
+---
+<p>A new version of gst123, my command line media player – based on gstreamer – is available at <a href="http://space.twc.de/~stefan/gst123.php">http://space.twc.de/~stefan/gst123.php</a></p>
+<p>Thanks to David Fries, this version supports playing media faster or slower compared to the original speed,  using &#123; [ ] } as keyboard commands. This works, however, it also changes the pitch. So for instance speech sounds unnatural if the playback rate is changed.</p>
+<p>I’ve played around with the youtube speed setting a bit, and they preserve pitch while changing playback speed, providing acceptable audio quality. There are open source solutions for doing this properly, we could get comparable results if we used librubberband (GPL) to correct the pitch in the pipeline after the actual decoding. However, there is no librubberband gstreamer plugin as far as I know.</p>
+<p>Also there is playitslowly does the job with existing gstreamer plugins, but I think the sound quality is not as good as what librubberband would do.</p>
+<p>I think ideally, playback pitch correction should not be done in gst123 itself (as other players may want to use the feature). So if anybody feels like working on this, I think it would be a nice project to hack on. Feel free to propose patches to gst123 for pitch correct playback rate adjustments, I would be happy to integrate it, but maybe it should just go into the playbin (maybe optional, as in 1. set playback rate, 2. enable pitch correction), so the code could live in gstreamer.</p>

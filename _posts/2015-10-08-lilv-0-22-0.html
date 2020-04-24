@@ -1,0 +1,37 @@
+---
+title:         "Lilv 0.22.0"
+created_at:    2015-10-08 23:39:00 UTC
+updated_at:    2015-10-08 23:39:00 UTC
+guid:          "tag:drobilla.net,2015-10-08:/2015/10/08/lilv-0-22-0.html"
+author:        "drobilla.net - LAD"
+link:          "http://drobilla.net/"
+rss:           "http://drobilla.net/category/lad/feed/rss2"
+tags:
+  - "en"
+original_link: "http://drobilla.net/2015/10/08/lilv-0-22-0.html"
+---
+<p><a href="http://download.drobilla.net/lilv-0.22.0.tar.bz2">Lilv 0.22.0</a> has been released.  Lilv is a C library to make the use of LV2 plugins as simple as possible for applications. For more information, see <a href="http://drobilla.net/software/lilv">http://drobilla.net/software/lilv</a>.</p>
+<p>Changes:</p>
+<ul>
+<li>Add lilv_file_uri_parse() for correct URI to path conversion</li>
+<li>Add lilv_free() for systems picky about such things</li>
+<li>Add lilv_node_get_path() for convenient file URI path access</li>
+<li>Add lilv_state_delete() for deleting user saved presets</li>
+<li>Add lilv_state_emit_port_values() for special port value handling</li>
+<li>Add lilv_state_get_uri()</li>
+<li>Configure based on compiler target OS for cross-compilation</li>
+<li>Expose lilv_world_load_specifications() and lilv_world_load_plugin_classes()</li>
+<li>Fix a few minor/unlikely memory errors</li>
+<li>Fix bindings for Python 3</li>
+<li>Fix creation of duplicate manifest entries when saving state</li>
+<li>Fix directory walking on some systems (thanks Matt Fischer)</li>
+<li>Fix lilv_realpath() on pre-POSIX-2008 systems</li>
+<li>Fix lilv_world_ask() to work with wildcards</li>
+<li>Fix loading files with spaces in their path</li>
+<li>Load discovered owl ontologies as specifications</li>
+<li>Minor documentation improvements</li>
+<li>Preserve absolute paths in state if no link directory is given</li>
+<li>Tolerate passing NULL to lilv_state_restore()</li>
+<li>Upgrade to waf 1.8.14</li>
+<li>Windows fixes (thanks John Emmas)</li>
+</ul>

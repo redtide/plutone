@@ -1,0 +1,74 @@
+---
+title:         "LV2 Extension Documentation"
+created_at:    2009-11-11 01:50:00 UTC
+updated_at:    2009-11-11 01:50:00 UTC
+guid:          "tag:drobilla.net,2009-11-10:/2009/11/10/lv2-extension-documentation.html"
+author:        "drobilla.net - LAD"
+link:          "http://drobilla.net/"
+rss:           "http://drobilla.net/category/lad/feed/rss2"
+tags:
+  - "en"
+original_link: "http://drobilla.net/2009/11/10/lv2-extension-documentation.html"
+---
+<p>Recently there has been a lot of discussion on the linux-audio-dev list
+about LV2, and perceived problems thereof. Much of this was nonsense and
+FUD, but there is a problem with documentation of LV2 things in general,
+and the general public face of the LV2 site and wiki (i.e. it looks
+really bad and useful information is scattered everywhere, in
+inconsistent formats, and just generally hard to find or use, if it
+exists at all).</p>
+<p>Towards solving this problem, I've done a lot of work on automatic
+documentation generation for LV2 extensions, and establishing good
+conventions for extension creators to follow in the future. The fruits
+of this effort can be seen by plugging the URI for any concept in an
+extension hosted at http://lv2plug.in directly into your browser's
+location bar.</p>
+<p>For example, if you encounter event:inheritsTimeStamp in an LV2 data
+file somewhere and don't know what it means, head to
+<a href="http://lv2plug.in/ns/ext/event#inheritsTimeStamp">http://lv2plug.in/ns/ext/event#inheritsTimeStamp</a> (you will have to
+look up what the prefix "event" stands for in the file, of course). You
+are taken directly to documentation on that property generated from the
+extension itself (as defined in a .ttl file).</p>
+<p>The same applies to entire extensions: the event extension's URI is
+<a href="http://lv2plug.in/ns/ext/event">http://lv2plug.in/ns/ext/event</a>. Heading to that URI in your browser
+will take you to the documentation of that extension. This is the URI
+used directly in data files that refer to the extension, so no searching
+whatsoever is required to get at the information you need. As you can
+see on that page, there are links to all the related files you might
+need (e.g. headers, a tarball of the extension, etc).</p>
+<p>Extension URIs will also content negotiate to return the requested type
+of data. Try these commands in your shell:</p>
+<div class="highlight"><pre><span></span><span class="err">wget -q --header "Accept: application/x-turtle" http://lv2plug.in/ns/ext/event -O -</span>
+<span class="err">wget -q --header "Accept: application/rdf+xml" http://lv2plug.in/ns/ext/event -O -</span>
+<span class="err">wget -q --header "Accept: application/json" http://lv2plug.in/ns/ext/event -O -</span>
+<span class="err">wget -q --header "Accept: text/plain" http://lv2plug.in/ns/ext/event -O -</span>
+<span class="err">wget -q --header "Accept: text/html" http://lv2plug.in/ns/ext/event -O -</span>
+</pre></div>
+
+
+<p>This could be used by LV2 hosts to automatically fetch from the web
+information they can not find locally. For example, if an extension is
+required by a plugin but a host doesn't know what it is, the host can
+trivially fetch that extension from the web and display a human readable
+description of what that extension does. This is the kind of thing that
+using good technology like RDF allows, you naysayers out there ;)</p>
+<p>This is all a bit rough around the edges still, and the extensions
+hosted here aren't all documented well yet (and of course, not all
+extensions are hosted here), but I'd say this is a pretty big
+improvement. If you base your own extension on the form of these ones
+(which is easy), you get all this for free. Hopefully soon enough most
+if not all extensions and plugins will work this way, at which point I'd
+say that the reference documentation problem of LV2 is solved about as
+well as it possibly could be. Better than any other technology I have
+seen anyway (how many things do you use where you can just plug whatever
+you're curious about right into your browser and get taken directly to
+the documentation for that thing?).</p>
+<p>Of course, more higher level "tutorial" type documentation is still
+needed, but this is a separate problem. As far as reference
+documentation goes, here is the chicken. Go forth and create eggs.</p>
+<p>Indices to the currently hosted extensions:
+<a href="http://lv2plug.in/ns/ext">/ext</a>
+<a href="http://lv2plug.in/ns/extensions">/extensions</a>
+<a href="http://lv2plug.in/ns/dev">/dev</a></p>
+<p>Stay tuned for more tools to come, e.g. a similar documentation
+generator for plugins, a plugin/extension validator, etc.</p>

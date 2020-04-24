@@ -1,0 +1,110 @@
+---
+title:         "Ardour 5.8 released"
+created_at:    2017-02-28 12:33:35 UTC
+updated_at:    2017-02-28 12:33:35 UTC
+guid:          "discourse.ardour.org-topic-78576"
+author:        "Ardour Blog"
+link:          "https://discourse.ardour.org/c/blog/"
+rss:           "https://discourse.ardour.org/c/blog.rss"
+tags:
+  - "en"
+original_link: "https://discourse.ardour.org/t/ardour-5-8-released/78576"
+---
+<p><a href="https://discourse.ardour.org/u/paul">@paul</a> wrote:</p>
+            <blockquote>
+              <pre><code>  &lt;p&gt;
+Although Ardour 5.6 contained some really great new features and important fixes, it turned out to contain a number of important regressions compared to 5.5. Some were easily noticed and some were more obscure. Nobody is happy when this happens, and we apologize for any frustration or issues that arose from inadequate testing of 5.6.
+  &lt;/p&gt;
+  &lt;p&gt;
+To address these problems, we are making a quick "hotfix" release of Ardour 5.8, which also brings the usual collection of small features and other bug fixes.
+  &lt;/p&gt;
+  &lt;p&gt;
+Linux distributions are asked to immediately and promptly replace 5.6 with 5.8 to reduce issues for Ardour users who get the program directly via their software management tools.
+  &lt;/p&gt;
+
+  &lt;p style="margin:22px 0 22px 0;"&gt;
+&lt;a class="btn btn-primary btn-large" href="https://community.ardour.org/download"&gt;Download&amp;nbsp;&amp;nbsp;&lt;i class="icon-download-alt icon-white"&gt;&lt;/i&gt;&lt;/a&gt;
+  &lt;/p&gt;
+
+  &lt;h2&gt;General Changes and Improvements&lt;/h2&gt;
+  &lt;ul&gt;
+&lt;li&gt;Add Record with Count-in functionality accessible via Transport menu.&lt;/li&gt;
+&lt;li&gt;Save and restore Location clock modes in Locations pane in Editor List and Locations Window separately.&lt;/li&gt;
+&lt;li&gt;Improvements to sensitivity of actions in Region context menu. [#7077]&lt;/li&gt;
+&lt;li&gt;Version keyboard shortcut configuration file (.keys).&lt;/li&gt;
+&lt;li&gt;Add support for importing MIDI from Pro Tools Session files.&lt;/li&gt;
+&lt;li&gt;Consistently use the term VCA rather than Control Master.&lt;/li&gt;
+&lt;li&gt;When starting Ardour without any existing configuration files and not copying them from a previous version then still present the Startup/First time dialog.&lt;/li&gt;
+&lt;li&gt;Control (Primary Modifier) and right click on group tab will present Group Edit Window.&lt;/li&gt;
+&lt;li&gt;Shift (Tertiary Modifier) and right click on group tab will remove group.&lt;/li&gt;
+&lt;li&gt;Support for QT5 lv2 UIs in bundles/installers from ardour.org&lt;/li&gt;
+&lt;li&gt;Add support for relocating missing external files in Missing File dialog.&lt;/li&gt;
+&lt;li&gt;Improvements to wording in Preferences and Session Properties.&lt;/li&gt;
+&lt;li&gt;Change master meter type in toolbar via right click.&lt;/li&gt;
+&lt;li&gt;Constrain VCA slave value to prevent overshoot and snap back on release.&lt;/li&gt;
+&lt;li&gt;Use consistent Installer names for all platforms (Name + Version + Arch)&lt;/li&gt;
+  &lt;/ul&gt;
+
+  &lt;h2&gt;MIDI&lt;/h2&gt;
+  &lt;ul&gt;
+&lt;li&gt;Separate bank selection into MSB/LSB in Patch Change Dialog.&lt;/li&gt;
+  &lt;/ul&gt;
+
+  &lt;h2&gt;Plugins&lt;/h2&gt;
+  &lt;ul&gt;
+&lt;li&gt;Allow rescanning of VST plugins after changing VST path.&lt;/li&gt;
+  &lt;/ul&gt;
+
+  &lt;h2&gt;Scripting&lt;/h2&gt;
+  &lt;ul&gt;
+&lt;li&gt;Update bindings and scripts for API changes.&lt;/li&gt;
+&lt;li&gt;Updates to Lua scripting documentation.&lt;/li&gt;
+&lt;li&gt;Add bindings for plugin reordering and add example reverse plugin order script.&lt;/li&gt;
+&lt;li&gt;Add bindings for solo/mute and realtime control changes and update example script.&lt;/li&gt;
+&lt;li&gt;Bind scripts via right click on Lua Action Script Button in Toolbar.&lt;/li&gt;
+&lt;li&gt;Unbind scripts via Shift + right click on Lua Action Script Button in Toolbar.&lt;/li&gt;
+&lt;li&gt;Allow scripts to define a custom icon when bound to a Lua Action Script Button.&lt;/li&gt;
+&lt;li&gt;Include Audio to MIDI script in Bundles/Installers.&lt;/li&gt;
+&lt;li&gt;Add ability to Load/Remove Session scripts in the Script Manager.&lt;/li&gt;
+&lt;li&gt;Edit button in Script Manager now opens Lua Script Window.&lt;/li&gt;
+&lt;li&gt;Add bindings to create Aux sends and add script to send multiple tracks to an Aux bus.&lt;/li&gt;
+&lt;li&gt;Add Action Script Button icons for various scripts.&lt;/li&gt;
+&lt;li&gt;Add example script to show/hide Tracks in the Editor.&lt;/li&gt;
+  &lt;/ul&gt;
+
+  &lt;h2&gt;Translation Updates&lt;/h2&gt;
+  &lt;ul&gt;
+&lt;li&gt;Updated Japanese translation by Hiroki Inagaki&lt;/li&gt;
+&lt;li&gt;Updated Czech translation by Pavel Fric&lt;/li&gt;
+  &lt;/ul&gt;
+
+  &lt;h2&gt;Fixes&lt;/h2&gt;
+  &lt;ul&gt;
+&lt;li&gt;Use correct position when copying MIDI regions&lt;/li&gt;
+&lt;li&gt;When moving MIDI regions with non-default meter and snap set to Beats, finish in the corect position [#7234]&lt;/li&gt;
+&lt;li&gt;Reset window size when switching between custom and generic plugin UI. &lt;/li&gt;
+&lt;li&gt;Fix timing of regions recorded before the musical origin (bar 1, beat 1)&lt;/li&gt; loaded correctly.&lt;/li&gt;
+&lt;li&gt;Vertically constrained Region drag now working again.&lt;/li&gt;
+&lt;li&gt;Properly update main window title when switching Snapshots.&lt;/li&gt;
+&lt;li&gt;Toolbar height no longer changes with varying appearance options.&lt;/li&gt;
+&lt;li&gt;Fix issues with Track and Mixer Strip order.&lt;/li&gt;
+&lt;li&gt;Don't show hidden Mixer Strips when spilling a VCA.&lt;/li&gt;
+&lt;li&gt;Undo/Redo now works for Snap position to grid via Region context menu. [#7246]&lt;/li&gt;
+&lt;li&gt;Ensure toggle Editor &amp; Mixer action always works with a detached Mixer Window.&lt;/li&gt;
+&lt;li&gt;Percussive notes now shown in correct position while dragging during move/copy.&lt;/li&gt;
+  &lt;/ul&gt;
+
+  &lt;h2&gt;Contributors&lt;/h2&gt;
+
+  &lt;p&gt;
+Ben Loftis, Damien Zammit, Hiroki Inagaki, John Emmas, Len Ovens, Nick Mainsbridge, Paul Davis, Robin Gareus
+  &lt;/p&gt;
+
+  &lt;h2&gt;Manual&lt;/h2&gt;
+  &lt;p&gt;
+Although the Ardour manual is not part of an Ardour release, &lt;a href="http://manual.ardour.org"&gt;manual.ardour.org&lt;/a&gt; has seen a lot of activity recently. Thanks go to Ed Ward, Chris Goddard and Shamus Hammons, Len Ovens and others who have been involved in this effort.
+  &lt;/p&gt;</code></pre>
+            </blockquote>
+            <p>Posts: 4</p>
+            <p>Participants: 4</p>
+            <p><a href="https://discourse.ardour.org/t/ardour-5-8-released/78576">Read full topic</a></p>

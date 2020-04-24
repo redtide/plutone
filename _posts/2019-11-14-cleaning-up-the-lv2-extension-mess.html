@@ -1,0 +1,170 @@
+---
+title:         "Cleaning Up the LV2 Extension Mess"
+created_at:    2019-11-14 04:05:00 UTC
+updated_at:    2019-11-14 04:05:00 UTC
+guid:          "tag:drobilla.net,2019-11-13:/2019/11/13/cleaning-up-the-lv2-extension-mess.html"
+author:        "drobilla.net - LAD"
+link:          "http://drobilla.net/"
+rss:           "http://drobilla.net/category/lad/feed/rss2"
+tags:
+  - "en"
+original_link: "http://drobilla.net/2019/11/13/cleaning-up-the-lv2-extension-mess.html"
+---
+<p>After reading my last post, and watching a few old talks around LV2 and so on,
+I got to thinking about the extension mess problem I mentioned, and it occured
+to me that there might be some commonality here with the "staging" or "contrib"
+area question as well.</p>
+<p>This is all based on some ideas that have been bouncing around in my head for
+ages, but that I haven't really developed and certainly not written down, so
+I'm going to try and sketch out a proposal for how to handle these things
+without breaking anything.</p>
+<p>Concretely, there are two problems here: one is that the spec is just a mess.
+For example, the <a href="http://lv2plug.in/ns/ext/data-access/data-access.html">Data
+Access</a> and <a href="http://lv2plug.in/ns/ext/instance-access/instance-access.html">Instance
+Access</a>
+extensions are really just parts of the same thing and should live together,
+nobody cares about <a href="http://lv2plug.in/ns/ext/morph/morph.html">Morph</a> and it's
+not in a state that really belongs in the "recommended standard" list (sorry,
+flagrant abuse of power on my part there), and so on.</p>
+<p>The other problem is that there are sometimes contributions which solve a
+problem, and are a reasonable enough pragmatic step, but also not really up to
+par.  Maybe they aren't portable, aren't defined well enough, could do more
+harm than good if they're presented as recommendations, and so on.  People, for
+whatever reason, want them "in LV2".  Yet, nobody has the time to spend to
+develop them into a more proper specification yet, and nobody is happy when
+things don't get merged.</p>
+<p>It seems there is a common factor to these problems, and it's moving things
+without breaking anything.  To clean up the current mess, we can move
+extensions <em>to</em> the contrib area.  When a previously half-baked contribution is
+developed further, we can move it <em>from</em> the contrib area.  This is an obvious
+coarse-grained use case; I think there is also a case for finer-grained URI
+migration, but I'll focus on the easy and most useful case for now.</p>
+<p>How might we do this?  Though moving instance-access to contrib is not a goal,
+it's about as simple as an extension gets, so I'll pretend we want to do that
+for the sake of a simple example.  At the very least, it will be a nice little
+fantasy for me to pretend that the curse of crappy plugin UIs that mess with
+DSP guts has finally been vanquished for good :) This is just about the
+mechanism, what we should actually do to clean things up is a question for
+another time.</p>
+<p>So, what's instance-access?  It's a handful of URIs, and a feature.  The
+feature is extremely simple, the payload is just some pointer.  Can those URIs
+be moved without breaking anything?  For at least this simple case, I think so:</p>
+<ul>
+<li>
+<p>Lilv, on loading data, aggressively maps <em>everything</em> to the new location.
+   If it says <a href="http://lv2plug.in/ns/ext/instance-access">http://lv2plug.in/ns/ext/instance-access</a> in a data file, then
+   it gets loaded into memory as
+   <a href="http://lv2plug.in/ns/contrib/instance-access">http://lv2plug.in/ns/contrib/instance-access</a>.  In this case, that means
+   that, as far as the host can tell, the UI has lv2:optionalFeature
+   <a href="http://lv2plug.in/ns/contrib/instance-access">http://lv2plug.in/ns/contrib/instance-access</a>.  This can be done pretty
+   easily just above the parser level so that it's universally true.</p>
+</li>
+<li>
+<p>When the UI is instantiated, the (old) host passes the
+   <a href="http://lv2plug.in/ns/ext/instance-access">http://lv2plug.in/ns/ext/instance-access</a> feature to
+   <code>lilv_plugin_instantiate()</code>.  Internally, lilv duplicates this, and passes
+   <em>both</em> the old and new features to the UI with the same data.</p>
+</li>
+<li>
+<p>The plugin is either old, and looks for the old feature URI, or new, and
+   looks for the new feature URI, and either way, finds it.</p>
+</li>
+</ul>
+<p>I can't think of a reason this wouldn't work, and it doesn't even require any
+host changes.  It's a bit bloated, but not in a way that matters, and would
+need a significant (but not too bad) amount of code specifically to deal with
+this in lilv, but such is my lot in life.</p>
+<p>In the more general case, there is also the issue of URID mappings.  Let's
+pretend that <a href="http://lv2plug.in/ns/ext/instance-access">http://lv2plug.in/ns/ext/instance-access</a> is mapped to a URID
+both by the host and the plugin, and that URID is sent between them.  Though
+this isn't really an intended use-case for this particular extension, it's a
+perfectly valid thing to do:</p>
+<ul>
+<li>The host URID-map maps both the old and new URIs to the same URID.</li>
+</ul>
+<p>... that's it, actually.  Regardless of which "version" either host or plugin
+know about, the URID is identical.  This requires hosts to actually implement
+something though, or for a URI map to be added to lilv, so it's not as easy.
+It can't just be done in LV2 and would take some time to get established.</p>
+<p>There is one remaining snag: <code>extension_data</code>.  This one is a bit trickier,
+because we need to assume the hosts uses <code>lilv_instance_get_extension_data</code>
+which is just a trivial wrapper, and probably not used by everyone.  That's an
+easy enough fix to make, though.  Then, lilv just needs to call the plugin
+method for the new URI, return that if it isn't NULL, and fallback to calling
+it with the old URI.</p>
+<p>All of this requires a map between old and new to exist, of course, but this
+would be written down in the specs themselves and it's easy enough to load such
+a thing inside lilv.</p>
+<p>I'm sure there are other places where URIs as strings are used in the API that
+would need thinking about, and I'll have to scan through the spec to see, but I
+suspect the above is at least 90% of what matters.</p>
+<p>So... am I missing something?  Do send me (or lv2-dev) an email if so, but now
+that I write it down this seems more viable than I assumed it would be.  There
+will definitely be corner cases, since plugins and hosts can use these strings
+for anything everywhere, but as far as the actual interface is concerned it
+seems possible to make this happen without too much pain.  What could we do
+with this?</p>
+<ul>
+<li>
+<p>Merge data-access and instance-access</p>
+</li>
+<li>
+<p>Merge buf-size and resize-port</p>
+</li>
+<li>
+<p>Put all the "official" extensions in the same namespace ("directory"), and
+   get rid of the annoying inconsistency of <code>ext</code> and <code>extensions</code> and so on
+   (which doesn't really matter, except in the soft sense that ugliness
+   matters).  The header includes already look like this and it's so much
+   nicer.</p>
+</li>
+<li>
+<p>We could put the deprecated extensions in a special namespace so they really
+   stand out, but this doesn't seem to really matter (though it should be done
+   visually on the <a href="http://lv2plug.in/ns/">spec page</a> regardless).</p>
+</li>
+<li>
+<p>Move presets into lv2core itself?  This isn't an extension-level move like
+   the above, but why not?  One less prefix to bother with, and in retrospect,
+   a plugin spec without any kind of presets at all is pretty silly.  Perhaps
+   the same for port-groups.</p>
+</li>
+<li>
+<p>Do... something with port-properties, and maybe parameters.  Let's say
+   combine them into a "control" extension that generally has all the
+   definition of control related stuff.</p>
+</li>
+<li>
+<p>Move morph to contrib.</p>
+</li>
+<li>
+<p>Maybe move dyn-manifest to contrib.  This is a bit more contentious, but
+   it's a pretty ugly solution, and the caveats of using it currently aren't
+   very clear.</p>
+</li>
+</ul>
+<p>That would leave a specification list like this (assuming parameters and
+port-properties move to "control"):</p>
+<ul>
+<li>Atom: A generic value container and several data types</li>
+<li>Buf Size: Access to, and restrictions on, block and buffer sizes</li>
+<li>Instance Access: Provides access to a plugin instance</li>
+<li>Log: A feature for writing log messages</li>
+<li>LV2: An open and extensible audio plugin standard</li>
+<li>MIDI: A normalised definition of raw MIDI</li>
+<li>Options: Instantiation time options</li>
+<li>Control: Common properties and parameters for audio processing</li>
+<li>Patch: Messages for accessing and manipulating properties with events</li>
+<li>State: An interface for LV2 plugins to save and restore state</li>
+<li>Time: Properties for describing time</li>
+<li>UI: LV2 plugin UIs of any type</li>
+<li>Units: Meaningful units for values</li>
+<li>URID: Features for mapping URIs to and from integers</li>
+<li>Worker: Support for doing non-realtime work in plugins</li>
+</ul>
+<p>Not everything left is immaculate, and from a user-facing documentation point
+of view other things like putting the data-only vocabularies in a separate
+section might help even more, but I think this would be a big improvement.
+More importantly, it would of course give us an attic to put slightly more
+sketchy things.  Looking at LV2 as a Specification™, that feels wrong, but
+looking at it as a project, it seems really necessary.</p>

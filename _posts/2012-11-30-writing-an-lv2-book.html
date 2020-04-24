@@ -1,0 +1,93 @@
+---
+title:         "Writing an LV2 Book"
+created_at:    2012-11-30 04:15:00 UTC
+updated_at:    2012-11-30 04:15:00 UTC
+guid:          "tag:drobilla.net,2012-11-29:/2012/11/29/writing-an-lv2-book.html"
+author:        "drobilla.net - LAD"
+link:          "http://drobilla.net/"
+rss:           "http://drobilla.net/category/lad/feed/rss2"
+tags:
+  - "en"
+original_link: "http://drobilla.net/2012/11/29/writing-an-lv2-book.html"
+---
+<p>It has been clear for a while that some kind of higher level
+documentation is needed for <a href="http://lv2plug.in/">LV2</a>. The <a href="http://lv2plug.in/ns/">reference
+documentation</a> is much better than it used to be,
+but this isn't very good at giving an overview, and is very imposing to
+new developers since LV2 is a bit different than, say, a library API due
+to the code/data split.</p>
+<p>Overview documentation can't really go in the extension documentation,
+since many tasks plugin developers want to achieve involve several
+extensions (or no extensions at all). I have been wondering for a while
+what form this documentation should take: FAQ? Wiki pages? Just examples
+that illustrate specific things? For whatever reason I had never thought
+of a book format, but now I think that is the best approach. Too many
+LV2 ideas live in my head alone, especially the umbrella ideas, which is
+not good. A book seems like the best way to convey an overall
+understanding of LV2. This is important - LV2 is what I call a "click"
+technology (like LISP or RDF), it seems insane until it "clicks" and you
+get it. You really need that little enlightenment experience to be able
+to work with it well (and especially to be able to work <em>on</em> it). I need
+to convey that to more people. Of course it would also serve as a simple
+"How To" manual for plugin developers, which is the primary goal.</p>
+<p>By "book" I don't necessarily mean paper based. While that might be nice
+a web version definitely should exist. I mean a largish document with
+several chapters and sections, with a clear overall arc that starts with
+the most basic plugin possible, and each section is about a specific
+type of functionality, like "receiving MIDI events" or "transport
+synchronization". That way, when a developer has a broad question like
+"how do I implement state, and dynamically control it?" there is a nice
+book chapter on exactly that topic with explanatory text.</p>
+<p>The other thing that is definitely good is examples. We still have only
+a few official examples in the LV2 tree, more would be nice. Making this
+book very example centric would be a good idea, solving several problems
+at once. Perhaps a Literate Programming like approach, where each
+chapter is really just the comments of a working plugin that
+demonstrates the relevant functionality. This way, even people who won't
+read the documentation (i.e. most) still have working examples to build
+from, and these examples would also serve as nice test cases for hosts.</p>
+<p>The early sections could also serve as a more proper specification for
+things like discovery, module loading, and so on, which thus far we
+haven't documented so well, but honestly I don't see this as a very high
+priority. It's a nice idea to have an authoritative LV2 document, but in
+practice hosts should just use a library (like
+<a href="http://drobilla.net/software/lilv">Lilv</a>) for that stuff anyway, and
+most do.</p>
+<p>In terms of publishing tech, I am not sure. I would like the examples to
+be actual C source code without duplicating everything, hence the
+Literate Programming idea. Literate Programming in philosophy only, not
+actually using a weird format like CWEB. I'd just parse out the comments
+and render those as text, and pretty-print the code in-between. This is
+simple, and with <a href="http://pygments.org">Pygments</a> it can easily output
+both HTML and LaTeX for both an online and a typeset version. This way,
+for "just show me the code" types, the example source is just normal C
+code, but heavily documented with explanatory prose. As it happens I
+banged out a little Python script to do just that this evening. The
+tricky part is things like links, references, and so on, that require
+special syntax. I'd really rather not have to invent and implement a new
+comment syntax. However, perhaps something so directly tied to code can
+just avoid the need for any of that anyway, and the master document can
+just include all the generated bits. Might have to manually make a
+separate HTML and LaTeX master document but that's not too bad. This
+would all be trivial if I only use LaTeX, but since this is
+documentation, being able to link to a chapter online and such is
+important. Anyway, this is beside the point, the important thing is the
+general idea of writing an LV2 book.</p>
+<p>I think this is a really good idea, and though I don't exactly have all
+the time in the world to start a book-level project, I might start
+building it in the LV2 repository so it is part of the official
+distribution. As the spec grows, the book can grow along with it. I
+envision future LV2 releases adding specific functionality (like
+transport sync, which will be the upcoming one), along with a new book
+chapter on the topic. On a personal note, this meshes well with desire
+to stick to non-realtime communication (e.g. email), since I can't have
+the constant distraction of IRC in my life any more. I've spewed enough
+text on to the Internet to fill volumes, might as well put that into
+something of lasting value.</p>
+<p>To me it seems clear that this is the best way to better document LV2
+and make it more accessible to newbies, but I'm notoriously bad at
+predicting what others want, so any feedback would be appreciated. If I
+wrote an LV2 book, would you read it, or at least use it as a reference?</p>
+<p>Is it worth my time to do this, or should I just stick to hacking when I
+have time to do LAD stuff? If there's a good chance that this will
+increase the Bus Factor of LV2, I think it's probably worth it.</p>

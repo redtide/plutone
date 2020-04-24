@@ -1,0 +1,30 @@
+---
+title:         "Labeled MIDI controller values in Ardour"
+created_at:    2014-01-06 22:09:00 UTC
+updated_at:    2014-01-06 22:09:00 UTC
+guid:          "tag:drobilla.net,2014-01-06:/2014/01/06/labeled-midi-controller-values-in-ardour.html"
+author:        "drobilla.net - LAD"
+link:          "http://drobilla.net/"
+rss:           "http://drobilla.net/category/lad/feed/rss2"
+tags:
+  - "en"
+original_link: "http://drobilla.net/2014/01/06/labeled-midi-controller-values-in-ardour.html"
+---
+<p>A while ago, I implemented <a href="http://drobilla.net/2013/01/20/ardour-midi-patch-controller-and-note-names/">MIDI patch, controller, and note name
+support for
+Ardour</a>.</p>
+<p>There was one thing missing from that work: labelled controller values.
+This is particularly useful for controllers that don't represent a
+continuous numeric parameter, but instead have a set of specific values.
+For example, the Moog Minitaur supports CC #86 to control the LFO sync
+clock division, but it's not obvious how a 0-127 number maps to a clock
+division. From the manual, we can learn that 61-67 is "1/4", 68-73 is
+"1/8 Dot", and so on.</p>
+<p>Translate that information into standard MIDINameDocument format, and a
+few hours of hacking later... voila, Ardour displays something sensible
+when hovering over an automation point instead of a meaningless number.</p>
+<p><a href="/images/ardour_midi_cc_cursor.png"><img alt="Ardour displaying a labelled MIDI controller value when hovering over an automation point." src="//drobilla.net/images/ardour_midi_cc_cursor-150x85.png"></a></p>
+<p>If you want to add support for your MIDI device or program, my .midnam
+documents for the Moog Minitaur, MF-104M, and MF-108M, included in the
+Ardour distribution all contain examples of labelled values. It should
+be relatively obvious how to copy and modify these for other devices.</p>

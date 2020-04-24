@@ -1,0 +1,47 @@
+---
+title:         "GStreamer LV2 Surround"
+created_at:    2009-08-12 19:06:00 UTC
+updated_at:    2009-08-12 19:06:00 UTC
+guid:          "tag:drobilla.net,2009-08-12:/2009/08/12/gstreamer-lv2-surround.html"
+author:        "drobilla.net - LAD"
+link:          "http://drobilla.net/"
+rss:           "http://drobilla.net/category/lad/feed/rss2"
+tags:
+  - "en"
+original_link: "http://drobilla.net/2009/08/12/gstreamer-lv2-surround.html"
+---
+<p>My last post was mostly about adding multi-channel support to GStreamer.</p>
+<p>That was only partially implemented though - many elements in GStreamer
+(and pretty much all of the ones that support more than stereo) require
+each channel to be explicitly labeled with its position. This
+information wasn't bridged until now.</p>
+<p>The two sides of this situation are:</p>
+<p>The LV2 Port Groups extension:
+http://lv2plug.in/ns/dev/port-groups.lv2/port-groups.html<br>
+GStreamer multi-channel:
+http://gstreamer.freedesktop.org/data/doc/gstreamer/head/gst-plugins-base-libs/html/gst-plugins-base-libs-gstmultichannel.html</p>
+<p>LV2 "roles" correspond to GstAudioChannelPosition. Unfortunately, the
+mapping was a bit strained with the Port Groups extension as it was at
+midterm time. Fortunately, that extension is not finalized yet, and in
+the process I found some other problems with it, so I decided to bring
+it closer to the way GStreamer does things, which seems to be common in
+other software that does this sort of stuff. Formerly, the port groups
+extension used the channel names from the relevant surround spec (see
+the <a href="http://en.wikipedia.org/wiki/Surround_sound">Wikipedia page on Surround
+Sound</a>). This resulted in a
+lot of roles that were really the same thing, e.g. the "Surround Left"
+channel in 5.1 is really the same as the "Left Back" channel in 7.1.
+This was pretty confusing in practice. GStreamer instead always uses
+positional names like "Left Back", which is unambiguous regardless of
+context (you don't have to know if it's 17.2 or whatever to know what
+"Left Back" probably means...). So, I changed the LV2 port groups
+extension to be similar (though not identical; munging an LV2 extension
+to match GStreamer API wouldn't be appropriate).</p>
+<p>This information is now queried out from LV2 plugins that have it,
+mapped to GStreamer channel positions, and set as capabilities on
+mulit-channel pads. This means multi-channel surround LV2 plugins should
+now work fine with surround sound GStreamer set-ups, for example playing
+a Theora video through some audio processing and out through Alsa.</p>
+<p>I updated <a href="http://plugin.org.uk/lv2/">swh-plugins</a> for the minor
+changes, and added port group information to Invada Studio Plugins.</p>
+<p>More to come...</p>

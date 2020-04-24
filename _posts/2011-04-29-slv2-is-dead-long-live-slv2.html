@@ -1,0 +1,26 @@
+---
+title:         "SLV2 is dead, long live SLV2"
+created_at:    2011-04-29 18:22:00 UTC
+updated_at:    2011-04-29 18:22:00 UTC
+guid:          "tag:drobilla.net,2011-04-29:/2011/04/29/slv2-is-dead-long-live-slv2.html"
+author:        "drobilla.net - LAD"
+link:          "http://drobilla.net/"
+rss:           "http://drobilla.net/category/lad/feed/rss2"
+tags:
+  - "en"
+original_link: "http://drobilla.net/2011/04/29/slv2-is-dead-long-live-slv2.html"
+---
+<p>(See below for important information for anyone following my SVN
+repository)</p>
+<p>I've decided to replace SLV2 with a new library (named "Lilv") instead
+of breaking the API which has been causing a lot of hassle, and would
+only cause more when it gets released and packaged. Among other things,
+this gives me the opportunity to rework the installation to support
+parallel installs of different major versions to prevent this kind of
+problem in the future. It also gives me a chance to improve the API and
+remove some cruft that has accumulated to avoid breaking the API (SLV2
+has been around for many years now, and LV2 (and myself) have come a
+long way since then, it's a good time to do some laundry).</p>
+<p>Anyone who has an SVN version of SLV2 installed, please uninstall it
+immediately and pretend it never existed. SLV2 0.6.6 is the last version
+of SLV2. The first Lilv release will be out shortly.</p>

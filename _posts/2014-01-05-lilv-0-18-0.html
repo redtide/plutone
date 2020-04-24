@@ -1,0 +1,26 @@
+---
+title:         "Lilv 0.18.0"
+created_at:    2014-01-05 02:06:00 UTC
+updated_at:    2014-01-05 02:06:00 UTC
+guid:          "tag:drobilla.net,2014-01-04:/2014/01/04/lilv-0-18-0.html"
+author:        "drobilla.net - LAD"
+link:          "http://drobilla.net/"
+rss:           "http://drobilla.net/category/lad/feed/rss2"
+tags:
+  - "en"
+original_link: "http://drobilla.net/2014/01/04/lilv-0-18-0.html"
+---
+<p><a href="http://download.drobilla.net/lilv-0.18.0.tar.bz2">Lilv 0.18.0</a> has been released.  Lilv is a C library to make the use of LV2 plugins as simple as possible for applications. For more information, see <a href="http://drobilla.net/software/lilv">http://drobilla.net/software/lilv</a>.</p>
+<p>Changes:</p>
+<ul>
+<li>Add lilv_port_get_node() for using world query functions with ports</li>
+<li>Add support for running plugins from Python by Kaspar Emanuel</li>
+<li>Allow lilv_state_restore() to be used without passing an instance, for restoring port values via a callback only</li>
+<li>Allow passing NULL port_class to lilv_plugin_get_port_by_designation</li>
+<li>Call GetProcAddress with correct calling convention on Windows</li>
+<li>Clean up after test suite so multiple runs are successful</li>
+<li>Fix unlikely memory leak in lilv_plugin_instantiate()</li>
+<li>Support denoting latency ports with lv2:designation lv2:latency</li>
+<li>lilvmm.hpp: Add wrappers for UI API</li>
+<li>lv2info: Don't display invalid control maxes and defaults (patch from Robin Gareus)</li>
+</ul>

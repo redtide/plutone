@@ -1,0 +1,31 @@
+---
+title:         "Lilv 0.14.4"
+created_at:    2012-08-23 09:38:00 UTC
+updated_at:    2012-08-23 09:38:00 UTC
+guid:          "tag:drobilla.net,2012-08-23:/2012/08/23/lilv-0-14-4.html"
+author:        "drobilla.net - LAD"
+link:          "http://drobilla.net/"
+rss:           "http://drobilla.net/category/lad/feed/rss2"
+tags:
+  - "en"
+original_link: "http://drobilla.net/2012/08/23/lilv-0-14-4.html"
+---
+<p><a href="http://download.drobilla.net/lilv-0.14.4.tar.bz2">Lilv 0.14.4</a> has been released.  Lilv is a C library to make the use of LV2 plugins as simple as possible for applications. For more information, see <a href="http://drobilla.net/software/lilv">http://drobilla.net/software/lilv</a>.</p>
+<p>Changes:</p>
+<ul>
+<li>Add lv2bench utility</li>
+<li>Add option to build utilities as static binaries</li>
+<li>Deprecate old flawed Lilv::Instance constructors</li>
+<li>Do not require a C++ compiler to build</li>
+<li>Fix crash when lv2info is run with an invalid URI argument</li>
+<li>Fix documentation for ui_type parameter of lilv_ui_is_supported()</li>
+<li>Fix various hyper-strict warnings</li>
+<li>Gracefully handle failure to save plugin state and print error message</li>
+<li>Make all 'zix' symbols private to avoid symbol clashes in static builds</li>
+<li>Reduce memory usage (per node)</li>
+<li>Simpler node implementation always backed by a SordNode</li>
+<li>Upgrade to waf 1.7.2</li>
+<li>lilvmm.hpp: Add Lilv::Instance::get_extension_data()</li>
+<li>lilvmm.hpp: Add Lilv::Instance::get_handle()</li>
+<li>lilvmm.hpp: Make Lilv::Instance handle features and failed instantiations</li>
+</ul>

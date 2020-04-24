@@ -1,0 +1,219 @@
+---
+title:         "Ardour Development Update"
+created_at:    2018-06-01 18:20:15 UTC
+updated_at:    2018-06-01 18:20:15 UTC
+guid:          "discourse.ardour.org-topic-78588"
+author:        "Ardour Blog"
+link:          "https://discourse.ardour.org/c/blog/"
+rss:           "https://discourse.ardour.org/c/blog.rss"
+tags:
+  - "en"
+original_link: "https://discourse.ardour.org/t/ardour-development-update/78588"
+---
+<p><a href="https://discourse.ardour.org/u/paul">@paul</a> wrote:</p>
+            <blockquote>
+              <p>
+It's been a long time since the last release of Ardour, and there's still no schedule or even vague sense of when the next release might appear. I (Paul) felt
+that our users, and particularly our subscribers, deserved some
+information about what is and has been going on with development over
+the last 8 months. I had promised to do this back in December, and it
+is now long overdue.
+</p>
+
+<p>
+The core developers of Ardour (myself and Robin Gareus, with help from Ben Loftis) have been
+involved in some major architectural redesigns of Ardour's internals. We didn't
+really plan on this as a distinct goal on its own, but rather these
+changes emerged out of the desire/need to add new functionality and
+fix fundamental issues with the program. In most cases, these changes don't have any particularly noticeable effect on the GUI (Grid/Snap changes are an exception).
+Nevertheless, they lay the ground work for more interesting and more visible changes, as well as new functionality in the future.
+</p>
+<p>
+First, let me mention the long term "big picture" goals that we're
+working towards:
+</p>
+<ul>
+  <li>Improving workflow for all common operations, and many less
+    common ones.</li>
+  <li>Integrating MIDI and audio as seamlessly as possible, so that
+    users rarely need to consider the type of data they are working
+    with. We'd like to extend this to automation data too.</li>
+  <li>Providing fast pathways to getting groove-centric sessions set
+    up, with pattern generators and other related tools.</li>
+<li>More use of "flexible" time aka timestretching throughout the editing process, if desired.</li>
+  <li>Fixing bugs.</li>
+  <li>Reducing complexity and increasing discoverability.</li>
+</ul>
+
+<p>
+So far, we've done substantial work in these areas of Ardour's
+architecture: 
+</p>
+<h3>Cue Monitoring</h3>
+<p>
+Ardour 5.12 allows you to monitor (listen) to either the input signal
+to a track, or the existing material on disk for the track, but not
+both. This is generally acceptable when working with audio, because
+overdubbing works the way most people expect it to. But when working
+with MIDI, it is less than ideal - many users expect to be able to use
+a MIDI controller (e.g. a keyboard) and generate new sound from the
+synthesizer in a track at the same time as listening to whatever has
+already been recorded for that track. Being able to listen to both the
+input signal and the existing recorded material is often called "cue
+monitoring", and this is now possible in the development code. 
+</p>
+<h3>"Wet" Recording</h3>
+<p>
+As part of the changes for cue monitoring, the work involved in
+playback from disk and recording disk has been split into two
+"processors", which are the basic type of objects you can see in
+Ardour's mixer signal flow. Processors you already know include the
+gain fader, plugins, sends, inserts etc. Now, recording and playback
+are just processors too, which means that they can be reordered in the
+signal flow. This allows you to (optionally) record <em>after</em> one
+or more plugins, often referred to as a "wet recording" (dry recording
+means without any FX). We think that some users will find this side-effect
+of splitting up recording and playback to be quite powerful in some
+settings.
+</p>
+<h3>Varispeed</h3>
+<p>
+Splitting playback and recording into two processors per track led us
+to re-examine Ardour's mechanism for varispeed playback. This is used
+both by the shuttle control, and also when syncing to an external
+positional reference such as LTC or MTC. We decided to move this
+functionality into a total different "level" of the program
+internally, so that the core of the code no longer has to pay any
+attention to it at all. Varispeeding is applied to all data flowing in
+and out of the program, totally transparently to the rest of the
+program. This redesign makes a few new tricks possible, such as
+varispeed recording, and having MIDI synth output pitch-shift alongside
+disk-based audio. The quality of the resampling engine has gone up dramatically too, since 
+we have switched from simple cubic interpolation to using Fons Adriansen's excellent zita-resample code. 
+</p>
+<h3>Latency</h3>
+<p>
+Ardour has had plugin latency compensation dating back to almost the
+first release of the program. But that compensation was limited to
+tracks (not busses), and didn't cover other cases where latency is
+introduced into signal flow. Robin (Dr. Gareus to the rest of us) redesigned almost every aspect of
+the core of Ardour's processing code to now provide latency
+compensation everywhere. This isn't like some DAWs in which "more
+things now work". Latency is now compensated for no matter where it
+happens, completely and always. 
+</p>
+<h3>Transport Control</h3>
+<p>
+The changes to support full latency compensation revealed some
+conceptual and implementation issues with the way transport control
+operates inside the code. Looping and starting/stopping become much
+more complex when taking latency fully into account. Fixing this has
+meant a redesign in which every processor in a track or bus is told
+precisely which part of the timeline it is expected to be working on,
+among several other deep and difficult changes. 
+</p>
+<h3>Time</h3>
+<p>
+There is a lot of work to do on Ardour's MIDI workflow. But before
+that can happen, there are several subtle errors that are caused by
+the way released versions of Ardour have handled musical time. When
+you edit and move a MIDI note forward by a quarter note, that process
+would actually involve several conversions back and forth between time
+measured in samples and time measured in musical units, and the result
+is (often) small errors accumulating that lead to the note beginning
+and end being "wrong".
+</p>
+<p>
+Changing this has been a mammoth task. Everything that has a position
+and/or a duration within the program - a rather common feature in an
+application partly there to place and edit things along a timeline -
+has needed to be tweaked to use the correct time units at the right
+time.
+</p>
+<h3>Tempo</h3>
+<p>
+One of the goals of the work on representing time has been to move
+towards more flexible tempo maps, specifically ones that do two
+things:
+</p>
+<ul>
+  <li>not regard musical (Bar|Beat|Tick) times as deterministic</li>
+  <li>flexibly follow human performance more easily</li>
+</ul>
+<p>Users should be able to put the musical time 1|1|0 wherever they need<br>
+to, and in fact may want to have more than one such time in a given<br>
+session. They may also want to adjust where the 12th bar starts, or<br>
+any other bar for that matter. There may be rubato sections where<br>
+musical time (counting) effectively stops. We want to be able to offer<br>
+automated analysis and human editing that can easily conform a tempo<br>
+map to a human performance, so that later tempo map driven editing<br>
+will fit it precisely.</p>
+
+<p>
+This work has been ... is ... challenging.
+</p>
+<h3>Grid vs. Snap</h3>
+<p>
+In the released versions of Ardour, we noticed that users are often
+confused by the Grid. Sometimes the Grid appears to do nothing, and
+sometimes it does something unexpected. Furthermore, it required a lot
+of switching between grid modes: if you were snapping to 16th notes,
+then you had to switch the grid mode if you wanted to snap to a
+marker.
+</p>
+<p>
+The "Grid" has been separated into 2 separate features:  Snap and Grid.
+</p>
+<p>
+When "Snap" is enabled, any mouse operation (like splitting or
+dragging a region) will be "resolved" to a snap target, if one is
+near.  Snap targets can be any of: the nearest marker, the nearest
+region start/end, or the Grid. It is now possible to select multiple
+snap targets simultaneously.  So, for example, you can choose to snap
+to both Markers and the Grid.
+</p>
+<p>
+All snapping is now "magnetic"; and you can no longer snap to a target
+that is off-screen.
+</p>
+<p>
+Finally, there is a new "snapped cursor" ( a blue line ) which
+indicates where the next mouse action will occur, if it isn’t directly
+under the mouse.  This is particularly useful when splitting regions:
+the blue line indicates where the split will occur, if a snap is in
+effect.  In the prior operation, a split could happen quite far from
+the mouse, if a snap target was applied.
+</p>
+<p>
+When a "Grid" is selected, then vertical lines will appear on the
+editor canvas, extending down from the timeline ruler at the top of
+the editor.  If Snap to Grid is enabled, then these lines will
+indicate the possible snap locations for your mouse actions.
+</p>
+<p>
+In the released versions of Ardour, there is no connection between the
+zoom level in the editor and the grid.  If the snap grid is set to
+Beats, then it may be quite unclear what snap is actually doing.  If
+you were zoomed out, then the visual indication of individual beats
+might disappear, and yet you were still snapping to them.  If you were
+zoomed in too close, then you might snap to a beat that is offscreen
+(and therefore invisible)
+</p>
+<p>
+We've reworked this so that the grid always takes the visual zoom
+level into account, and the visual grid lines will be generated to
+sensibly match your current zoom level.  For example: if you have a
+grid set to 16ths, but you are zoomed far out, then lines will only
+appear on bar lines.  Inversely, if you've selected "bars" for the
+grid, but you zoom in very close, we won't draw the quarter- or
+16th-note grid lines, because you didn’t request grid marks at that
+level.
+</p>
+<p>
+All of these changes should result in a more consistent, "what you see
+is what you get" operation for Grid and Snap.
+</p>
+            </blockquote>
+            <p>Posts: 76</p>
+            <p>Participants: 36</p>
+            <p><a href="https://discourse.ardour.org/t/ardour-development-update/78588">Read full topic</a></p>

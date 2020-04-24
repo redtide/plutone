@@ -1,0 +1,32 @@
+---
+title:         "Lilv 0.24.0"
+created_at:    2016-09-20 06:24:00 UTC
+updated_at:    2016-09-20 06:24:00 UTC
+guid:          "tag:drobilla.net,2016-09-20:/2016/09/20/lilv-0-24-0.html"
+author:        "drobilla.net - LAD"
+link:          "http://drobilla.net/"
+rss:           "http://drobilla.net/category/lad/feed/rss2"
+tags:
+  - "en"
+original_link: "http://drobilla.net/2016/09/20/lilv-0-24-0.html"
+---
+<p><a href="http://download.drobilla.net/lilv-0.24.0.tar.bz2">Lilv 0.24.0</a> has been released.  Lilv is a C library to make the use of LV2 plugins as simple as possible for applications. For more information, see <a href="http://drobilla.net/software/lilv">http://drobilla.net/software/lilv</a>.</p>
+<p>Changes:</p>
+<ul>
+<li>Add LILV_URI_ATOM_PORT and LILV_URI_CV_PORT defines</li>
+<li>Add lilv_state_set_metadata() for adding state banks/comments/etc (based on patch from Hanspeter Portner)</li>
+<li>Add lilv_world_get_symbol()</li>
+<li>Add lv2apply utility for applying plugins to audio files</li>
+<li>Add new hand-crafted Pythonic bindings with full test coverage</li>
+<li>Check lv2:binary predicate for UIs</li>
+<li>Do not instantiate plugin when data fails to parse</li>
+<li>Fix crash when NULL predicate is passed to lilv_world_find_nodes()</li>
+<li>Fix crash when state contains non-POD properties</li>
+<li>Fix documentation installation</li>
+<li>Fix loading dyn-manifest from bundles with spaces in their path</li>
+<li>Fix outdated comment references to lilv_uri_to_path()</li>
+<li>Fix state file versioning</li>
+<li>Replace bundles if bundle with newer plugin version is loaded (based on patch from Robin Gareus)</li>
+<li>Support re-loading plugins</li>
+<li>Unload contained resources when bundle is unloaded</li>
+</ul>

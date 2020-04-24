@@ -1,0 +1,27 @@
+---
+title:         "Raul 0.7.0"
+created_at:    2010-09-04 00:24:00 UTC
+updated_at:    2010-09-04 00:24:00 UTC
+guid:          "tag:drobilla.net,2010-09-03:/2010/09/03/raul-0-7-0.html"
+author:        "drobilla.net - LAD"
+link:          "http://drobilla.net/"
+rss:           "http://drobilla.net/category/lad/feed/rss2"
+tags:
+  - "en"
+original_link: "http://drobilla.net/2010/09/03/raul-0-7-0.html"
+---
+<p><a href="http://download.drobilla.net/raul-0.7.0.tar.bz2">raul 0.7.0</a> has been released.  Raul (Realtime Audio Utility Library) is a lightweight C++ convenience library for realtime programming, with a bias towards audio applications. For more information, see <a href="http://drobilla.net/software/raul">http://drobilla.net/software/raul</a>.</p>
+<p>Changes:</p>
+<ul>
+<li>Add several unit tests</li>
+<li>Use malloc'd memory for RingBuffer/SRSWQueue (instead of a new'd array)</li>
+<li>Fancy coloured console/logging I/O (raul/log.hpp)</li>
+<li>More flexible Path and better URI support</li>
+<li>Atom updates, including new "Blank" Atom for storing dictionaries with URI keys (ala JavaScript "objects", but RDF compatible)</li>
+<li>Remove stack stuff from Array and create new ArrayStack</li>
+<li>Make Symbol and URI more opaque and use Glib string interning</li>
+<li>Add Configuration class for app command line option handling</li>
+<li>Use &lt; operator in TableImpl instead of &gt; so it needn't be defined</li>
+<li>Add IntrusivePtr, a trivial #define of boost::intrusive_ptr which is useful for hard realtime things (since adding and dropping refs is realtime safe, which is not true of shared_ptr)</li>
+<li>Remove TimeSlice</li>
+</ul>

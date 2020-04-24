@@ -1,0 +1,24 @@
+---
+title:         "SpectMorph 0.4.0 released"
+created_at:    2018-04-10 15:34:31 UTC
+updated_at:    2018-04-10 15:34:31 UTC
+guid:          "https://blogs.gnome.org/stw/?p=80"
+author:        "Stefan Westerfeld's blog"
+link:          "https://blogs.gnome.org/stw/"
+rss:           "https://blogs.gnome.org/stw/category/audio/?feed=rss"
+tags:
+  - "en"
+original_link: "https://blogs.gnome.org/stw/2018/04/10/spectmorph-0-4-0-released/"
+---
+<p>A new version of SpectMorph, my audio morphing software is now available on <a href="http://www.spectmorph.org">www.spectmorph.org</a>.</p>
+<p>One main feature is that besides providing VST, LV2, JACK and BEAST support on Linux, this version is the first version that also provides a VST plugin for (64-bit) Windows.</p>
+<p>To make the VST plugin portable to Windows, the plugin UI now uses the pugl library (with GL + Cairo) instead of Qt5. This should also allow supporting macOS in the future.</p>
+<p>Since the whole plugin UI was reimplemented, a new design is used, and many small improvements were made; the UI is also ready for high(er) DPI displays, everything can be scaled using a global zoom factor. Below is a screenshot of the new UI:</p>
+<p><a href="https://blogs.gnome.org/stw/files/2018/04/spectmorph-0.4.0.png"><img class="size-medium wp-image-82 aligncenter" src="//blogs.gnome.org/stw/files/2018/04/spectmorph-0.4.0-300x233.png" alt="" width="300" height="233" srcset="https://blogs.gnome.org/stw/files/2018/04/spectmorph-0.4.0-300x233.png 300w, https://blogs.gnome.org/stw/files/2018/04/spectmorph-0.4.0-768x598.png 768w, https://blogs.gnome.org/stw/files/2018/04/spectmorph-0.4.0-1024x797.png 1024w, https://blogs.gnome.org/stw/files/2018/04/spectmorph-0.4.0.png 1194w" sizes="(max-width: 300px) 100vw, 300px"></a></p>
+<p>Other changes are:</p>
+<ul>
+<li>A new non-linear mapping from midi velocities to volumes was implemented</li>
+<li>New instrument: French Horn</li>
+<li>Improved tools for building custom instruments</li>
+<li>LPC/LSF support removed</li>
+</ul>

@@ -1,0 +1,108 @@
+---
+title:         "Ardour 5.12 released"
+created_at:    2017-09-15 22:16:40 UTC
+updated_at:    2017-09-15 22:16:40 UTC
+guid:          "discourse.ardour.org-topic-78581"
+author:        "Ardour Blog"
+link:          "https://discourse.ardour.org/c/blog/"
+rss:           "https://discourse.ardour.org/c/blog.rss"
+tags:
+  - "en"
+original_link: "https://discourse.ardour.org/t/ardour-5-12-released/78581"
+---
+<p><a href="https://discourse.ardour.org/u/paul">@paul</a> wrote:</p>
+            <blockquote>
+              <pre><code>  &lt;p&gt;
+Ardour 5.12 is now available.
+  &lt;/p&gt;
+  &lt;p&gt;
+Although when Ardour 5.11 was released, we expected a significant gap
+until 6.0 will be announced, enough notable features and fixes
+accumulated that it seemed better for us to push out a 5.12 release
+before we embark on the major code changes that will mark the real start
+of the development process for 6.0.
+  &lt;/p&gt;
+  &lt;p&gt;
+Much of the work in this release was sponsored by Harrison Consoles.
+  &lt;/p&gt;
+  &lt;p&gt;
+Two of the most notable new features are the improvements in
+functionality to the new session and new track/bus dialogs, which now
+offer much easier and more powerful ways to use templates. These include
+dynamic "track wizard" templates that allow you to interactively setup
+sessions and/or groups of new track/busses very quickly and very
+easily. This builds on the new template manager dialog introduced in
+5.11, and a new less obvious feature: the ability to create dynamic
+templates with Lua scripts.
+  &lt;/p&gt;
+  &lt;p&gt;
+Also notable is the new patch selection dialog for MIDI
+tracks/instruments, which provides an easy and convenient way to preview
+patches in software and hardware instruments. Naturally, it integrates
+fully with Ardour's support for MIDNAM (patch definition files), so you
+will named programs/patches for both General MIDI synths and those with
+MIDNAM files.
+  &lt;/p&gt;
+
+  &lt;p style="margin:22px 0 22px 0;"&gt;
+&lt;a class="btn btn-primary btn-large" href="https://community.ardour.org/download"&gt;Download&amp;nbsp;&amp;nbsp;&lt;i class="icon-download-alt icon-white"&gt;&lt;/i&gt;&lt;/a&gt;
+  &lt;/p&gt;
+  &lt;h2&gt;New Features&lt;/h2&gt;
+  &lt;ul&gt;
+&lt;li&gt;Improvements to the template manager dialog.&lt;/li&gt;
+&lt;li&gt;Lua templates for tracks and sessions can now be created/scripted.&lt;/li&gt;
+&lt;li&gt;New session dialog functionality improved, with new templates and track wizards.&lt;/li&gt;
+&lt;li&gt;New track dialog functionality improved, with new templates and track wizards.&lt;/li&gt;
+&lt;li&gt;Expose Lua bindings for VCA create/delete/assign/unassign.&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;New patch selector dialog for MIDI tracks. This can be
+  accessed by right clicking in the track header area.&lt;/p&gt;&lt;p&gt;
+  &lt;a href="/files/images/a512_patch_select.png"&gt;&lt;img src="//discourse.ardour.org/files/images/a512_patch_select-small.png"&gt;&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Ardour's generic GUI for instrument plugins now includes
+  a keyboard to allow auditioning the plugin settings.&lt;/p&gt;&lt;p&gt;
+  &lt;a href="/files/images/a512_fluidsynth.png"&gt;&lt;img src="//discourse.ardour.org/files/images/a512_fluidsynth-small.png"&gt;&lt;/p&gt;&lt;/a&gt;&lt;/li&gt;
+
+&lt;/li&gt;
+&lt;li&gt;Support for a new LV2 extension to notify the host about MIDI bank/program changes (e.g. driven by the plugin's own GUI).&lt;/li&gt;
+&lt;li&gt;Faderport 8: double-click on select button resets gain to 0dB.&lt;/li&gt;
+&lt;li&gt;Display playback-only devices when using JACK.&lt;/li&gt;
+  &lt;/ul&gt;
+
+  &lt;h2&gt;General Fixes and Improvements&lt;/h2&gt;
+  &lt;ul&gt;
+&lt;li&gt;Fix MIDI quantization when not using US English.&lt;/li&gt;
+&lt;li&gt;Fix selection of quantization note-end grid size.&lt;/li&gt;
+&lt;li&gt;Catch exceptions thrown from Lua scripts.&lt;/li&gt;
+&lt;li&gt;Fix handling of MIDI channels in the Transform dialog.&lt;/li&gt;
+&lt;li&gt;Improve the heuristic used to display track/bus I/O connections in a compact form, as well a connection menus.&lt;/li&gt;
+&lt;li&gt;Clicks on I/O menus now always connect, rather than toggle connected status.&lt;/li&gt;
+&lt;li&gt;OSC: gracefully handle the user sending the wrong number of parameters.&lt;/li&gt;
+&lt;li&gt;OSC: changing jog mode no longer stops transport unless started by scrub/shuttle.&lt;/li&gt;
+&lt;li&gt;Secondary clock visibility is now a global preference rather than a per-session setting.&lt;/li&gt;
+&lt;li&gt;The editor's summary view is now constrained to the extent of actual regions, rather than the session extent, by default. This can be reset from a right-click on the summary.&lt;/li&gt;
+&lt;li&gt;New configuration setting for playhead auto-scroll speed. If you want to scroll quickly, it is preferred to zoom out first, then scroll.&lt;/li&gt;
+&lt;li&gt;New configuraton setting to define how much zooming will be easily allowed beyond the extents of actual regions in the session.&lt;/li&gt;
+&lt;li&gt;Generic plugin GUI: fix sizing and layout for automation state controls in plugins with many controls.&lt;/li&gt;
+&lt;li&gt;Increase priority of the thread involved in automation recording. This fixes an issue with sparse automation recording when the CPU is busy.&lt;/li&gt;
+&lt;li&gt;Update the included version of NSS (a secure networking library), to provide some features required by some plugins.&lt;/li&gt;
+&lt;li&gt;Fix the way MIDI filenames are "bumped" during snapshots and playlist copying.&lt;/li&gt;
+&lt;li&gt;Fix crash bug in Ableton Push 2 support, introduced in a recent version.&lt;/li&gt;
+&lt;li&gt;Fix various tooltips to avoid problems with special characters in their text.&lt;/li&gt;
+&lt;li&gt;Catch some exceptions during session loading.&lt;/li&gt;
+&lt;li&gt;Relax some restrictions imposed by the Lua sandbox (for scripts).&lt;/li&gt;
+  &lt;/ul&gt;
+
+  &lt;h2&gt;Contributors&lt;/h2&gt;
+  &lt;p&gt;
+Robin Gareus,
+Ben Loftis,
+Johannes Mueller,
+John Emmas,
+Len Ovens,
+Paul Davis,
+Julien Rivaud,
+Stefan Müller-Klieser
+  &lt;/p&gt;</code></pre>
+            </blockquote>
+            <p>Posts: 8</p>
+            <p>Participants: 7</p>
+            <p><a href="https://discourse.ardour.org/t/ardour-5-12-released/78581">Read full topic</a></p>
