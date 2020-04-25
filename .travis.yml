@@ -6,6 +6,7 @@ rvm:
 
 install:
 - gem install pluto
+- gem install nokogiri
 
 before_script:
 - chmod +x ./.travis/build.sh
