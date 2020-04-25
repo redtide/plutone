@@ -5,8 +5,13 @@ title: "planet.linuxaudio.org"
 {% for post in site.posts %}
     {% assign post_year = post.date | date: "%Y" %}
     {% if current_year != post_year %}{% continue %}{% endif %}
-
+    {% if post.avatar %}
+        {% assign avatar = "/assets/avatars/" | append: post.avatar | relative_url %}
+    {% else %}
+        {% assign avatar = "/assets/avatars/default.png" | relative_url %}
+    {% endif %}
 <h2><a href="{{ post.url }}">{{ post.title }}</a></h2>
+<img class="face" src="{{ avatar }}"/>
 <h6>by <i>{{ post.author }}</i>,&nbsp;at
 <time datetime="{{ post.date | datetime | date_to_xmlschema }}"
 {% if updated %}data-updated="true"{% endif %}>

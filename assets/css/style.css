@@ -103,6 +103,13 @@ img {
   margin: 10px 0 10px 0;
 }
 
+img.face {
+  float: right;
+  margin-top: -3em;
+  width: 64px;
+  height: 64px;
+}
+
 p img {
   display: inline;
   margin: 0;

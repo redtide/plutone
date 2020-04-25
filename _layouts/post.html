@@ -1,10 +1,17 @@
 ---
 layout: default
 ---
+{% if post.avatar %}
+    {% assign avatar = post.avatar | relative_url %}
+{% else %}
+    {% assign avatar = "/assets/avatars/default.png" | relative_url %}
+{% endif %}
+
 <h2>{{ page.title }}</h2>
+<img class="face" src="{{ avatar }}"/>
 <h6>By <i>{{ page.author }}</i>, at
-<time datetime='{{ page.date | datetime | date_to_xmlschema }}'{%-if updated-%}
-data-updated='true'{%-endif-%}>{{ page.created_at | date: page.date_fmt }}</time>
+<time datetime='{{ page.date | datetime | date_to_xmlschema }}'{% if updated %}
+data-updated='true'{% endif %}>{{ page.created_at | date: page.date_fmt }}</time>
 </h6>
 
 <div class="post">
