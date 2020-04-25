@@ -10,9 +10,15 @@ title: "planet.linuxaudio.org"
     {% else %}
         {% assign avatar = "/assets/avatars/default.png" | relative_url %}
     {% endif %}
+    {% if post.original_link %}
+        {% assign post_author = "<a href='" | append: post.original_link
+            | append: "'>" | append: post.author | append: "</a>" %}
+    {% else %}
+        {% assign post_author = post.author %}
+    {% endif %}
 <h2><a href="{{ post.url }}">{{ post.title }}</a></h2>
 <img class="face" src="{{ avatar }}"/>
-<h6>by <i>{{ post.author }}</i>,&nbsp;at
+<h6>by <i>{{ post_author }}</i>,&nbsp;at
 <time datetime="{{ post.date | datetime | date_to_xmlschema }}"
 {% if updated %}data-updated="true"{% endif %}>
 {{ post.created_at | date: post.date_fmt }}</time>

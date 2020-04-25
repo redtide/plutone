@@ -9,7 +9,6 @@ Markdown.
 ## TODO
 
 - Use the real post author name instead of hardcoded title id in `planet.ini`
-- Add a link to the original post page
 - Add a "show more/less" link to keep posts shorter by default
 - Add a CI step to commit and push changes back on the repo,
   will need a CI setup with some cron job.
