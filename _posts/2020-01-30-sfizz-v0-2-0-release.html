@@ -1,0 +1,37 @@
+---
+title:         "sfizz v0.2.0 release"
+created_at:    2020-01-30 00:00:00 UTC
+updated_at:    2020-01-30 00:00:00 UTC
+guid:          "https://sfztools.github.io/news/2020/01/30/sfizz-v020-release"
+author:        "SFZ Tools News"
+avatar:        "sfztools.png"
+link:          "https://sfztools.github.io/"
+rss:           "https://sfztools.github.io/atom.xml"
+tags:
+  - "en"
+original_link: "https://sfztools.github.io/news/2020/01/30/sfizz-v020-release.html"
+---
+<ul>
+  <li>Added an LV2 plugin version.</li>
+  <li>The parser now falls back to case-insensitive search if it doesn’t find the
+sample file in its current path (<a href="https://github.com/sfztools/sfizz/pull/28">#28</a>), so that the behavior of SFZ libraries
+on case-sensitive filesystems will match Windows and macOS default
+case-insensitive filesystems.</li>
+  <li>The file now reload automatically on file change,
+and you can force a reload if necessary (<a href="https://github.com/sfztools/sfizz/issues/17">#17</a>).</li>
+  <li>Corrected a bug where memory would be read past the end of the file in memory,
+generating artifacts.</li>
+  <li>Corrected a bug where the real-time queue handling background loading
+of the voices would fail spuriously.</li>
+  <li>Corrected a bug where in the LV2 plugin
+the unknown opcode list was truncated (<a href="https://github.com/sfztools/sfizz/issues/18">#18</a>).</li>
+  <li>Added dynamic updates for the current modifiers
+(panning, stereo image, volume and amplitude mainly) (<a href="https://github.com/sfztools/sfizz/issues/19">#19</a>, <a href="https://github.com/sfztools/sfizz/pull/28">#28</a>)</li>
+  <li>Added timing for callbacks and file loading times.</li>
+  <li>Added support for pitch bends (<a href="https://github.com/sfztools/sfizz/issues/6">#6</a>) as well as pitch-bend activation for regions
+(<a href="https://sfzformat.com/opcodes/lobend">lobend</a> and <a href="https://sfzformat.com/opcodes/hibend">hibend</a> opcodes).</li>
+  <li>The JACK client will warn you instead of crashing
+if you do not give it a file to load (<a href="https://github.com/sfztools/sfizz/issues/27">#27</a>).</li>
+  <li>Added a windows build process for both the shared library and the LV2.
+<code class="language-plaintext highlighter-rouge">sfizz</code> now builds on all major platforms.</li>
+</ul>
